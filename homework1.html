@@ -180,12 +180,11 @@ var boxes = plot.selectAll("rect")
 
 boxes.append("rect")
     .attr("x", function(d) {return x(d.x); })
-    .attr("y", function(d) {return y(d.y); })
-    .attr("height", function(d) {return height(d.height); })
     .attr("width", function(d) {return x(d.width); })
+    .attr("y", plot_height)
+    .attr("height", 0)
     .attr("fill", colors.blue)
-    .attr("opacity", 1)
-    .on("mouseover", function(d, i) {
+	.on("mouseover", function(d, i) {
     	tip.show(d, i);
         d3.select(this)
         .transition(duration)
@@ -205,12 +204,16 @@ boxes.append("rect")
     	d3.select(this)
     	.transition(duration)
     	.style("fill", colors.blue);
-    });
+    })
+    .transition()
+    .duration(3*duration)
+    .attr("y", function(d) {return y(d.y); })
+    .attr("height", function(d) {return height(d.height); });
 
 var yAxis = d3.svg.axis()
     .scale(y)
     .orient("left")
-    .ticks(4)
+    .ticks(max_val+1)
     .tickFormat(d3.format(".0f"));
 
 var xScale = d3.scale.ordinal()
@@ -307,7 +310,7 @@ Scales things nicely
 <ul align = "left">
 	<li> Modified x-axis tick marks to scale to letters appropriately </li>
 	<li> Formatted axes line width </li>
-	<li> Formatted y-axis tick marks to only appear at integer values </li>
+	<li> Formatted y-axis tick marks to only appear at integer values <
 	<li> Bar hover color is different depending on whether the letter is a vowel (orange), a consonant (purple), or the letter y (green) which can be either </li>
 	<li> Letters are sorted alphabetically </li>
 </ul>	
