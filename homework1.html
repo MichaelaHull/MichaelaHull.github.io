@@ -13,13 +13,17 @@
 
 .axis path,
 
-.axis line {
+x.axis line {
     fill: none;
-    stroke: black;
+    stroke: #bbbbbb;
     shape-rendering: crispEdges;
     width: 1px;
 }
-
+.axis line {
+	fill: none;
+	stroke: lightgrey;
+	width: 0;
+}
 .axis text {
     font-family: sans-serif;
     font-size: 10px;
@@ -37,6 +41,13 @@
   fill: white;
   font: 10px sans-serif;
   text-anchor: middle;
+}
+.grid .tick {
+    stroke: lightgrey;
+    opacity: 0.7;
+}
+.grid path {
+      stroke-width: 0;
 }
 .text {
 	font-family: sans-serif;
@@ -168,48 +179,6 @@ function bar_nums(keys, values) {
     return info;
 }
 
-var box_info = bar_nums(word_keys, word_vals);
-var vowels = ["a", "e", "i", "o", "u"];
-var vowel_y = ["y"];
-
-var boxes = plot.selectAll("rect")
-    .data(box_info, function(d) {
-        return d.id;
-    })
-    .enter();
-
-boxes.append("rect")
-    .attr("x", function(d) {return x(d.x); })
-    .attr("width", function(d) {return x(d.width); })
-    .attr("y", plot_height)
-    .attr("height", 0)
-    .attr("fill", colors.blue)
-	.on("mouseover", function(d, i) {
-    	tip.show(d, i);
-        d3.select(this)
-        .transition(duration)
-        .style("fill", function(d) {
-        	if (vowels.indexOf(d.id) >= 0) {
-        		return colors.orange;
-        	}
-        	else if (vowel_y.indexOf(d.id) >= 0) {
-        		return colors.green;
-        	}
-        	else {
-        		return colors.purple;
-        	}
-        });})
-    .on("mouseout", function(d, i){
-    	tip.hide(d, i);
-    	d3.select(this)
-    	.transition(duration)
-    	.style("fill", colors.blue);
-    })
-    .transition()
-    .duration(3*duration)
-    .attr("y", function(d) {return y(d.y); })
-    .attr("height", function(d) {return height(d.height); });
-
 var yAxis = d3.svg.axis()
     .scale(y)
     .orient("left")
@@ -227,7 +196,8 @@ var xAxis = d3.svg.axis()
 
 plot.append("g")
     .attr("class", "y axis")
-    .call(yAxis);
+    .call(yAxis
+    	.tickSize(-plot_width, 0, 0));
 
 plot.append("g")
     .attr("class", "x axis")
@@ -253,6 +223,63 @@ plot.append("text")
 	.attr("font-family", "sans-serif")
 	.attr("font-size", "12px")
 	.text("frequency");
+
+var box_info = bar_nums(word_keys, word_vals);
+var vowels = ["a", "e", "i", "o", "u"];
+var vowel_y = ["y"];
+
+var boxes = plot.selectAll("rect")
+    .data(box_info, function(d) {
+        return d.id;
+    })
+    .enter();
+
+boxes.append("rect")
+    .attr("x", function(d) {return x(d.x); })
+    .attr("width", function(d) {return x(d.width); })
+    .attr("y", plot_height)
+    .attr("height", 0)
+    .attr("fill", function(d) {
+    	if (vowels.indexOf(d.id) >= 0) {
+    		return colors.orange;
+    	}
+    	else if (vowel_y.indexOf(d.id) >= 0) {
+    		return colors.green;
+    	}
+    	else {
+    		return colors.purple;
+    	}
+    })
+	.on("mouseover", function(d, i) {
+    	tip.show(d, i);
+        d3.select(this)
+        .transition(duration)
+        .style("fill", function(d) {
+        	if (vowels.indexOf(d.id) >= 0) {
+        		return colors.orange;
+        	}
+        	else if (vowel_y.indexOf(d.id) >= 0) {
+        		return colors.green;
+        	}
+        	else {
+        		return colors.purple;
+        	}
+        });})
+    .on("mouseout", function(d, i){
+    	tip.hide(d, i);
+    	d3.select(this)
+    	.transition(duration)
+    	.style("fill", colors.blue);
+    })
+    .transition()
+    .duration(3*duration)
+    .attr("y", function(d) {return y(d.y); })
+    .attr("height", function(d) {return height(d.height); })
+    .each("end", function(d, i) {
+    	d3.select(this).transition()
+    	.duration((4+i)*duration)
+    	.attr("fill", colors.blue);
+    });
 
 svg.append("text")
 	.attr("text-anchor", "end")
@@ -313,15 +340,21 @@ Scales things nicely
 	<li> Formatted y-axis tick marks to only appear at integer values <
 	<li> Bar hover color is different depending on whether the letter is a vowel (orange), a consonant (purple), or the letter y (green) which can be either </li>
 	<li> Letters are sorted alphabetically </li>
+	<li> Light gridlines for frequency only are shown in the background </li>
 </ul>	
 
 <h2 align = "left"> B-Level Functionality </h2>
 <ul align = "left">
-	<li> Added a tool tip which shows the letter (plural or singular, as appropriate) and the exact frequency of the letter. This is concurrent with a transition to a color corresponding to whether the letter is a consonant, vowel, or the letter y. </li>
-	<li> Added a legend to show what the colors from the mouseover correspond do </li>
+	<li> Added a tool tip which shows the letter (plural or singular, as appropriate) and the exact frequency of the letter </li>
+	<li> Concurrent with the tip tool is a transition to a color corresponding to whether the letter is a consonant, vowel, or the letter y. </li>
+	<li> Added a legend to show what the colors from the mouseover correspond to </li>
 	<li> Added a line of text showing what the word or string being looked at is. </li>
 </ul>
 
 <h2 align = "left"> A-Level Functionality </h2>
+<ul align = "left">
+	<li> Animated bars to grow once navigating to the page </li>
+	<li> Animated bars to transition slowly from the categorical color to blue, but only after the first transition has finished and slower on the right than on the left </li>
+</ul>
 </body>
 </html>
