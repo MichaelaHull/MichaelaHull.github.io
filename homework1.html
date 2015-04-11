@@ -30,25 +30,37 @@
 /*  background: rgba(0, 0, 0, 0.8);*/
   color: #fff;
   border-radius: 2px;
-  font-size: 20px;
+  font-family: sans-serif;
+  font-size: 14px;
 }
-
-/* Creates a small triangle extender for the tooltip
-.d3-tip:after {
-  box-sizing: border-box;
-  display: inline;
-  font-size: 10px;
-  width: 100%;
-  line-height: 1;
-  color: rgba(0, 0, 0, 0.8);
-  content: "\25BC";
-  text-align: center;
+.chart text {
+  fill: white;
+  font: 10px sans-serif;
+  text-anchor: middle;
 }
-*/
+.text {
+	font-family: sans-serif;
+	font-size: 14px;
+}
+h1 {
+	font-family: sans-serif;
+}
+h2 {
+	font-family: sans-serif;
+}
+h3 {
+	font-family: sans-serif;
+}
+p {
+	font-family: sans-serif;
+}
+ul {
+	font-family: sans-serif;
+}
 
 </style>
 </head>
-<h1>Letter Frequency</h1>
+<h1>homework 1: letter frequency</h1>
 <body align="center">
 <script>
 
@@ -69,7 +81,7 @@ function letter_count(word){
 
 /* VARIABLES */
 
-var duration = 1000;
+var duration = 300;
 
 var colors = {
     "grey":   "#bbbbbb",
@@ -81,13 +93,13 @@ var colors = {
 
 var tip = d3.tip()
     .attr("class", "d3-tip")
-    .offset([50, 0])
+    .offset([40, 0])
     .html(function(d) {
         if (+d.height === 1){
             return d.height + " " + d.id;
         }
         else {
-            return d.height + " " + d.id + "'s";
+            return d.height + " " + d.id + "s";
         }
     });
 
@@ -115,10 +127,10 @@ var word_p = decodeURI(location.search)
 var word_no_p = word_p.replace(/[\.,-\/#!$%\^&\*;:{}=\-_`~()?]/g, "");
 var word = word_no_p.replace(/\s{2,}/g, "");
 word = word.toLowerCase();
-console.log("Word:", word);
+console.log("Input Word:", word);
 
 var word_letters = letter_count(word);
-console.log("Letters:", word_letters);
+console.log("Letter Frequency Object:", word_letters);
 var word_keys = Object.keys(word_letters);
 word_keys.sort();
 var word_vals = [];
@@ -126,8 +138,6 @@ var k;
 for (k in word_keys){
     word_vals.push(word_letters[word_keys[k]])
 };
-console.log("Keys:", word_keys);
-console.log("Values", word_vals);
 var max_val = Math.max.apply(null, word_vals);
 var num_letters = word_keys.length;
 
@@ -159,41 +169,53 @@ function bar_nums(keys, values) {
 }
 
 var box_info = bar_nums(word_keys, word_vals);
-console.log("Boxes:", box_info);
+var vowels = ["a", "e", "i", "o", "u"];
+var vowel_y = ["y"];
 
 var boxes = plot.selectAll("rect")
     .data(box_info, function(d) {
         return d.id;
     })
     .enter();
+
 boxes.append("rect")
     .attr("x", function(d) {return x(d.x); })
     .attr("y", function(d) {return y(d.y); })
     .attr("height", function(d) {return height(d.height); })
     .attr("width", function(d) {return x(d.width); })
-    .style("fill", colors.blue)
-    .on("mouseover", tip.show)
-    //     function(){
-    //     d3.select(this)
-    //     .transition(duration)
-    //     .style("fill", colors.purple);
-    // })
-    .on("mouseout", tip.hide
-    //     function(){
-    //     d3.select(this)
-    //     .transition(duration)
-    //     .style("fill", colors.blue);
-    // }
-    );
+    .attr("fill", colors.blue)
+    .attr("opacity", 1)
+    .on("mouseover", function(d, i) {
+    	tip.show(d, i);
+        d3.select(this)
+        .transition(duration)
+        .style("fill", function(d) {
+        	if (vowels.indexOf(d.id) >= 0) {
+        		return colors.orange;
+        	}
+        	else if (vowel_y.indexOf(d.id) >= 0) {
+        		return colors.green;
+        	}
+        	else {
+        		return colors.purple;
+        	}
+        });})
+    .on("mouseout", function(d, i){
+    	tip.hide(d, i);
+    	d3.select(this)
+    	.transition(duration)
+    	.style("fill", colors.blue);
+    });
 
 var yAxis = d3.svg.axis()
     .scale(y)
     .orient("left")
-    .ticks(4);
+    .ticks(4)
+    .tickFormat(d3.format(".0f"));
 
 var xScale = d3.scale.ordinal()
     .domain(word_keys)
-    .rangeRoundBands([0, 100*num_letters]);
+    .rangeRoundBands([0, x(num_letters + 0.2)]);
 
 var xAxis = d3.svg.axis()
     .scale(xScale)
@@ -209,6 +231,68 @@ plot.append("g")
     .attr("transform", "translate(0," + plot_height + ")")
     .call(xAxis);
 
+plot.append("text")
+	.attr("class", "x label")
+	.attr("text-anchor", "end")
+	.attr("x", plot_width)
+	.attr("y", plot_height + margin/2 + 6)
+	.attr("font-family", "sans-serif")
+	.attr("font-size", "12px")
+	.text("letter");
+
+plot.append("text")
+	.attr("class", "y label")
+	.attr("text-anchor", "end")
+	.attr("y", 0 - margin/2 - 7)
+	.attr("dy", "0.75em")
+//	.attr("x", -plot_height/2)
+	.attr("transform", "rotate(-90)")
+	.attr("font-family", "sans-serif")
+	.attr("font-size", "12px")
+	.text("frequency");
+
+svg.append("text")
+	.attr("text-anchor", "end")
+	.attr("x", svg_width - x(0.2))
+	.attr("y", 20)
+	.attr("font-family", "sans-serif")
+	.attr("font-size", "13px")
+	.text("letter frequency of " + word);
+
+var color_scheme = [{"id": "consonants", "color": colors.purple},
+	{"id": "vowels", "color": colors.orange},
+	{"id": "sometimes y", "color": colors.green}];
+
+var legend = svg.selectAll("rect")
+	.data(color_scheme, function(d) {
+		return d.id;
+	})
+	.enter();
+
+var box_h = 12;
+
+legend.append("rect")
+	.attr("height", box_h)
+	.attr("width", box_h)
+	.attr("fill", function(d) {
+		return d.color;
+	})
+	.attr("x", 3/4*svg_width)
+	.attr("y", function(d, i) {
+		return i*(box_h + 2) + 25;
+	});
+
+legend.append("text")
+	.attr("font-family", "sans-serif")
+	.attr("font-size", "12px")
+	.attr("x", 3/4*svg_width + 15)
+	.attr("y", function(d, i) {
+		return i*(box_h + 2) + 34;
+	})
+	.text(function(d) {
+		return d.id;
+	});
+
 /*
 Useful:
 arr.forEach(function(blah) { print(blah)});
@@ -216,6 +300,25 @@ arr.forEach(function(blah) { print(blah)});
 d3.scale().linear().domain().range().nice();
 Scales things nicely
 */
+
 </script>
+<body align = "left">
+<h2 align = "left"> C-Level Functionality </h2>
+<ul align = "left">
+	<li> Modified x-axis tick marks to scale to letters appropriately </li>
+	<li> Formatted axes line width </li>
+	<li> Formatted y-axis tick marks to only appear at integer values </li>
+	<li> Bar hover color is different depending on whether the letter is a vowel (orange), a consonant (purple), or the letter y (green) which can be either </li>
+	<li> Letters are sorted alphabetically </li>
+</ul>	
+
+<h2 align = "left"> B-Level Functionality </h2>
+<ul align = "left">
+	<li> Added a tool tip which shows the letter (plural or singular, as appropriate) and the exact frequency of the letter. This is concurrent with a transition to a color corresponding to whether the letter is a consonant, vowel, or the letter y. </li>
+	<li> Added a legend to show what the colors from the mouseover correspond do </li>
+	<li> Added a line of text showing what the word or string being looked at is. </li>
+</ul>
+
+<h2 align = "left"> A-Level Functionality </h2>
 </body>
 </html>
