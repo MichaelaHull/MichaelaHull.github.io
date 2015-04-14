@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-quiv="X-UA-Compatible" content="IE-edge">
+  <meta name="viewpoint" content="width=device-width, initial-scale=1">
+
+  <title>Homework 2</title>
+  
+  <link rel="stylesheet" href="http://s3.amazonaws.com/codecademy-content/courses/ltp/css/bootstrap.css">
+  <link rel="stylesheet" href="stylesheets/main.css">
+  <link href="http://s3.amazonaws.com/codecademy-content/courses/ltp/css/shift.css" rel="stylesheet">
+  <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+  <script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
+  <style type="text/css">
+
+  </style>
+</head>
+<body align="center">
+
+<!--NAVIGATIONBAR-->
+  <div class="nav">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-0">
+        <ul class="pull-left">
+          <li><a href="http://MichaelaHull.github.io#homework">Homework</a></li>
+          <li><a href="http://MichaelaHull.github.io#projects">Projects</a></li>
+          <li><a href="http://MichaelaHull.github.io#participation">Participation</a></li>
+        </ul>
+        </div>
+        <div class="col-md-0">
+        <ul class="pull-right">
+          <li><a href="http://MichaelaHull.github.io#about">About</a></li>
+          <li><a href="http://MichaelaHull.github.io#contact">Contact</a></li>
+          <li><a href="http://MichaelaHull.github.io">Home</a></li>
+        </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<!--BANNER-->
+  <div class="banner">
+    <div class="container">
+      <h1>Michaela Hull: Homework 2</h1>
+    </div>
+  </div>
+
+<!--CODE-->
+<div class="section">
+<div class="container">
+<script type="text/javascript">
+
+  var data = [];
+  d3.json("data_files/state.json", function(d, i) {
+    var obj = {
+    "state": d.state,
+    "state_abb": d.state_abb,
+    "pop": d.pop,
+    "income": d.income,
+    "illit": d.illit,
+    "life_exp": d.life_exp,
+    "murder": d.murder,
+    "hs_grad": d.hs_grad,
+    "frost": d.frost,
+    "area": d.area,
+    "region": d.region,
+    "division": d.division
+    };
+    data.push(obj);
+  console.log("Data:", data);
+  });
+
+  var colors = {
+    "grey": "#bbbbbb",
+    "blue": "#4D4D94",
+    "purple": {
+      "dark": "#7570b3",
+      "med": "#8da0cb",
+      "light": "#cbd5e8"
+    },
+    "green":  {
+      "dark": "#1b9e77",
+      "med": "#66c2a5",
+      "light": "#b3e2cd"
+    },
+    "orange": {
+      "dark": "#d95f02",
+      "med": "#fc8d62",
+      "light": "#fdcdac"
+    },
+    "pink": {
+      "dark": "#e7298a",
+      "med": "#e78ac3",
+      "light": "#f4cae4"
+    },
+    "yellow": "#CCA300"
+  };
+
+  var svg_height = 500;
+  var svg_width = 750;
+  var margin = 50;
+  var plot_height = svg_height - 2*margin;
+  var plot_width = svg_width - 2*margin;
+
+  var svg = d3.select("body").append("svg")
+    .attr("height", svg_height)
+    .attr("width", svg_width)
+    .style("border-color", colors.grey)
+    .style("border-width", 1)
+    .style("border-style", "solid");
+
+  var plot = svg.append("g");
+  plot.attr("transform", "translate(" + margin + "," + margin + ")");
+
+</script>
+</div>
+</div>
+
+</body>
+</head>
+</html>
