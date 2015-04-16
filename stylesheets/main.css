@@ -66,6 +66,18 @@
 	font-family: 'Lucida Sans Unicode', 'Lucida Grande', sans-serif;
 	font-weight: normal;
   }
+.banner li {
+	display: inline;
+	position: relative;
+	bottom: 15px;
+  }
+.banner a {
+	color: #fff;
+	font-size: 12px;
+	font-family: 'Lucida Sans Unicode', 'Lucida Grande', sans-serif;
+	padding: 14px 10px;
+    text-transform: uppercase;
+}
 
 .section .container {
 	padding: 20px;

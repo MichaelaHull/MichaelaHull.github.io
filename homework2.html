@@ -13,8 +13,8 @@
   <link href="http://s3.amazonaws.com/codecademy-content/courses/ltp/css/shift.css" rel="stylesheet">
   <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
   <script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
+  <script src="http://d3js.org/queue.v1.min.js"></script>
   <style type="text/css">
-
   </style>
 </head>
 <body align="center">
@@ -45,6 +45,10 @@
   <div class="banner">
     <div class="container">
       <h1>Michaela Hull: Homework 2</h1>
+      <ul class="pull-right">
+        <li><a href="https://github.com/MichaelaHull/MichaelaHull.github.io/blob/master/homework2.html">Code</a></li>
+        <li><a href="https://github.com/MichaelaHull/MichaelaHull.github.io/blob/master/data_files/states.csv">Raw Data</a></li>
+      </ul>
     </div>
   </div>
 
@@ -53,25 +57,59 @@
 <div class="container">
 <script type="text/javascript">
 
-  var data = [];
-  d3.json("data_files/state.json", function(d, i) {
-    var obj = {
-    "state": d.state,
-    "state_abb": d.state_abb,
-    "pop": d.pop,
-    "income": d.income,
-    "illit": d.illit,
-    "life_exp": d.life_exp,
-    "murder": d.murder,
-    "hs_grad": d.hs_grad,
-    "frost": d.frost,
-    "area": d.area,
-    "region": d.region,
-    "division": d.division
-    };
-    data.push(obj);
-  console.log("Data:", data);
+  d3.csv("/data_files/states.csv", function(error, data) {
+    data.forEach(function(d) {
+      d.area = +d.area;
+      d.division = d.division;
+      d.frost = +d.frost;
+      d.hs_grad = +d.hs_grad;
+      d.illit = +d.illit;
+      d.income = +d.income;
+      d.life_exp = +d.life_exp;
+      d.murder = +d.murder;
+      d.pop = +d.pop;
+      d.region = d.region;
+      d.state = d.state;
+      d.state_abb = d.state_abb;
+    });
+    console.log("Data:", data);
+    var pop_max = d3.max(data, function(d) { return d.pop; });
+    var pop_min = d3.min(data, function(d) { return d.pop; });
+    var frost_max = d3.max(data, function(d) { return d.frost; });
+    var frost_min = d3.min(data, function(d) { return d.frost; });
+    var hs_grad_max = d3.max(data, function(d) { return d.hs_grad}; );
+    var hs_grad_min = d3.min(data, function(d) { return d.hs_grad}; );
+    var illit_max = d3.max(data, function(d) { return d.illit; });
+    var illit_min = d3.min(data, function(d) { return d.illit; });
+    var income_max = d3.max(data, function(d) { return d.income; });
+    var income_min = d3.min(data, function(d) { return d.income; });
+    var life_max = d3.max(data, function(d) { return d.life_exp; });
+    var life_min = d3.min(data, function(d) { return d.life_exp; });
+    var murder_max = d3.max(data, function(d) { return d.murder; });
+    var murder_min = d3.min(data, function(d) { return d.murder; });
+    var area_max = d3.max(data, function(d) { return d.area; });
+    var area_min = d3.min(data, function(d) { return d.area; });
+
+    var x_pop = d3.scale.linear()
+        .domain([pop_min, pop_max])
+        .range([0, plot_width]);
+    var y_pop = d3.scale.linear()
+        .domain([pop_min, pop_max])
+        .range([plot_height, 0]);
+    var x_frost = d3.scale.linear()
+        .domain([frost_min, frost_max])
+        .range([0, plot_width]);
+    var y_frost = d3.scale.linear()
+        .domain([frost_min, frost_max])
+        .range([plot_height, 0]);
+    var x_hs_grad = d3.scale.linear()
+        .domain([hs_grad_min, hs_grad_max])
+        .range([0, plot_width]);
+    var y_hs_grad = d3.scale.linear()
+        .domain([hs_grad_min, hs_grad_max])
+        .range([plot_height, 0]);
   });
+  
 
   var colors = {
     "grey": "#bbbbbb",
@@ -99,8 +137,8 @@
     "yellow": "#CCA300"
   };
 
-  var svg_height = 500;
-  var svg_width = 750;
+  var svg_height = 750;
+  var svg_width = svg_height;
   var margin = 50;
   var plot_height = svg_height - 2*margin;
   var plot_width = svg_width - 2*margin;
@@ -114,6 +152,9 @@
 
   var plot = svg.append("g");
   plot.attr("transform", "translate(" + margin + "," + margin + ")");
+
+  var x = d3.scale.linear()
+    .domain([0])
 
 </script>
 </div>
