@@ -31,12 +31,12 @@
 
   .d3-tip {
   line-height: 1;
-  padding: 12px;
+  padding: 2px;
 /*  background: rgba(0, 0, 0, 0.8);*/
   color: black;
   border-radius: 2px;
   font-family: sans-serif;
-  font-size: 14px;
+  font-size: 11px;
 }
   </style>
 </head>
@@ -129,9 +129,9 @@
 
   var tip = d3.tip()
     .attr("class", "d3-tip")
-    .offset([5, 0])
+    .offset([0, 0])
     .html(function(d) {
-        return d.state_abb; //+ ": " names[x_var] + ": " + d[x_var] + ", " + names[y_var] + ": " + d[y_var] ;
+        return d.state_abb;// + ": " names[x_var] + ": " + d[x_var] + ", " + names[y_var] + ": " + d[y_var] ;
     });
 
   var svg_width = 1200;
@@ -139,6 +139,17 @@
   var margin = 25;
   var plot_height = svg_height - 2*margin;
   var plot_width = plot_height;
+
+  var big_svg = d3.select("body").append("svg")
+    .attr("height", svg_height)
+    .attr("width", svg_width)
+    .style("border-color", colors.grey)
+    .style("border-width", 1)
+    .style("border-style", "solid")
+    .call(tip);
+
+  var big_plot = big_svg.append("g");
+  big_plot.attr("transform", "translate(" + 2*margin + "," + margin + ")");
 
   var svg = d3.select("body").append("svg")
     .attr("height", svg_height)
@@ -206,6 +217,27 @@
   var keys = ["pop", "income", "illit", "life_exp", "murder", "hs_grad", "frost"];
   keys.sort();
 
+
+//<!--BIG PLOT-->
+  d3.csv("/data_files/states.csv", function(error, data) {
+    data.forEach(function(d) {
+      d.area = +d.area;
+      d.division = d.division;
+      d.frost = +d.frost;
+      d.hs_grad = +d.hs_grad;
+      d.illit = +d.illit;
+      d.income = +d.income;
+      d.life_exp = +d.life_exp;
+      d.murder = +d.murder;
+      d.pop = +d.pop;
+      d.region = d.region;
+      d.state = d.state;
+      d.state_abb = d.state_abb;
+    });
+    bubble_plot("area", "murder", "life_exp", data, plot_width, plot_height, big_plot);
+  });
+
+//<!--SMALL_MULTIPLES-->
   d3.csv("/data_files/states.csv", function(error, data) {
     data.forEach(function(d) {
       d.area = +d.area;
@@ -245,7 +277,13 @@
           .attr("x", k*(small_plot_h + pad) + small_plot_h/2)
           .attr("y", plot_height + pad)
           .text(names[keys[k]]);
-    }
+      plot.append("text")
+          .attr("class", "x label")
+          .attr("text-anchor", "middle")
+          .attr("x", k*(small_plot_h + pad) + small_plot_h/2)
+          .attr("y", 0)
+          .text(names[keys[k]]);
+    };
 
     for (m in keys) {
       plot.append("text")
@@ -253,7 +291,12 @@
           .attr("text-anchor", "middle")
           .attr("transform", "translate(-25," + (m*(small_plot_h+pad) + small_plot_h/2) + ") rotate(-90)")
           .text(names[keys[m]]);
-    }
+          plot.append("text")
+          .attr("class", "y label")
+          .attr("text-anchor", "middle")
+          .attr("transform", "translate(" + plot_width + "," + (m*(small_plot_h+pad) + small_plot_h/2) + ") rotate(90)")
+          .text(names[keys[m]]);
+    };
 
     // bubble_plot("area", "murder", "life_exp", data, plot_height, plot_width, plot);
 
