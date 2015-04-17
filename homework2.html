@@ -15,6 +15,29 @@
   <script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
   <script src="http://d3js.org/queue.v1.min.js"></script>
   <style type="text/css">
+  .axis path,
+
+  .axis line {
+    fill: none;
+    stroke: #bbbbbb;
+    shape-rendering: crispEdges;
+    width: 0;
+  }
+
+  .axis text {
+    font-family: sans-serif;
+    font-size: 8px;
+  }
+
+  .d3-tip {
+  line-height: 1;
+  padding: 12px;
+/*  background: rgba(0, 0, 0, 0.8);*/
+  color: black;
+  border-radius: 2px;
+  font-family: sans-serif;
+  font-size: 14px;
+}
   </style>
 </head>
 <body align="center">
@@ -57,60 +80,6 @@
 <div class="container">
 <script type="text/javascript">
 
-  d3.csv("/data_files/states.csv", function(error, data) {
-    data.forEach(function(d) {
-      d.area = +d.area;
-      d.division = d.division;
-      d.frost = +d.frost;
-      d.hs_grad = +d.hs_grad;
-      d.illit = +d.illit;
-      d.income = +d.income;
-      d.life_exp = +d.life_exp;
-      d.murder = +d.murder;
-      d.pop = +d.pop;
-      d.region = d.region;
-      d.state = d.state;
-      d.state_abb = d.state_abb;
-    });
-    console.log("Data:", data);
-    var pop_max = d3.max(data, function(d) { return d.pop; });
-    var pop_min = d3.min(data, function(d) { return d.pop; });
-    var frost_max = d3.max(data, function(d) { return d.frost; });
-    var frost_min = d3.min(data, function(d) { return d.frost; });
-    var hs_grad_max = d3.max(data, function(d) { return d.hs_grad}; );
-    var hs_grad_min = d3.min(data, function(d) { return d.hs_grad}; );
-    var illit_max = d3.max(data, function(d) { return d.illit; });
-    var illit_min = d3.min(data, function(d) { return d.illit; });
-    var income_max = d3.max(data, function(d) { return d.income; });
-    var income_min = d3.min(data, function(d) { return d.income; });
-    var life_max = d3.max(data, function(d) { return d.life_exp; });
-    var life_min = d3.min(data, function(d) { return d.life_exp; });
-    var murder_max = d3.max(data, function(d) { return d.murder; });
-    var murder_min = d3.min(data, function(d) { return d.murder; });
-    var area_max = d3.max(data, function(d) { return d.area; });
-    var area_min = d3.min(data, function(d) { return d.area; });
-
-    var x_pop = d3.scale.linear()
-        .domain([pop_min, pop_max])
-        .range([0, plot_width]);
-    var y_pop = d3.scale.linear()
-        .domain([pop_min, pop_max])
-        .range([plot_height, 0]);
-    var x_frost = d3.scale.linear()
-        .domain([frost_min, frost_max])
-        .range([0, plot_width]);
-    var y_frost = d3.scale.linear()
-        .domain([frost_min, frost_max])
-        .range([plot_height, 0]);
-    var x_hs_grad = d3.scale.linear()
-        .domain([hs_grad_min, hs_grad_max])
-        .range([0, plot_width]);
-    var y_hs_grad = d3.scale.linear()
-        .domain([hs_grad_min, hs_grad_max])
-        .range([plot_height, 0]);
-  });
-  
-
   var colors = {
     "grey": "#bbbbbb",
     "blue": "#4D4D94",
@@ -137,24 +106,159 @@
     "yellow": "#CCA300"
   };
 
-  var svg_height = 750;
-  var svg_width = svg_height;
-  var margin = 50;
+  var area_color = {
+    "Middle Atlantic": "#e7298a",
+    "New England": "#e78ac3",
+    "East South Central": "#1b9e77",
+    "South Atlantic": "#66c2a5",
+    "West South Central": "#b3e2cd",
+    "East North Central": "#7570b3",
+    "West North Central": "#8da0cb",
+    "Mountain": "#d95f02",
+    "Pacific": "#fc8d62"
+  };
+
+  var names = {"pop": "Population",
+    "income": "Income",
+    "illit": "Illiteracy",
+    "life_exp": "Life Expectancy",
+    "murder": "Murder",
+    "hs_grad": "High School Grad.",
+    "frost": "Frost"
+  };
+
+  var tip = d3.tip()
+    .attr("class", "d3-tip")
+    .offset([5, 0])
+    .html(function(d) {
+        return d.state_abb; //+ ": " names[x_var] + ": " + d[x_var] + ", " + names[y_var] + ": " + d[y_var] ;
+    });
+
+  var svg_width = 1200;
+  var svg_height = svg_width/1.25;
+  var margin = 25;
   var plot_height = svg_height - 2*margin;
-  var plot_width = svg_width - 2*margin;
+  var plot_width = plot_height;
 
   var svg = d3.select("body").append("svg")
     .attr("height", svg_height)
     .attr("width", svg_width)
     .style("border-color", colors.grey)
     .style("border-width", 1)
-    .style("border-style", "solid");
+    .style("border-style", "solid")
+    .call(tip);
 
   var plot = svg.append("g");
-  plot.attr("transform", "translate(" + margin + "," + margin + ")");
+  plot.attr("transform", "translate(" + 2*margin + "," + margin + ")");
 
-  var x = d3.scale.linear()
-    .domain([0])
+  function bubble_plot(r_var, x_var, y_var, data, x_ax, y_ax, plot_space) {
+    var xdomain = d3.extent(data, function (d) { return +d[x_var]; });
+    var ydomain = d3.extent(data, function (d) { return +d[y_var]; });
+    var area_max = d3.max(data, function (d) { return d.area; });
+    var r_max = x_ax/12;
+    console.log("r_max", r_max);
+    var x = d3.scale.linear()
+      .domain(xdomain)
+      .range([0, x_ax - 2*r_max]);
+    var y = d3.scale.linear()
+      .domain(ydomain)
+      .range([y_ax - 2*r_max, 0]);
+    var area_scale = Math.pow(r_max, 2)/area_max;
+    var yAxis = d3.svg.axis()
+        .scale(y)
+        .ticks(4)
+        .orient("left");
+    var xAxis = d3.svg.axis()
+        .scale(x)
+        .ticks(3)
+        .orient("bottom");
+    plot_space.append("g")
+        .attr("class", "y axis")
+        .attr("transform", "translate(" + r_max + "," + r_max + ")")
+        .call(yAxis);
+    plot_space.append("g")
+        .attr("class", "x axis")
+        .attr("transform", "translate(" + r_max + "," + (y_ax - r_max) + ")")
+        .call(xAxis);
+    var bubbles = plot_space.selectAll("circle")
+          .data(data, function (d) { return d.state_abb; })
+          .enter();
+    bubbles.append("circle")
+      .attr("cx", function (d) { return r_max + x(+d[x_var]); })
+      .attr("cy", function (d) { return r_max + y(+d[y_var]); })
+      .attr("r", function (d) { return Math.sqrt(d.area * area_scale)})
+      .style("fill", function (d) { return area_color[d.division]; })
+      .style("fill-opacity", 0.5)
+      .on("mouseover", function (d, i) {
+        tip.show(d, i);
+        d3.select(this)
+        .transition(300)
+        .style("fill-opacity", 1);
+      })
+      .on("mouseout", function (d, i) {
+        tip.hide(d, i);
+        d3.select(this)
+        .transition(300)
+        .style("fill-opacity", 0.5);
+      });
+  };
+
+  var keys = ["pop", "income", "illit", "life_exp", "murder", "hs_grad", "frost"];
+  keys.sort();
+
+  d3.csv("/data_files/states.csv", function(error, data) {
+    data.forEach(function(d) {
+      d.area = +d.area;
+      d.division = d.division;
+      d.frost = +d.frost;
+      d.hs_grad = +d.hs_grad;
+      d.illit = +d.illit;
+      d.income = +d.income;
+      d.life_exp = +d.life_exp;
+      d.murder = +d.murder;
+      d.pop = +d.pop;
+      d.region = d.region;
+      d.state = d.state;
+      d.state_abb = d.state_abb;
+    });
+    console.log("Data:", data);
+
+    var pad = 10;
+
+    var k;
+    var m;
+
+    var small_plot_h = plot_height/keys.length-pad;
+
+    for (k in keys) {
+      for (m in keys) {
+        var new_plot = plot.append("g");
+        new_plot.attr("transform", "translate(" + (k*(small_plot_h+pad)) + "," + (m*(small_plot_h+pad)) + ")");
+        bubble_plot("area", keys[k], keys[m], data, small_plot_h, small_plot_h, new_plot);
+        }
+    };
+
+    for (k in keys) {
+      plot.append("text")
+          .attr("class", "x label")
+          .attr("text-anchor", "middle")
+          .attr("x", k*(small_plot_h + pad) + small_plot_h/2)
+          .attr("y", plot_height + pad)
+          .text(names[keys[k]]);
+    }
+
+    for (m in keys) {
+      plot.append("text")
+          .attr("class", "y label")
+          .attr("text-anchor", "middle")
+          .attr("transform", "translate(-25," + (m*(small_plot_h+pad) + small_plot_h/2) + ") rotate(-90)")
+          .text(names[keys[m]]);
+    }
+
+    // bubble_plot("area", "murder", "life_exp", data, plot_height, plot_width, plot);
+
+
+  });
 
 </script>
 </div>
