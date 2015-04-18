@@ -150,7 +150,7 @@
     });
 
   var svg_width = 1200;
-  var svg_height = svg_width/1.25;
+  var svg_height = svg_width/1.1 + 10;
   var margin = 25;
   var plot_height = svg_height - 2*margin;
   var plot_width = plot_height;
@@ -163,6 +163,22 @@
     .attr("height", big_svg_height)
     .attr("width", big_svg_width)
     .call(bigtip);
+  big_svg.append("text")
+    .attr("x", big_svg_width/2)
+    .attr("y", 20)
+    .attr("text-anchor", "middle")
+    .attr("text-color", "black")
+    .attr("font-size", "20px")
+    .attr("font-family", "sans-serif")
+    .text("State Murder Rates and Life Expectancies for the US");
+  big_svg.append("text")
+    .attr("x", big_svg_width/2)
+    .attr("y", 40)
+    .attr("text-anchor", "middle")
+    .attr("text-color", "black")
+    .attr("font-size", "18px")
+    .attr("font-family", "sans-serif")
+    .text("By Region and State Area");
 
   var big_plot = big_svg.append("g");
   big_plot.attr("transform", "translate(" + 2*margin + "," + margin + ")");
@@ -171,9 +187,17 @@
     .attr("height", svg_height)
     .attr("width", svg_width)
     .call(tip);
+  svg.append("text")
+    .attr("x", svg_width/2)
+    .attr("y", 15)
+    .attr("text-anchor", "middle")
+    .attr("text-color", "black")
+    .attr("font-size", "18px")
+    .attr("font-family", "sans-serif")
+    .text("States by State Area and Region");
 
   var plot = svg.append("g");
-  plot.attr("transform", "translate(" + 2*margin + "," + margin + ")");
+  plot.attr("transform", "translate(" + 2*margin + "," + (margin + 10) + ")");
 
   function big_bubble_plot(r_var, x_var, y_var, data, x_ax, y_ax, plot_space) {
     var xdomain = d3.extent(data, function (d) { return +d[x_var]; });
@@ -313,7 +337,7 @@
       .attr("y", big_plot_height)
       .attr("font-family", "sans-serif")
       .attr("font-size", "14px")
-      .text("Murder Rate");
+      .text("Murders (per 100,000 people)");
     big_plot.append("text")
       .attr("class", "y label")
       .attr("text-anchor", "end")
@@ -434,6 +458,53 @@
 
   });
 
+// //<!--PARALLEL_COORDINATES-->
+// var svg_pc_height = 400;
+// var svg_pc_width = 2*svg_pc_height;
+// var plot_pc_height = svg_pc_height-2*margin;
+// var plot_pc_width = svg_pc_width-2*margin;
+
+// var svg_pc = d3.select("body").append("svg");
+// svg_pc.attr("height", svg_pc_height)
+//   .attr("width", svg_pc_width)
+//   .call(tip);
+
+// var plot_pc = svg_pc.append("g");
+// plot_pc.attr("transform", "translate(" + margin + "," + margin + ")");
+
+// var us_vars = "pop", "income", "illit", "life_exp", "murder", "hs_grad", "frost", "area"];
+// us_vars.sort();
+
+// var var_map = {
+//   "pop": "Population",
+//   "income": "Income",
+//   "illit": "Illiteracy",
+//   "life_exp": "Life Expectancy",
+//   "murder": "Murder",
+//   "hs_grad": "High School Grad.",
+//   "frost": "Frost",
+//   "area": "Area"
+// };
+
+// d3.csv("/data_files/states.csv", function(error, data) {
+//     data.forEach(function(d) {
+//       d.area = +d.area;
+//       d.division = d.division;
+//       d.frost = +d.frost;
+//       d.hs_grad = +d.hs_grad;
+//       d.illit = +d.illit;
+//       d.income = +d.income;
+//       d.life_exp = +d.life_exp;
+//       d.murder = +d.murder;
+//       d.pop = +d.pop;
+//       d.region = d.region;
+//       d.state = d.state;
+//       d.state_abb = d.state_abb;
+//     });
+  
+// });
+
+
 </script>
 </div>
 </div>
@@ -442,8 +513,11 @@
   <div class="container">
     <h2 align = "left">About My Graphs</h2>
     <h3 align = "left">Basic Functionality</h3>
-    <p align = "left">My basic functionality is a simple bubble chart of life expectancy versus murder rates. I have made the bubble transparent so that smaller bubbles do not get obscured by larger bubbles. This transparency also means that the bubbles can overlap with the axes without obscuring information so I did not have to clip the bubbles at the edge of the graph. I made sure that there as enough padding around the graph that there was room for the bubble. Note that the area of the bubble corresponds to the area of the state it represents.</p>
-    <p align = "left"></p>
+    <p align = "left">My basic functionality is a simple bubble chart of life expectancy versus murder rates. I have made the bubble transparent so that smaller bubbles do not get obscured by larger bubbles. This transparency also means that the bubbles can overlap with the axes without obscuring information so I did not have to clip the bubbles at the edge of the graph. I made sure that there as enough padding around the graph that there was room for the bubble. Note that the area of the bubble corresponds to the area of the state it represents. As you hover over a bubble, the opacity increases and a tool tip appears with the information about that bubble--the state name, the murder rate, and the life expectancy in years. This allows the viewer to know which specific point they are getting information about.</p>
+    <p align = "left">The states are divided up into regions by a general color, and more specific divisions by the shade of that color. A legend on the right of the graph indicates what these divisions and regions are. The region names are in bold and more obvious so that the viewer can easily focus on that broader information and not get too bogged down by details. The colors were chosen using cartography color schemes so that the intensities were not overwhelming.</p>
+
+    <h3 align="left">Moderate Functionality</h3>
+    <p align="left">Using all of the variables, I have created a scatterplot matrix of bubble plots. They are overall very similar to the bubble plot. One of the main differences is the number of ticks on the axes, which have been reduced to a bare minimum to relieve clutter. The axes labels have been removed overall from the graphs because it became impossible to read with labels. Instead they are located along the diagonal and around the plot. Using this, I have make is so that it is possible to see a specific scatterplot and the relevant axes labels without it being too obnoxious (this may require specific scrolling, but it is possible). The tool tip is also simplified only so you can see the state abbreviation.</p>
   </div>
 </div>
 
