@@ -2,14 +2,19 @@
 <html lang="en">
 
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="utf-8">
+  <meta http-quiv="X-UA-Compatible" content="IE-edge">
+  <meta name="viewpoint" content="width=device-width, initial-scale=1">
 
-    <title>Homework 1</title>
-    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
-    <script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
-    <style type="text/css">
+  <title>Homework 1</title>
+  
+  <link rel="stylesheet" href="http://s3.amazonaws.com/codecademy-content/courses/ltp/css/bootstrap.css">
+  <link rel="stylesheet" href="stylesheets/main.css">
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+  <link href="http://s3.amazonaws.com/codecademy-content/courses/ltp/css/shift.css" rel="stylesheet">
+  <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+  <script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
+  <style type="text/css">
 
 .axis path,
 
@@ -20,9 +25,9 @@ x.axis line {
     width: 1px;
 }
 .axis line {
-	fill: none;
-	stroke: lightgrey;
-	width: 0;
+  fill: none;
+  stroke: lightgrey;
+  width: 0;
 }
 .axis text {
     font-family: sans-serif;
@@ -50,32 +55,52 @@ x.axis line {
       stroke-width: 0;
 }
 .text {
-	font-family: sans-serif;
-	font-size: 14px;
+  font-family: sans-serif;
+  font-size: 14px;
 }
-h1 {
-	font-family: sans-serif;
-}
-h2 {
-	font-family: sans-serif;
-}
-h3 {
-	font-family: sans-serif;
-}
-p {
-	font-family: sans-serif;
-}
-ul {
-	font-family: sans-serif;
-}
-
 </style>
 </head>
-<h1>homework 1: letter frequency</h1>
 <body align="center">
-<script>
 
-/* FUNCTIONS */
+<!--NAVIGATIONBAR-->
+  <div class="nav">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-0">
+        <ul class="pull-left">
+          <li><a href="http://MichaelaHull.github.io#homework">Homework</a></li>
+          <li><a href="http://MichaelaHull.github.io#projects">Project</a></li>
+          <li><a href="http://MichaelaHull.github.io#participation">Participation</a></li>
+        </ul>
+        </div>
+        <div class="col-md-0">
+        <ul class="pull-right">
+          <li><a href="http://MichaelaHull.github.io#about">About</a></li>
+          <li><a href="http://MichaelaHull.github.io#contact">Contact</a></li>
+          <li><a href="http://MichaelaHull.github.io">Home</a></li>
+        </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<!--BANNER-->
+  <div class="banner">
+    <div class="container">
+      <h1>Michaela Hull: Homework 1</h1>
+    </div>
+  </div>
+
+<div class="section">
+  <h3>Enter a word in the URL bar after the question mark</h3>
+  <p>For example: <a href="http://MichaelaHull.github.io/homework1?example">http://MichaelaHull.github.io/homework1?example</a></p>
+</div>
+
+<!--GRAPHCODE-->
+<div class="section">
+<div class="container">
+<script type="text/javascript">
+  /* FUNCTIONS */
 function letter_count(word){
     var letters = {};
     var letter;
@@ -96,10 +121,10 @@ var duration = 300;
 
 var colors = {
     "grey":   "#bbbbbb",
-    "blue":   "#377eb8",
-    "purple": "#984ea3",
-    "green":  "#4daf4a",
-    "orange": "#ff7f00"
+    "blue":   "#4D4D94",
+    "purple": "#A37ACC",
+    "green":  "#33AD5C",
+    "orange": "#CCA300"
 };
 
 var tip = d3.tip()
@@ -115,8 +140,8 @@ var tip = d3.tip()
     });
 
 /* svg variables */
-var svg_width = 600;
-var svg_height = 400;
+var svg_width = 750;
+var svg_height = 500;
 var margin = 50;
 
 var svg = d3.select("body").append("svg");
@@ -197,7 +222,7 @@ var xAxis = d3.svg.axis()
 plot.append("g")
     .attr("class", "y axis")
     .call(yAxis
-    	.tickSize(-plot_width, 0, 0));
+      .tickSize(-plot_width, 0, 0));
 
 plot.append("g")
     .attr("class", "x axis")
@@ -205,24 +230,24 @@ plot.append("g")
     .call(xAxis);
 
 plot.append("text")
-	.attr("class", "x label")
-	.attr("text-anchor", "end")
-	.attr("x", plot_width)
-	.attr("y", plot_height + margin/2 + 6)
-	.attr("font-family", "sans-serif")
-	.attr("font-size", "12px")
-	.text("letter");
+  .attr("class", "x label")
+  .attr("text-anchor", "end")
+  .attr("x", plot_width)
+  .attr("y", plot_height + margin/2 + 6)
+  .attr("font-family", "sans-serif")
+  .attr("font-size", "12px")
+  .text("letter");
 
 plot.append("text")
-	.attr("class", "y label")
-	.attr("text-anchor", "end")
-	.attr("y", 0 - margin/2 - 7)
-	.attr("dy", "0.75em")
-//	.attr("x", -plot_height/2)
-	.attr("transform", "rotate(-90)")
-	.attr("font-family", "sans-serif")
-	.attr("font-size", "12px")
-	.text("frequency");
+  .attr("class", "y label")
+  .attr("text-anchor", "end")
+  .attr("y", 0 - margin/2 - 7)
+  .attr("dy", "0.75em")
+//  .attr("x", -plot_height/2)
+  .attr("transform", "rotate(-90)")
+  .attr("font-family", "sans-serif")
+  .attr("font-size", "12px")
+  .text("frequency");
 
 var box_info = bar_nums(word_keys, word_vals);
 var vowels = ["a", "e", "i", "o", "u"];
@@ -240,119 +265,138 @@ boxes.append("rect")
     .attr("y", plot_height)
     .attr("height", 0)
     .attr("fill", function(d) {
-    	if (vowels.indexOf(d.id) >= 0) {
-    		return colors.orange;
-    	}
-    	else if (vowel_y.indexOf(d.id) >= 0) {
-    		return colors.green;
-    	}
-    	else {
-    		return colors.purple;
-    	}
+      if (vowels.indexOf(d.id) >= 0) {
+        return colors.orange;
+      }
+      else if (vowel_y.indexOf(d.id) >= 0) {
+        return colors.green;
+      }
+      else {
+        return colors.purple;
+      }
     })
-	.on("mouseover", function(d, i) {
-    	tip.show(d, i);
+  .on("mouseover", function(d, i) {
+      tip.show(d, i);
         d3.select(this)
         .transition(duration)
         .style("fill", function(d) {
-        	if (vowels.indexOf(d.id) >= 0) {
-        		return colors.orange;
-        	}
-        	else if (vowel_y.indexOf(d.id) >= 0) {
-        		return colors.green;
-        	}
-        	else {
-        		return colors.purple;
-        	}
+          if (vowels.indexOf(d.id) >= 0) {
+            return colors.orange;
+          }
+          else if (vowel_y.indexOf(d.id) >= 0) {
+            return colors.green;
+          }
+          else {
+            return colors.purple;
+          }
         });})
     .on("mouseout", function(d, i){
-    	tip.hide(d, i);
-    	d3.select(this)
-    	.transition(duration)
-    	.style("fill", colors.blue);
+      tip.hide(d, i);
+      d3.select(this)
+      .transition(duration)
+      .style("fill", colors.blue);
     })
     .transition()
     .duration(3*duration)
     .attr("y", function(d) {return y(d.y); })
     .attr("height", function(d) {return height(d.height); })
     .each("end", function(d, i) {
-    	d3.select(this).transition()
-    	.duration((4+i)*duration)
-    	.attr("fill", colors.blue);
+      d3.select(this).transition()
+      .duration((4+i)*duration)
+      .attr("fill", colors.blue);
     });
 
 svg.append("text")
-	.attr("text-anchor", "end")
-	.attr("x", svg_width - x(0.2))
-	.attr("y", 20)
-	.attr("font-family", "sans-serif")
-	.attr("font-size", "13px")
-	.text("letter frequency of " + word);
+  .attr("text-anchor", "end")
+  .attr("x", svg_width - x(0.2))
+  .attr("y", 20)
+  .attr("font-family", "sans-serif")
+  .attr("font-size", "13px")
+  .text("letter frequency of " + word);
 
 var color_scheme = [{"id": "consonants", "color": colors.purple},
-	{"id": "vowels", "color": colors.orange},
-	{"id": "sometimes y", "color": colors.green}];
+  {"id": "vowels", "color": colors.orange},
+  {"id": "sometimes y", "color": colors.green}];
 
 var legend = svg.selectAll("rect")
-	.data(color_scheme, function(d) {
-		return d.id;
-	})
-	.enter();
+  .data(color_scheme, function(d) {
+    return d.id;
+  })
+  .enter();
 
 var box_h = 12;
 
 legend.append("rect")
-	.attr("height", box_h)
-	.attr("width", box_h)
-	.attr("fill", function(d) {
-		return d.color;
-	})
-	.attr("x", 3/4*svg_width)
-	.attr("y", function(d, i) {
-		return i*(box_h + 2) + 25;
-	});
+  .attr("height", box_h)
+  .attr("width", box_h)
+  .attr("fill", function(d) {
+    return d.color;
+  })
+  .attr("x", 3/4*svg_width)
+  .attr("y", function(d, i) {
+    return i*(box_h + 2) + 25;
+  });
 
 legend.append("text")
-	.attr("font-family", "sans-serif")
-	.attr("font-size", "12px")
-	.attr("x", 3/4*svg_width + 15)
-	.attr("y", function(d, i) {
-		return i*(box_h + 2) + 34;
-	})
-	.text(function(d) {
-		return d.id;
-	});
+  .attr("font-family", "sans-serif")
+  .attr("font-size", "12px")
+  .attr("x", 3/4*svg_width + 15)
+  .attr("y", function(d, i) {
+    return i*(box_h + 2) + 34;
+  })
+  .text(function(d) {
+    return d.id;
+  });
 
 </script>
+</div>
+</div>
 
-<body align = "left">
-<h2 align = "left"> C-Level Functionality </h2>
-<ul align = "left">
-	<li> Modified x-axis tick marks to scale to letters appropriately </li>
-	<li> Formatted axes line width </li>
-	<li> Formatted y-axis tick marks to only appear at integer values </li>
-	<li> Bar hover color is different depending on whether the letter is a vowel (orange), a consonant (purple), or the letter y (green) which can be either </li>
-	<li> Letters are sorted alphabetically </li>
-	<li> Light gridlines for frequency only are shown in the background </li>
-</ul>	
+<div class="section">
+  <div class="container" align="left">
+    <h2>C-Level Functionality</h2>
+    <ul align = "left">
+      <li> Modified x-axis tick marks to scale to letters appropriately </li>
+      <li> Formatted axes line width </li>
+      <li> Formatted y-axis tick marks to only appear at integer values </li>
+      <li> Bar hover color is different depending on whether the letter is a vowel (orange), a consonant (purple), or the letter y (green) which can be either </li>
+      <li> Letters are sorted alphabetically </li>
+      <li> Light gridlines for frequency only are shown in the background </li>
+    </ul>
+  </div>
+</div>
 
-<h2 align = "left"> B-Level Functionality </h2>
-<ul align = "left">
-	<li> Added a tool tip which shows the letter (plural or singular, as appropriate) and the exact frequency of the letter </li>
-	<li> Concurrent with the tip tool is a transition to a color corresponding to whether the letter is a consonant, vowel, or the letter y. </li>
-	<li> Added a legend to show what the colors from the mouseover correspond to </li>
-	<li> Added a line of text showing what the word or string being looked at is </li>
-</ul>
+<div class="section">
+  <div class="container">
+    <h2 align = "left"> B-Level Functionality </h2>
+    <ul align = "left">
+      <li> Added a tool tip which shows the letter (plural or singular, as appropriate) and the exact frequency of the letter </li>
+      <li> Concurrent with the tip tool is a transition to a color corresponding to whether the letter is a consonant, vowel, or the letter y. </li>
+      <li> Added a legend to show what the colors from the mouseover correspond to </li>
+      <li> Added a line of text showing what the word or string being looked at is </li>
+    </ul>
+  </div>
+</div>
 
-<h2 align = "left"> A-Level Functionality </h2>
-<ul align = "left">
-	<li> Animated bars to grow once navigating to the page </li>
-	<li> Animated bars to transition slowly from the categorical color to blue, but only after the first transition has finished and slower for bars on the right than bars on the left </li>
-</ul>
+<div class="section">
+  <div class="container">
+    <h2 align = "left"> A-Level Functionality </h2>
+    <ul align = "left">
+      <li> Animated bars to grow once navigating to the page </li>
+      <li> Animated bars to transition slowly from the categorical color to blue, but only after the first transition has finished and slower for bars on the right than bars on the left </li>
+    </ul>
+  </div>
+</div>
 
-<h2 align = "left"> About the Graph </h2>
-<p align = "left"> When the page is loaded, a graph is automatically generated using the string following the URL. The link I gave includes the word "encyclopaedia" so that the viewer can immediately see a graph. </p>
-<p align = "left"> When the graph is generated, the bars grow slowly and are color-coded by what category (vowel, consonant, y) the letter can be classified as. Once the bars have finished, they slowly fade, from left to right, to blue. This allows the height of the bars to be the main focus instead of the categories. </p>
-<p align = "left"> Hovering the mouse over the bar changes the color back to the categorical color and also displays the letter and how many there were in the string. The string itself is also displayed on the graph. </p>
+<div class="section">
+  <div class="container">
+    <h2 align = "left"> About the Graph </h2>
+    <p align = "left"> When the page is loaded, a graph is automatically generated using the string following the URL. The link I gave includes the word "encyclopaedia" so that the viewer can immediately see a graph. </p>
+    <p align = "left"> When the graph is generated, the bars grow slowly and are color-coded by what category (vowel, consonant, y) the letter can be classified as. Once the bars have finished, they slowly fade, from left to right, to blue. This allows the height of the bars to be the main focus instead of the categories. </p>
+    <p align = "left"> Hovering the mouse over the bar changes the color back to the categorical color and also displays the letter and how many there were in the string. The string itself is also displayed on the graph. </p>    
+  </div>
+</div>
+
 </body>
+</head>
 </html>
