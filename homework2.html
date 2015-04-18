@@ -36,7 +36,7 @@
   color: black;
   border-radius: 2px;
   font-family: sans-serif;
-  font-size: 11px;
+  font-size: 12px;
 }
   </style>
 </head>
@@ -118,6 +118,13 @@
     "Pacific": "#fc8d62"
   };
 
+  var reg_color = {
+    "Northeast": "#e7298a",
+    "North Central": "#b3e2cd",
+    "South": "#1b9e77",
+    "West": "#d95f02"
+  };
+
   var names = {"pop": "Population",
     "income": "Income",
     "illit": "Illiteracy",
@@ -131,7 +138,15 @@
     .attr("class", "d3-tip")
     .offset([0, 0])
     .html(function(d) {
-        return d.state_abb;// + ": " names[x_var] + ": " + d[x_var] + ", " + names[y_var] + ": " + d[y_var] ;
+        return d.state_abb;
+    });
+
+  var bigtip = d3.tip()
+    .attr("class", "d3-tip")
+    .offset([0, 10])
+    .style("text-color", "black")
+    .html(function(d) {
+        return "<strong>" + d.state + "</strong></br>Murder Rate: " + d.murder + "</br>Life Expectancy: " + d.life_exp;
     });
 
   var svg_width = 1200;
@@ -139,14 +154,15 @@
   var margin = 25;
   var plot_height = svg_height - 2*margin;
   var plot_width = plot_height;
+  var big_svg_width = 700;
+  var big_svg_height = 500;
+  var big_plot_height = big_svg_height - 2*margin;
+  var big_plot_width = big_plot_height;
 
   var big_svg = d3.select("body").append("svg")
-    .attr("height", svg_height)
-    .attr("width", svg_width)
-    .style("border-color", colors.grey)
-    .style("border-width", 1)
-    .style("border-style", "solid")
-    .call(tip);
+    .attr("height", big_svg_height)
+    .attr("width", big_svg_width)
+    .call(bigtip);
 
   var big_plot = big_svg.append("g");
   big_plot.attr("transform", "translate(" + 2*margin + "," + margin + ")");
@@ -154,13 +170,60 @@
   var svg = d3.select("body").append("svg")
     .attr("height", svg_height)
     .attr("width", svg_width)
-    .style("border-color", colors.grey)
-    .style("border-width", 1)
-    .style("border-style", "solid")
     .call(tip);
 
   var plot = svg.append("g");
   plot.attr("transform", "translate(" + 2*margin + "," + margin + ")");
+
+  function big_bubble_plot(r_var, x_var, y_var, data, x_ax, y_ax, plot_space) {
+    var xdomain = d3.extent(data, function (d) { return +d[x_var]; });
+    var ydomain = d3.extent(data, function (d) { return +d[y_var]; });
+    var area_max = d3.max(data, function (d) { return d.area; });
+    var r_max = x_ax/12;
+    console.log("r_max", r_max);
+    var x = d3.scale.linear()
+      .domain(xdomain)
+      .range([0, x_ax - 2*r_max]);
+    var y = d3.scale.linear()
+      .domain(ydomain)
+      .range([y_ax - 2*r_max, 0]);
+    var area_scale = Math.pow(r_max, 2)/area_max;
+    var yAxis = d3.svg.axis()
+        .scale(y)
+        .orient("left");
+    var xAxis = d3.svg.axis()
+        .scale(x)
+        .orient("bottom");
+    plot_space.append("g")
+        .attr("class", "y axis")
+        .attr("transform", "translate(" + r_max + "," + r_max + ")")
+        .call(yAxis);
+    plot_space.append("g")
+        .attr("class", "x axis")
+        .attr("transform", "translate(" + r_max + "," + (y_ax - r_max) + ")")
+        .call(xAxis);
+    var bubbles = plot_space.selectAll("circle")
+          .data(data, function (d) { return d.state_abb; })
+          .enter();
+    bubbles.append("circle")
+      .attr("cx", function (d) { return r_max + x(+d[x_var]); })
+      .attr("cy", function (d) { return r_max + y(+d[y_var]); })
+      .attr("r", function (d) { return Math.sqrt(d.area * area_scale)})
+      .style("fill", function (d) { return area_color[d.division]; })
+      .style("fill-opacity", 0.5)
+      .on("mouseover", function (d, i) {
+        bigtip.show(d, i);
+        d3.select(this)
+        .transition(300)
+        .style("fill-opacity", 1);
+      })
+      .on("mouseout", function (d, i) {
+        bigtip.hide(d, i);
+        d3.select(this)
+        .transition(300)
+        .style("fill-opacity", 0.5);
+      });
+  };
 
   function bubble_plot(r_var, x_var, y_var, data, x_ax, y_ax, plot_space) {
     var xdomain = d3.extent(data, function (d) { return +d[x_var]; });
@@ -217,6 +280,14 @@
   var keys = ["pop", "income", "illit", "life_exp", "murder", "hs_grad", "frost"];
   keys.sort();
 
+  var area_divs = {
+    "North Central": ["East North Central", "West North Central"],
+    "Northeast": ["Middle Atlantic", "New England"],
+    "West": ["Mountain", "Pacific"],
+    "South": ["East South Central", "West South Central", "South Atlantic"]
+  };
+
+  var regs = ["North Central", "Northeast", "West", "South"];
 
 //<!--BIG PLOT-->
   d3.csv("/data_files/states.csv", function(error, data) {
@@ -234,7 +305,57 @@
       d.state = d.state;
       d.state_abb = d.state_abb;
     });
-    bubble_plot("area", "murder", "life_exp", data, plot_width, plot_height, big_plot);
+    big_bubble_plot("area", "murder", "life_exp", data, big_plot_width, big_plot_height, big_plot, 10, 10);
+    big_plot.append("text")
+      .attr("class", "x label")
+      .attr("text-anchor", "end")
+      .attr("x", big_plot_width - 40)
+      .attr("y", big_plot_height)
+      .attr("font-family", "sans-serif")
+      .attr("font-size", "14px")
+      .text("Murder Rate");
+    big_plot.append("text")
+      .attr("class", "y label")
+      .attr("text-anchor", "end")
+      .attr("transform", "translate(0, 40) rotate(-90)")
+      .attr("font-size", "14px")
+      .attr("font-family", "sans-serif")
+      .text("Life Expectancy (years)")
+    var legend = big_svg.append("g");
+    legend.attr("transform", "translate(" + (3*margin + big_plot_width) + "," + 5*margin + ")");
+    
+    var a = 0;
+    var c = 0;
+    var q = 10;
+    regs.forEach(function (d) {
+      a = a + 20;
+      legend.append("text")
+        .attr("text-anchor", "beginning")
+        .attr("font-family", "sans-serif")
+        .attr("font-size", "14px")
+        .attr("font-weight", "bold")
+        .attr("x", q)
+        .attr("y", a + c - 15)
+        .text("Region: " + d);
+        area_divs[d].forEach(function (e) {
+          legend.append("rect")
+            .attr("height", 12)
+            .attr("width", 12)
+            .attr("x", q)
+            .attr("y", (a + c - 11))
+            .attr("fill", area_color[e])
+            .attr("fill-opacity", 0.5);
+          legend.append("text")
+            .attr("text-anchor", "beginning")
+            .attr("font-family", "sans-serif")
+            .attr("font-size", "14px")
+            .attr("x", q + 14)
+            .attr("y", (a + c))
+            .text(e);
+          c = c + 15;
+        })
+    });
+
   });
 
 //<!--SMALL_MULTIPLES-->
@@ -266,10 +387,20 @@
       for (m in keys) {
         var new_plot = plot.append("g");
         new_plot.attr("transform", "translate(" + (k*(small_plot_h+pad)) + "," + (m*(small_plot_h+pad)) + ")");
-        bubble_plot("area", keys[k], keys[m], data, small_plot_h, small_plot_h, new_plot);
+        if (k === m) {
+          new_plot.append("text")
+              .attr("text-anchor", "middle")
+              .attr("x", small_plot_h/2)
+              .attr("y", small_plot_h/2)
+              .text(names[keys[k]]);
         }
+        else {
+        bubble_plot("area", keys[k], keys[m], data, small_plot_h, small_plot_h, new_plot, 4, 3);
+      };
+        };
     };
 
+    //<Putting axes labels on the outside of the plot>
     for (k in keys) {
       plot.append("text")
           .attr("class", "x label")
@@ -305,6 +436,15 @@
 
 </script>
 </div>
+</div>
+
+<div class="section">
+  <div class="container">
+    <h2 align = "left">About My Graphs</h2>
+    <h3 align = "left">Basic Functionality</h3>
+    <p align = "left">My basic functionality is a simple bubble chart of life expectancy versus murder rates. I have made the bubble transparent so that smaller bubbles do not get obscured by larger bubbles. This transparency also means that the bubbles can overlap with the axes without obscuring information so I did not have to clip the bubbles at the edge of the graph. I made sure that there as enough padding around the graph that there was room for the bubble. Note that the area of the bubble corresponds to the area of the state it represents.</p>
+    <p align = "left"></p>
+  </div>
 </div>
 
 </body>
