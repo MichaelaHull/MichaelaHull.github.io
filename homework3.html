@@ -56,10 +56,25 @@
   <div class="section">
   <div class="container">
   <script type="text/javascript">
+
+  var date = d3.time.format("%Y-%m-%d");
+
+  var svg_height = 500;
+  var svg_width = 800;
+  var margin = 10;
+  var plot_height = svg_height - 2*margin;
+  var plot_width = svg_width - 2*margin;
+
+  var svg = d3.select("body").append("svg")
+    .attr("height", svg_height)
+    .attr("width", svg_width);
+
+  var plot = svg.append("g");
+  plot.attr("transform", "translate(" + margin + "," + margin + ")");
   
   d3.csv("/data_files/drivers.csv", function(error, data) {
     data.forEach(function(d) {
-      d.month = parseDate(d.month);
+      d.month = date.parse(d.month);
       d.killed = +d.killed;
       d.drivers = +d.drivers;
       d.front = +d.front;
@@ -69,7 +84,15 @@
       d.van = +d.van;
       d.law = +d.law;      
     });
-    console.log("Data:", data);
+
+    var x_axis = d3.extent(function (d) { return d.month; });
+    var y_axis = d3.extent(function (d) { return d.killed; });
+    var x_scale = d3.time.scale()
+      .domain(x_axis)
+      .range([0, plot_width]);
+    var y_scale = d3.scale.linear()
+      .domain(y_axis)
+      .range([plot_height, 0]);
   });
 
   </script>
