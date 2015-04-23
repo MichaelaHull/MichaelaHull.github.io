@@ -15,7 +15,19 @@
   <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
   <script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
   <style type="text/css">
+  .axis path,
 
+  .axis line {
+    fill: none;
+    stroke: #bbbbbb;
+    shape-rendering: crispEdges;
+    width: 0;
+  }
+
+  .axis text {
+    font-family: sans-serif;
+    font-size: 8px;
+  }
   </style>
 </head>
 <body align="center">
@@ -57,12 +69,39 @@
   <div class="container">
   <script type="text/javascript">
 
+  var colors = {
+    "grey": "#bbbbbb",
+    "blue": "#4D4D94",
+    "purple": {
+      "dark": "#7570b3",
+      "med": "#8da0cb",
+      "light": "#cbd5e8"
+    },
+    "green":  {
+      "dark": "#1b9e77",
+      "med": "#66c2a5",
+      "light": "#b3e2cd"
+    },
+    "orange": {
+      "dark": "#d95f02",
+      "med": "#fc8d62",
+      "light": "#fdcdac"
+    },
+    "pink": {
+      "dark": "#e7298a",
+      "med": "#e78ac3",
+      "light": "#f4cae4"
+    },
+    "yellow": "#CCA300"
+  };
+
   var date = d3.time.format("%Y-%m-%d");
 
   var svg_height = 500;
   var svg_width = 800;
+  var brush_height = 100;
   var margin = 10;
-  var plot_height = svg_height - 2*margin;
+  var plot_height = svg_height - 3*margin - brush_height;
   var plot_width = svg_width - 2*margin;
 
   var svg = d3.select("body").append("svg")
@@ -71,6 +110,9 @@
 
   var plot = svg.append("g");
   plot.attr("transform", "translate(" + margin + "," + margin + ")");
+
+  var brush_plot = svg.append("g");
+  brush_plot.("transform", "translate(" + margin + "," + 2*margin + plot_height + ")");
   
   d3.csv("/data_files/drivers.csv", function(error, data) {
     data.forEach(function(d) {
@@ -81,18 +123,52 @@
       d.rear = +d.rear;
       d.kms = +d.kms;
       d.petrol = +d.petrol;
-      d.van = +d.van;
-      d.law = +d.law;      
+      d.van_killed = +d.van_killed;
+      d.law = +d.law;
+      d.d_injured = +d.d_injured;
+      d.total = +d.total;      
     });
 
-    var x_axis = d3.extent(function (d) { return d.month; });
-    var y_axis = d3.extent(function (d) { return d.killed; });
-    var x_scale = d3.time.scale()
-      .domain(x_axis)
+    var x_domain = d3.extent(function (d) { return d.month; });
+    var y_max = d3.max(function (d) { return d.total; });
+    var x = d3.time.scale()
+      .domain(x_domain)
       .range([0, plot_width]);
-    var y_scale = d3.scale.linear()
-      .domain(y_axis)
+    var y = d3.scale.linear()
+      .domain([0, y_max])
       .range([plot_height, 0]);
+    var y_brush = d3.scale.liner()
+      .domain([0, y_max])
+      .range([brush_height, 0]);
+    var x_axis = d3.svg.axis()
+      .scale(x)
+      .orient("bottom");
+    var y_axis = d3.svg.axis()
+      .scale(y)
+      .orient("left");
+    var x_axis_brush = d3.svg.axis()
+      .scale(x)
+      .orient("bottom");
+    var y_axis_brush = d3.svg.axis()
+      .scale(y_brush)
+      .orient("left");
+    plot.append("g")
+      .attr("class", "x axis")
+      .attr("transform", "translate(0," + plot_height + ")")
+      .call(x_axis);
+    plot.append("g")
+      .attr("class", "y axis")
+      .call(y_axis);
+    brush_plot.append("g")
+      .attr("class", "x axis")
+      .attr("transform", "translate(0," + brush_height + ")")
+      .call(x_axis_brush);
+    brush_plot.append("g")
+      .attr("class", "y axis")
+      .call(y_axis_brush);
+    var area = d3.svg.area()
+      .x(function (d) { return x(d.month); })
+      .y0(function (d) {})
   });
 
   </script>
