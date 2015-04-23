@@ -6,7 +6,7 @@
   <meta http-quiv="X-UA-Compatible" content="IE-edge">
   <meta name="viewpoint" content="width=device-width, initial-scale=1">
 
-  <title>MSAN 622</title>
+  <title>Homework 3</title>
   
   <link rel="stylesheet" href="http://s3.amazonaws.com/codecademy-content/courses/ltp/css/bootstrap.css">
   <link rel="stylesheet" href="stylesheets/main.css">
@@ -46,7 +46,34 @@
   <div class="banner">
     <div class="container">
       <h1>Michaela Hull:</h1>
+      <ul class="pull-right">
+        <li><a href="">Code</a></li>
+        <li><a href="">Raw Data</a></li>
+      </ul>
     </div>
+  </div>
+
+  <div class="section">
+  <div class="container">
+  <script type="text/javascript">
+  
+  d3.csv("/data_files/drivers.csv", function(error, data) {
+    data.forEach(function(d) {
+      d.month = parseDate(d.month);
+      d.killed = +d.killed;
+      d.drivers = +d.drivers;
+      d.front = +d.front;
+      d.rear = +d.rear;
+      d.kms = +d.kms;
+      d.petrol = +d.petrol;
+      d.van = +d.van;
+      d.law = +d.law;      
+    });
+    console.log("Data:", data);
+  });
+
+  </script>
+  </div>
   </div>
 
 </body>
