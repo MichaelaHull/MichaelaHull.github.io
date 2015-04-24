@@ -12,7 +12,7 @@
   <link rel="stylesheet" href="stylesheets/main.css">
   <link href="css/bootstrap.min.css" rel="stylesheet">
   <link href="http://s3.amazonaws.com/codecademy-content/courses/ltp/css/shift.css" rel="stylesheet">
-  <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+  <script src="http://d3js.org/d3.v3.js" charset="utf-8"></script>
   <script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
   <style type="text/css">
   .axis path,
@@ -27,6 +27,11 @@
   .axis text {
     font-family: sans-serif;
     font-size: 8px;
+  }
+
+  .line {
+    fill: none;
+    stroke-width: 2px;
   }
   </style>
 </head>
@@ -57,7 +62,7 @@
 <!--BANNER-->
   <div class="banner">
     <div class="container">
-      <h1>Michaela Hull:</h1>
+      <h1>Michaela Hull: Homework 3</h1>
       <ul class="pull-right">
         <li><a href="">Code</a></li>
         <li><a href="">Raw Data</a></li>
@@ -69,38 +74,35 @@
   <div class="container">
   <script type="text/javascript">
 
-  var colors = {
-    "grey": "#bbbbbb",
-    "blue": "#4D4D94",
-    "purple": {
-      "dark": "#7570b3",
-      "med": "#8da0cb",
-      "light": "#cbd5e8"
-    },
-    "green":  {
-      "dark": "#1b9e77",
-      "med": "#66c2a5",
-      "light": "#b3e2cd"
-    },
-    "orange": {
-      "dark": "#d95f02",
-      "med": "#fc8d62",
-      "light": "#fdcdac"
-    },
-    "pink": {
-      "dark": "#e7298a",
-      "med": "#e78ac3",
-      "light": "#f4cae4"
-    },
-    "yellow": "#CCA300"
+  var color_ref = {
+    "killed": "#e7298a",
+    "drivers": "#d95f02",
+    "front": "#8da0cb",
+    "rear": "#1b9e77"
   };
 
-  var date = d3.time.format("%Y-%m-%d");
+  var names = ["killed", "drivers", "front", "rear"];
+
+  var name_ref = {
+    "killed": "Drivers Killed",
+    "drivers": "Drivers Seriously Injured or Killed",
+    "front": "Front-Seat Passengers Seriously Injured or Killed",
+    "rear": "Rear-Seat Passengers Seriously Injured or Killed"
+  };
+
+  var tip = d3.tip()
+    .attr("class", "d3-tip")
+    .offset([0, 0])
+    .html(function(d) {
+        return d.state_abb;
+    });
+
+  var date_format = d3.time.format("%Y-%m-%d");
 
   var svg_height = 500;
   var svg_width = 800;
-  var brush_height = 100;
-  var margin = 10;
+  var brush_height = 70;
+  var margin = 30;
   var plot_height = svg_height - 3*margin - brush_height;
   var plot_width = svg_width - 2*margin;
 
@@ -112,69 +114,81 @@
   plot.attr("transform", "translate(" + margin + "," + margin + ")");
 
   var brush_plot = svg.append("g");
-  brush_plot.("transform", "translate(" + margin + "," + 2*margin + plot_height + ")");
-  
-  d3.csv("/data_files/drivers.csv", function(error, data) {
-    data.forEach(function(d) {
-      d.month = date.parse(d.month);
-      d.killed = +d.killed;
+  brush_plot.attr("transform", "translate(" + margin + "," + (2*margin + plot_height) + ")");
+
+  function plot_lines(x_var, y_var, plot_space, data, x_scale, y_scale) {
+    var line = d3.svg.line()
+    .x(function (d) { return x_scale(d[x_var]); })
+    .y(function (d) { return y_scale(d[y_var]); });
+
+    plot_space.append("path")
+      .datum(data)
+      .attr("class", "line")
+      .attr("d", line)
+      .style("stroke", color_ref[y_var]);
+  };
+
+  function plot_lines_brush(x_var, y_var, plot_space, data, x_scale, y_scale) {
+    var line = d3.svg.line()
+    .x(function (d) { return x_scale(d[x_var]); })
+    .y(function (d) { return y_scale(d[y_var]); })
+    .style("width", "1px");
+
+    plot_space.append("path")
+      .datum(data)
+      .attr("class", "line")
+      .attr("d", line)
+      .style("stroke", color_ref[y_var]);
+  };
+
+  d3.csv("data_files/drivers.csv", function (error, data) {
+    data.forEach(function (d) {
+      d.date = date_format.parse(d.date);
       d.drivers = +d.drivers;
-      d.front = +d.front;
       d.rear = +d.rear;
-      d.kms = +d.kms;
-      d.petrol = +d.petrol;
-      d.van_killed = +d.van_killed;
+      d.killed = +d.killed;
+      d.rear = +d.rear;
+      d.front = +d.front;
       d.law = +d.law;
-      d.d_injured = +d.d_injured;
-      d.total = +d.total;      
+      d.van_killed = +d.van_killed;
+      d.kms = +d.kms;
     });
 
-    var x_domain = d3.extent(function (d) { return d.month; });
-    var y_max = d3.max(function (d) { return d.total; });
     var x = d3.time.scale()
-      .domain(x_domain)
-      .range([0, plot_width]);
+      .range([0, plot_width])
+      .domain(d3.extent(data, function (d) { return d.date; }));
+
+    var y_max = d3.max(data, function (d) { return d.drivers; });
+
     var y = d3.scale.linear()
-      .domain([0, y_max])
-      .range([plot_height, 0]);
-    var y_brush = d3.scale.liner()
-      .domain([0, y_max])
-      .range([brush_height, 0]);
-    var x_axis = d3.svg.axis()
+      .range([plot_height, 0])
+      .domain([0, y_max]);
+
+    var xAxis = d3.svg.axis()
       .scale(x)
       .orient("bottom");
-    var y_axis = d3.svg.axis()
+
+    var yAxis = d3.svg.axis()
       .scale(y)
       .orient("left");
-    var x_axis_brush = d3.svg.axis()
-      .scale(x)
-      .orient("bottom");
-    var y_axis_brush = d3.svg.axis()
-      .scale(y_brush)
-      .orient("left");
+
     plot.append("g")
       .attr("class", "x axis")
       .attr("transform", "translate(0," + plot_height + ")")
-      .call(x_axis);
+      .call(xAxis);
+
     plot.append("g")
       .attr("class", "y axis")
-      .call(y_axis);
-    brush_plot.append("g")
-      .attr("class", "x axis")
-      .attr("transform", "translate(0," + brush_height + ")")
-      .call(x_axis_brush);
-    brush_plot.append("g")
-      .attr("class", "y axis")
-      .call(y_axis_brush);
-    var area = d3.svg.area()
-      .x(function (d) { return x(d.month); })
-      .y0(function (d) {})
+      .call(yAxis);
+
+    var n;
+    for (n in names) {
+      plot_lines("date", names[n], plot, data, x, y);
+    };
   });
 
   </script>
   </div>
   </div>
-
-</body>
-</head>
-</html>
+  </body>
+  </html>
