@@ -26,7 +26,7 @@
 
   .axis text {
     font-family: sans-serif;
-    font-size: 8px;
+    font-size: 9px;
   }
 
   .line {
@@ -35,9 +35,15 @@
     stroke: #7570b3;
   }
 
+  .plot text {
+    font-family: sans-serif;
+    font-size: 8px;
+  }
+
   .area {
     fill: #d95f02;
     opacity: 0.5;
+    clip-path: url(#clip);
   }
 
   .brush .extent {
@@ -52,7 +58,8 @@
     width: 60px;                  
     height: 28px;                 
     padding: 2px;             
-    font: 12px sans-serif;        
+    font: 8px;
+    font-family: sans-serif;        
     background-color: lightsteelblue;   
     border: 0px;      
     border-radius: 8px;           
@@ -122,6 +129,8 @@
     .offset([250, 0])
     .style("background-color", "#cbd5e8")
     .style("opacity", 0.1)
+    .style("font-family", "sans-serif")
+    .style("font-size", "12px")
     .html(function(d) {
         return "<strong>" + format_date(d.date) + "</strong></br>Drivers Killed: " + d.killed + "</br>Traffic Index: " + d.kms ;
     });
@@ -129,9 +138,9 @@
   var date_format = d3.time.format("%Y-%m-%d");
 
   var svg_height = 500;
-  var svg_width = 800;
+  var svg_width = 850;
   var brush_height = 70;
-  var margin = 30;
+  var margin = 50;
   var plot_height = svg_height - 3*margin - brush_height;
   var plot_width = svg_width - 2*margin;
 
@@ -142,6 +151,12 @@
 
   var plot = svg.append("g");
   plot.attr("transform", "translate(" + margin + "," + margin + ")");
+
+  // plot.append("defs").append("clipPath")
+  //   .attr("id", "clip")
+  //   .append("rect")
+  //   .attr("width", plot_width)
+  //   .attr("height", plot_height);
 
   var brush_plot = svg.append("g");
   brush_plot.attr("transform", "translate(" + margin + "," + (2*margin + plot_height) + ")");
@@ -198,14 +213,14 @@
       .orient("left")
       .ticks(0);
 
-  var info = plot.append("g");
-
   d3.csv("data_files/drivers.csv", function (error, data) {
     data.forEach(function (d) {
       d.date = date_format.parse(d.date);
       d.killed = +d.killed;
       d.kms = +d.kms;
+      d.id = d.id;
     });
+    console.log("Data:", data)
     var y_max = d3.max(data, function (d) { return d.killed; });
     var y_max2 = d3.max(data, function (d) { return d.kms; });
     x.domain(d3.extent(data, function (d) { return d.date; }));    
@@ -224,7 +239,7 @@
       .attr("class", "line")
       .attr("d", line);
 
-    info = plot.selectAll("rect")
+    var info = plot.selectAll("rect")
       .data(data, function (d) { return d.date; })
       .enter();
     info.append("rect")
@@ -243,12 +258,28 @@
 
     plot.append("g")
       .attr("class", "y axis")
-      .call(yAxis_left);
+      .call(yAxis_left)
+      .append("text")
+      .attr("transform", "translate(-27, 10) rotate(-90)")
+      .style("text-anchor", "end")
+      .style("font-size", "10px")
+      .text("Number of Drivers Killed Monthly");
 
     plot.append("g")
       .attr("class", "y axis")
       .attr("transform", "translate(" + plot_width + ",0)")
-      .call(yAxis_right);
+      .call(yAxis_right)
+      .append("text")
+      .attr("transform", "translate(42, 10) rotate(90)")
+      .style("text-anchor", "beginning")
+      .style("font-size", "10px")
+      .text("Traffic Index (kms)");
+
+    svg.append("text")
+      .attr("transform", "translate(" + (svg_width/2) + "," + margin / 2 + ")")
+      .style("text-anchor", "middle")
+      .style("font-size", "16px")
+      .text("Seatbelt Law Prevents Driver Deaths from Increasing with Traffic Index");
 
     brush_plot.append("path")
       .datum(data)
@@ -276,7 +307,7 @@
     x.domain(brush.empty() ? x_brush.domain() : brush.extent());
     plot.select(".area").attr("d", area);
     plot.select(".line").attr("d", line);
-    plot.select(".rect").attr("d", info);
+    plot.select(".tooltip").attr("d", tip);
     plot.select(".x.axis").call(xAxis);
   }
 
