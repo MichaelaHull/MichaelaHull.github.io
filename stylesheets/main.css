@@ -109,6 +109,13 @@
 .section a {
 	color: #333333;
 }
+.section li {
+	font-size: 18;
+	color: #333333;
+	font-size: 18;
+	font-family: 'Lucida Sans Unicode', 'Lucida Grande', sans-serif;
+	font-weight: normal;
+}
 
 .table .tr style{
 	color: #333333;
