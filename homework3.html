@@ -263,6 +263,8 @@
       .attr("transform", "translate(-27, 10) rotate(-90)")
       .style("text-anchor", "end")
       .style("font-size", "10px")
+      .style("font-weight", "bold")
+      .style("fill", "#d95f02")
       .text("Number of Drivers Killed Monthly");
 
     plot.append("g")
@@ -273,6 +275,8 @@
       .attr("transform", "translate(42, 10) rotate(90)")
       .style("text-anchor", "beginning")
       .style("font-size", "10px")
+      .style("fill", "#7570b3")
+      .style("font-weight", "bold")
       .text("Traffic Index (kms)");
 
     svg.append("text")
@@ -313,6 +317,21 @@
 
   </script>
   </div>
+  </div>
+  <div class="section">
+    <div class="container">
+      <h3 align="left">Basic Functionality</h3>
+      <ul>
+        <li align="left">Area chart of deaths</li>
+        <li align="left">Line chart of traffic index</li>
+      </ul>
+      <h3 align="left">Moderate Functionality</h3>
+      <ul>
+        <li align="left">Details-on-demand in the form of a tool tip which shows the month and year, number of drivers killed, and the driving index</li>
+        <li align="left">Brushing</br>This had been intended for advanced functionality, but I realized too late that I needed two things to complete moderate functionality, so I am submitting it for moderate functionality instead</li>
+      </ul>
+      <h3></h3>
+    </div>
   </div>
   </body>
   </html>
