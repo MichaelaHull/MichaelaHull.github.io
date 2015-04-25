@@ -119,12 +119,19 @@
 
   var tip = d3.tip()
     .attr("class", "d3-tip")
-    .offset([250, 0])
+    // .offset([
+    //   function (d) { return plot_width - x(d.date); },
+    //   function (d) { return plot_height + y_left(d.killed); }
+    //   ])
     .style("background-color", "#cbd5e8")
     .style("opacity", 0.1)
     .html(function(d) {
         return "<strong>" + format_date(d.date) + "</strong></br>Drivers Killed: " + d.killed + "</br>Traffic Index: " + d.kms ;
     });
+
+  var div = d3.select("body").append("div")   
+    .attr("class", "tooltip")               
+    .style("opacity", 0);
 
   var date_format = d3.time.format("%Y-%m-%d");
 
@@ -198,8 +205,6 @@
       .orient("left")
       .ticks(0);
 
-  var info = plot.append("g");
-
   d3.csv("data_files/drivers.csv", function (error, data) {
     data.forEach(function (d) {
       d.date = date_format.parse(d.date);
@@ -224,14 +229,15 @@
       .attr("class", "line")
       .attr("d", line);
 
-    info = plot.selectAll("rect")
+    var info = plot.selectAll("rect")
       .data(data, function (d) { return d.date; })
       .enter();
     info.append("rect")
       .attr("x", function (d) { return x(d.date); })
-      .attr("y", 0)
-      .attr("height", plot_height)
+      .attr("y", function (d) { return y_left(d.killed); })
+      .attr("height", y_left(1))
       .attr("width", x(1))
+//      .style("fill", none)
       .style("opacity", 0)
       .on("mouseover", tip.show)
       .on("mouseout", tip.hide);
@@ -276,7 +282,6 @@
     x.domain(brush.empty() ? x_brush.domain() : brush.extent());
     plot.select(".area").attr("d", area);
     plot.select(".line").attr("d", line);
-    plot.select(".rect").attr("d", info);
     plot.select(".x.axis").call(xAxis);
   }
 
