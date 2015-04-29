@@ -18,7 +18,7 @@
 
   </style>
 </head>
-<body align="center">
+<body>
 
 <!--NAVIGATIONBAR-->
   <div class="nav">
@@ -46,6 +46,32 @@
   <div class="banner">
     <div class="container">
       <h1>Michaela Hull: Project Sketch</h1>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="container">
+      <h2>Planned Tools</h2>
+      <ul>
+        <li>R, for some pre-processing and EDA</br>
+        Libraries include plyr, data.table, ggplot2 (for EDA, not for actual visualizations), possibly a few others</li>
+        <li>D3, for visualizations</li>
+        <li>Possibly Tableau, but I'm not totally sure about this</li>
+      </ul>
+      <h2>Planned Techniques</h2>
+      <ul>
+        <li><strong>Time series:</strong> I am planning on having a line graph time series of crime frequencies. Ideally these will be color-coded by different types of crime or by region, however as the data is right now there are 38 different categories of crimes and ten different regions. I am hoping that I can sort the categories into larger groups (like assault, theft, public indecency, and controlled substances, or something along those lines). It would be nice to be able to have it switch between a district time series and a crime type time series.</li>
+        <li><strong>Geography:</strong> One of the reasons I chose this dataset is for the latitude/longitude features. I would like to make a geographical map of where the various crimes are committed. One small concern I have with this is that there are around 152,000 datapoints over a relatively small area, so doing things like filtering may be difficult.</li>
+        <li><strong>Frequency table:</strong> I would like to have a frequency table to the side showing the frequencies of various types of crimes. I would like it to update based on the applied filtering.</li>
+      </ul>
+      <h2>Planned Interaction</h2>
+      <ul>
+        <li><strong>Filtering:</strong> I have several different filtering mechanisms I would like to use. First off, like to have a geographical filter where a user can highlight a specific area and just have information about those points shown. Additionally, I would like to have a drop-down series of filters, where a viewer can choose what kind of filter they would like to have--by day of week, by month, by a specific time range, how the crime was resolved, etc. If this is not reasonable, I might settle for a day of week checkbox filter and another frequency table of the various resolutions for the selections.</li>
+        <li><strong>Brushing:</strong> I plan on having a brush feature for the time series, which allows for panning and zooming. </li>
+        <li><strong>Details on demand:</strong> For the frequency table, I would like to have details on demand. I might also like to have this for the map itself, but there are a lot of points and it might just be a complete mess, especially if there are points on top of each other.</li>
+      </ul>
+      <h2>Planned Interface</h2>
+      <img src="images/project_sketch.jpg" height="700" width="696">
     </div>
   </div>
 
