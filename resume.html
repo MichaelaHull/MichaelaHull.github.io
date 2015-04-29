@@ -10,8 +10,10 @@
   
   <link rel="stylesheet" href="http://s3.amazonaws.com/codecademy-content/courses/ltp/css/bootstrap.css">
   <link rel="stylesheet" href="stylesheets/main.css">
-  <link href="css/bootstrap.min.css" rel="stylesheet">
   <link href="http://s3.amazonaws.com/codecademy-content/courses/ltp/css/shift.css" rel="stylesheet">
+  <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+  <script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
+  <script src="http://d3js.org/queue.v1.min.js"></script>
 
 <body>
 
@@ -54,14 +56,14 @@
   	<div class="container">
   		<div class="row">
 	  		<div class="col-md-5">
-	  			<h2><a name="education">Education</a></h2>
+	  			<h2><strong><a name="education">Education</a></strong></h2>
 	  			<p>MS Analytics, <a href="http://www.usfca.edu/management/msan/">University of San Francisco</a>, 2015</br>
 	  			MS Chemistry, <a href="http://www.chem.umn.edu/">University of Minnesota</a>, 2014</br>
 	  			BA Chemistry Cum Laude, <a href="http://new.oberlin.edu/arts-and-sciences/departments/chemistry/index.dot">Oberlin College</a>, 2010</p>
   			</div>
   			<div class="col-md-4">
   				<div class="pull-right">
-	  				<h2><a name="about">Contact Michaela</a></h2>
+	  				<h2><strong><a name="about">Contact Michaela</a></strong></h2>
 	  				<p>Email: <a href="mailto:mmhll@usfca.eduSubject=" target="_top">mmhull@usfca.edu</a></br>
 	  				<a href="https://www.linkedin.com/pub/michaela-hull/49/b66/2bb">LinkedIn</a></p>
   				</div>
@@ -77,7 +79,7 @@
   	<div class="container">
   		<div class="row">
   			<div class="col-lg-6">
-  				<h2>Work Experience</h2>
+  				<h2><strong><a name="work">Work Experience</a></strong></h2>
   				<h3>Data Scientist</h3>
   				<ul>
   					<li><strong>County of Los Angeles</strong>, October 2014-present</li>
@@ -85,24 +87,53 @@
   				<h3>Research Assistant</h3>
   				<p>Laboratory chemistry researcher, largely in the area of inorganic synthesis but also analytical chemistry research. Conducted project and experiment planning as well as data analysis of results, including 3D computer modeling of chemical compounds.</p>
   				<ul>
-  					<li><strong>University of Minnesota</strong>, June 2010-June 2011</li>
-  					<li><strong>Oberlin College</strong>,</li>
+  					<li><strong>University of Minnesota</strong>, 2010-2011</li>
+  					<li><strong>Oberlin College</strong>, 2007-2010</li>
+  				</ul>
+  				<h3>Chemistry TA/Tutor</h3>
+  				<p>Responsible for overseeing and teaching general chemistry laboratory classes (24-28 students), guiding students both in and out of lab, and grading assignments. Tutoring involved group and one-on-one instruction for students regarding all things chemistry.</p>
+  				<ul>
+  					<li><strong>University of Minnesota</strong>, 2010-2014</li>
+  					<li><strong>Oberlin College</strong>, 2007-2010</li>
   				</ul>
   			</div>
   			<div class="col-lg-6">
-  				<h2>About Me</h2>
-  				<p>My primary interest in analytics lies in public works projects--there is so much information out there that is can be used to improve lives, experiences, and generally the way things are done. It also frequently increases efficiency of </p>
+  				<h2><strong><a name="about">About Me</a></strong></h2>
+  				<p>My primary interest in analytics lies in public works projects--there is so much information out there that is can be used to improve lives, experiences, and generally the way things are done. It also frequently increases efficiency of the associated processes.</p>
+  				<h2><strong><a name="skills">Skills</a></strong></h2>
+  				<h3>Data Science Skills</h3>
+  				<ul>
+  					<li>Programming (R, Python, SQL/PostgreSQL, NoSQL, Base SAS Certified)</li>
+  					<li><a href="#visualization">Data visualization</a> (ggplot2, d3.js, matplotlib)</li>
+  				</ul>
+  				<h3>General Skills</h3>
+  				<ul>
+  					
+  				</ul>
   			</div>
   		</div>
   		<div class="row">
   			<div class="col-lg-6">
-  				<h2>Projects</h2>
+  				<h2><strong><a name="projects">Projects</a></strong></h2>
   				<ul>
   					<li><strong>Identifying the most employed skills</strong></br>By acquiring data from LinkedIn using the LinkedIn APIs and BeautifulSoup in Python, we are determining what skills are most common among professionals in the realm of analytics who are employed in the Bay Area. The project is largely scaleable to any geographic area and any field.</li>
   					<li><strong>Song rating prediction (Kaggle competition)</strong></br>We are predicting user song scores based on information about given users’ musical preferences, their relationship with music, and their opinions about the musical artist. Machine learning algorithms used include Random Forest, Ridge Regression, K-nn, and ensembles.</li>
   				</ul>
   			</div>
   		</div>
+  	</div>
+  </div>
+
+  <div class="section">
+  	<div class="container">
+  		<h2><strong><a name="visualization">Visualizations</a></strong></h2>
+  		<ul>
+  			<li><a href="#states">State statistics</a></li>
+  			<li><a href="#letter">Letter frequency counter</a></li>
+  			<li><a href="#timeseries">Time series</a></li>
+  			<li><a href="#tableau">San Francisco employee compensation</a> (Tableau example)</li>
+  		</ul>
+
   	</div>
   </div>
 
