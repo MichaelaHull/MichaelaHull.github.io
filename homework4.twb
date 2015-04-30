@@ -1,0 +1,2112 @@
+<?xml version='1.0' encoding='utf-8' ?>
+
+<workbook source-platform='mac' version='9.0' xml:base='https://public.tableau.com' xmlns:user='http://www.tableausoftware.com/xml/user'>
+  <!-- build 9000.15.0318.1720                                -->
+  <repository-location id='homework4_3' path='/workbooks' revision='1.0' />
+  <preferences>
+    <preference name='ui.encoding.shelf.height' value='24' />
+    <preference name='ui.shelf.height' value='26' />
+  </preferences>
+  <datasources>
+    <datasource caption='movies' inline='true' name='textscan.42123.913103044000' version='9.0'>
+      <connection class='textscan' directory='/Users/Aluminum/Documents/MichaelaHull.github.io/data_files' filename='movies.csv' password='' server=''>
+        <relation join='inner' type='join'>
+          <clause type='join'>
+            <expression op='='>
+              <expression op='[movie_ts#csv].[Action]'>
+              </expression>
+              <expression op='[movies#csv].[Action]'>
+              </expression>
+            </expression>
+          </clause>
+          <relation name='movie_ts#csv' table='[movie_ts#csv]' type='table'>
+            <columns character-set='UTF-8' header='yes' locale='en_US' separator=','>
+              <column datatype='integer' name='year' ordinal='0' />
+              <column datatype='integer' name='Action' ordinal='1' />
+              <column datatype='integer' name='Animation' ordinal='2' />
+              <column datatype='integer' name='Comedy' ordinal='3' />
+              <column datatype='integer' name='Drama' ordinal='4' />
+              <column datatype='integer' name='Documentary' ordinal='5' />
+              <column datatype='integer' name='Romance' ordinal='6' />
+              <column datatype='integer' name='Short' ordinal='7' />
+              <column datatype='real' name='avg_budget' ordinal='8' />
+              <column datatype='real' name='avg_length' ordinal='9' />
+              <column datatype='real' name='avg_rating' ordinal='10' />
+            </columns>
+          </relation>
+          <relation name='movies#csv' table='[movies#csv]' type='table'>
+            <columns character-set='UTF-8' header='yes' locale='en_US' separator=','>
+              <column datatype='string' name='title' ordinal='0' />
+              <column datatype='integer' name='year' ordinal='1' />
+              <column datatype='integer' name='length' ordinal='2' />
+              <column datatype='real' name='budget' ordinal='3' />
+              <column datatype='real' name='rating' ordinal='4' />
+              <column datatype='integer' name='votes' ordinal='5' />
+              <column datatype='real' name='r1' ordinal='6' />
+              <column datatype='real' name='r2' ordinal='7' />
+              <column datatype='real' name='r3' ordinal='8' />
+              <column datatype='real' name='r4' ordinal='9' />
+              <column datatype='real' name='r5' ordinal='10' />
+              <column datatype='real' name='r6' ordinal='11' />
+              <column datatype='real' name='r7' ordinal='12' />
+              <column datatype='real' name='r8' ordinal='13' />
+              <column datatype='real' name='r9' ordinal='14' />
+              <column datatype='real' name='r10' ordinal='15' />
+              <column datatype='string' name='mpaa' ordinal='16' />
+              <column datatype='integer' name='Action' ordinal='17' />
+              <column datatype='integer' name='Animation' ordinal='18' />
+              <column datatype='integer' name='Comedy' ordinal='19' />
+              <column datatype='integer' name='Drama' ordinal='20' />
+              <column datatype='integer' name='Documentary' ordinal='21' />
+              <column datatype='integer' name='Romance' ordinal='22' />
+              <column datatype='integer' name='Short' ordinal='23' />
+              <column datatype='string' name='Category' ordinal='24' />
+            </columns>
+          </relation>
+        </relation>
+        <cols>
+          <map key='[Action (movie_ts.csv)]' value='[movie_ts#csv].[Action]' />
+          <map key='[Action]' value='[movies#csv].[Action]' />
+          <map key='[Animation (movie_ts.csv)]' value='[movie_ts#csv].[Animation]' />
+          <map key='[Animation]' value='[movies#csv].[Animation]' />
+          <map key='[Category]' value='[movies#csv].[Category]' />
+          <map key='[Comedy (movie_ts.csv)]' value='[movie_ts#csv].[Comedy]' />
+          <map key='[Comedy]' value='[movies#csv].[Comedy]' />
+          <map key='[Documentary (movie_ts.csv)]' value='[movie_ts#csv].[Documentary]' />
+          <map key='[Documentary]' value='[movies#csv].[Documentary]' />
+          <map key='[Drama (movie_ts.csv)]' value='[movie_ts#csv].[Drama]' />
+          <map key='[Drama]' value='[movies#csv].[Drama]' />
+          <map key='[Romance (movie_ts.csv)]' value='[movie_ts#csv].[Romance]' />
+          <map key='[Romance]' value='[movies#csv].[Romance]' />
+          <map key='[Short (movie_ts.csv)]' value='[movie_ts#csv].[Short]' />
+          <map key='[Short]' value='[movies#csv].[Short]' />
+          <map key='[avg_budget]' value='[movie_ts#csv].[avg_budget]' />
+          <map key='[avg_length]' value='[movie_ts#csv].[avg_length]' />
+          <map key='[avg_rating]' value='[movie_ts#csv].[avg_rating]' />
+          <map key='[budget]' value='[movies#csv].[budget]' />
+          <map key='[length]' value='[movies#csv].[length]' />
+          <map key='[mpaa]' value='[movies#csv].[mpaa]' />
+          <map key='[r10]' value='[movies#csv].[r10]' />
+          <map key='[r1]' value='[movies#csv].[r1]' />
+          <map key='[r2]' value='[movies#csv].[r2]' />
+          <map key='[r3]' value='[movies#csv].[r3]' />
+          <map key='[r4]' value='[movies#csv].[r4]' />
+          <map key='[r5]' value='[movies#csv].[r5]' />
+          <map key='[r6]' value='[movies#csv].[r6]' />
+          <map key='[r7]' value='[movies#csv].[r7]' />
+          <map key='[r8]' value='[movies#csv].[r8]' />
+          <map key='[r9]' value='[movies#csv].[r9]' />
+          <map key='[rating]' value='[movies#csv].[rating]' />
+          <map key='[title]' value='[movies#csv].[title]' />
+          <map key='[votes]' value='[movies#csv].[votes]' />
+          <map key='[year (movie_ts.csv)]' value='[movie_ts#csv].[year]' />
+          <map key='[year]' value='[movies#csv].[year]' />
+        </cols>
+        <refresh increment-key='' incremental-updates='false'>
+        </refresh>
+        <metadata-records>
+          <metadata-record class='column'>
+            <remote-name>year</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[year (movie_ts.csv)]</local-name>
+            <parent-name>[movie_ts#csv]</parent-name>
+            <remote-alias>year</remote-alias>
+            <ordinal>0</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='integer' name='DebugRemoteMetadata (size)'>8</attribute>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;sint64&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Action</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[Action (movie_ts.csv)]</local-name>
+            <parent-name>[movie_ts#csv]</parent-name>
+            <remote-alias>Action</remote-alias>
+            <ordinal>1</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='integer' name='DebugRemoteMetadata (size)'>8</attribute>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;sint64&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Animation</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[Animation (movie_ts.csv)]</local-name>
+            <parent-name>[movie_ts#csv]</parent-name>
+            <remote-alias>Animation</remote-alias>
+            <ordinal>2</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='integer' name='DebugRemoteMetadata (size)'>8</attribute>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;sint64&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Comedy</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[Comedy (movie_ts.csv)]</local-name>
+            <parent-name>[movie_ts#csv]</parent-name>
+            <remote-alias>Comedy</remote-alias>
+            <ordinal>3</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='integer' name='DebugRemoteMetadata (size)'>8</attribute>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;sint64&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Drama</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[Drama (movie_ts.csv)]</local-name>
+            <parent-name>[movie_ts#csv]</parent-name>
+            <remote-alias>Drama</remote-alias>
+            <ordinal>4</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='integer' name='DebugRemoteMetadata (size)'>8</attribute>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;sint64&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Documentary</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[Documentary (movie_ts.csv)]</local-name>
+            <parent-name>[movie_ts#csv]</parent-name>
+            <remote-alias>Documentary</remote-alias>
+            <ordinal>5</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='integer' name='DebugRemoteMetadata (size)'>8</attribute>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;sint64&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Romance</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[Romance (movie_ts.csv)]</local-name>
+            <parent-name>[movie_ts#csv]</parent-name>
+            <remote-alias>Romance</remote-alias>
+            <ordinal>6</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='integer' name='DebugRemoteMetadata (size)'>8</attribute>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;sint64&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Short</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[Short (movie_ts.csv)]</local-name>
+            <parent-name>[movie_ts#csv]</parent-name>
+            <remote-alias>Short</remote-alias>
+            <ordinal>7</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='integer' name='DebugRemoteMetadata (size)'>8</attribute>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;sint64&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>avg_budget</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[avg_budget]</local-name>
+            <parent-name>[movie_ts#csv]</parent-name>
+            <remote-alias>avg_budget</remote-alias>
+            <ordinal>8</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='integer' name='DebugRemoteMetadata (size)'>8</attribute>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;double&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>avg_length</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[avg_length]</local-name>
+            <parent-name>[movie_ts#csv]</parent-name>
+            <remote-alias>avg_length</remote-alias>
+            <ordinal>9</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='integer' name='DebugRemoteMetadata (size)'>8</attribute>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;double&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>avg_rating</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[avg_rating]</local-name>
+            <parent-name>[movie_ts#csv]</parent-name>
+            <remote-alias>avg_rating</remote-alias>
+            <ordinal>10</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='integer' name='DebugRemoteMetadata (size)'>8</attribute>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;double&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='capability'>
+            <remote-name></remote-name>
+            <remote-type>0</remote-type>
+            <parent-name>[movie_ts#csv]</parent-name>
+            <remote-alias></remote-alias>
+            <aggregation>Count</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='character-set'>&quot;UTF-8&quot;</attribute>
+              <attribute datatype='string' name='collation'>&quot;en_US&quot;</attribute>
+              <attribute datatype='string' name='field-delimiter'>&quot;,&quot;</attribute>
+              <attribute datatype='string' name='header-row'>&quot;true&quot;</attribute>
+              <attribute datatype='string' name='locale'>&quot;en_US&quot;</attribute>
+              <attribute datatype='string' name='single-char'>&quot;&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>title</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[title]</local-name>
+            <parent-name>[movies#csv]</parent-name>
+            <remote-alias>title</remote-alias>
+            <ordinal>11</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <scale>1</scale>
+            <width>1073741823</width>
+            <contains-null>true</contains-null>
+            <collation flag='0' name='LEN_RUS' />
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteCollation'>&quot;en_US&quot;</attribute>
+              <attribute datatype='string' name='DebugRemoteMetadata (compression)'>&quot;heap&quot;</attribute>
+              <attribute datatype='integer' name='DebugRemoteMetadata (size)'>4294967292</attribute>
+              <attribute datatype='integer' name='DebugRemoteMetadata (storagewidth)'>8</attribute>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;str&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>year</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[year]</local-name>
+            <parent-name>[movies#csv]</parent-name>
+            <remote-alias>year</remote-alias>
+            <ordinal>12</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='integer' name='DebugRemoteMetadata (size)'>8</attribute>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;sint64&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>length</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[length]</local-name>
+            <parent-name>[movies#csv]</parent-name>
+            <remote-alias>length</remote-alias>
+            <ordinal>13</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='integer' name='DebugRemoteMetadata (size)'>8</attribute>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;sint64&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>budget</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[budget]</local-name>
+            <parent-name>[movies#csv]</parent-name>
+            <remote-alias>budget</remote-alias>
+            <ordinal>14</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='integer' name='DebugRemoteMetadata (size)'>8</attribute>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;double&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>rating</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[rating]</local-name>
+            <parent-name>[movies#csv]</parent-name>
+            <remote-alias>rating</remote-alias>
+            <ordinal>15</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='integer' name='DebugRemoteMetadata (size)'>8</attribute>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;double&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>votes</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[votes]</local-name>
+            <parent-name>[movies#csv]</parent-name>
+            <remote-alias>votes</remote-alias>
+            <ordinal>16</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='integer' name='DebugRemoteMetadata (size)'>8</attribute>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;sint64&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>r1</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[r1]</local-name>
+            <parent-name>[movies#csv]</parent-name>
+            <remote-alias>r1</remote-alias>
+            <ordinal>17</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='integer' name='DebugRemoteMetadata (size)'>8</attribute>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;double&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>r2</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[r2]</local-name>
+            <parent-name>[movies#csv]</parent-name>
+            <remote-alias>r2</remote-alias>
+            <ordinal>18</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='integer' name='DebugRemoteMetadata (size)'>8</attribute>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;double&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>r3</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[r3]</local-name>
+            <parent-name>[movies#csv]</parent-name>
+            <remote-alias>r3</remote-alias>
+            <ordinal>19</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='integer' name='DebugRemoteMetadata (size)'>8</attribute>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;double&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>r4</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[r4]</local-name>
+            <parent-name>[movies#csv]</parent-name>
+            <remote-alias>r4</remote-alias>
+            <ordinal>20</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='integer' name='DebugRemoteMetadata (size)'>8</attribute>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;double&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>r5</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[r5]</local-name>
+            <parent-name>[movies#csv]</parent-name>
+            <remote-alias>r5</remote-alias>
+            <ordinal>21</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='integer' name='DebugRemoteMetadata (size)'>8</attribute>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;double&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>r6</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[r6]</local-name>
+            <parent-name>[movies#csv]</parent-name>
+            <remote-alias>r6</remote-alias>
+            <ordinal>22</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='integer' name='DebugRemoteMetadata (size)'>8</attribute>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;double&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>r7</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[r7]</local-name>
+            <parent-name>[movies#csv]</parent-name>
+            <remote-alias>r7</remote-alias>
+            <ordinal>23</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='integer' name='DebugRemoteMetadata (size)'>8</attribute>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;double&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>r8</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[r8]</local-name>
+            <parent-name>[movies#csv]</parent-name>
+            <remote-alias>r8</remote-alias>
+            <ordinal>24</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='integer' name='DebugRemoteMetadata (size)'>8</attribute>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;double&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>r9</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[r9]</local-name>
+            <parent-name>[movies#csv]</parent-name>
+            <remote-alias>r9</remote-alias>
+            <ordinal>25</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='integer' name='DebugRemoteMetadata (size)'>8</attribute>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;double&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>r10</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[r10]</local-name>
+            <parent-name>[movies#csv]</parent-name>
+            <remote-alias>r10</remote-alias>
+            <ordinal>26</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='integer' name='DebugRemoteMetadata (size)'>8</attribute>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;double&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>mpaa</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[mpaa]</local-name>
+            <parent-name>[movies#csv]</parent-name>
+            <remote-alias>mpaa</remote-alias>
+            <ordinal>27</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <scale>1</scale>
+            <width>1073741823</width>
+            <contains-null>true</contains-null>
+            <collation flag='0' name='LEN_RUS' />
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteCollation'>&quot;en_US&quot;</attribute>
+              <attribute datatype='string' name='DebugRemoteMetadata (compression)'>&quot;heap&quot;</attribute>
+              <attribute datatype='integer' name='DebugRemoteMetadata (size)'>4294967292</attribute>
+              <attribute datatype='integer' name='DebugRemoteMetadata (storagewidth)'>8</attribute>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;str&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Action</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[Action]</local-name>
+            <parent-name>[movies#csv]</parent-name>
+            <remote-alias>Action</remote-alias>
+            <ordinal>28</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='integer' name='DebugRemoteMetadata (size)'>8</attribute>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;sint64&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Animation</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[Animation]</local-name>
+            <parent-name>[movies#csv]</parent-name>
+            <remote-alias>Animation</remote-alias>
+            <ordinal>29</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='integer' name='DebugRemoteMetadata (size)'>8</attribute>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;sint64&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Comedy</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[Comedy]</local-name>
+            <parent-name>[movies#csv]</parent-name>
+            <remote-alias>Comedy</remote-alias>
+            <ordinal>30</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='integer' name='DebugRemoteMetadata (size)'>8</attribute>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;sint64&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Drama</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[Drama]</local-name>
+            <parent-name>[movies#csv]</parent-name>
+            <remote-alias>Drama</remote-alias>
+            <ordinal>31</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='integer' name='DebugRemoteMetadata (size)'>8</attribute>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;sint64&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Documentary</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[Documentary]</local-name>
+            <parent-name>[movies#csv]</parent-name>
+            <remote-alias>Documentary</remote-alias>
+            <ordinal>32</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='integer' name='DebugRemoteMetadata (size)'>8</attribute>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;sint64&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Romance</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[Romance]</local-name>
+            <parent-name>[movies#csv]</parent-name>
+            <remote-alias>Romance</remote-alias>
+            <ordinal>33</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='integer' name='DebugRemoteMetadata (size)'>8</attribute>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;sint64&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Short</remote-name>
+            <remote-type>20</remote-type>
+            <local-name>[Short]</local-name>
+            <parent-name>[movies#csv]</parent-name>
+            <remote-alias>Short</remote-alias>
+            <ordinal>34</ordinal>
+            <local-type>integer</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='integer' name='DebugRemoteMetadata (size)'>8</attribute>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;sint64&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>Category</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[Category]</local-name>
+            <parent-name>[movies#csv]</parent-name>
+            <remote-alias>Category</remote-alias>
+            <ordinal>35</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <scale>1</scale>
+            <width>1073741823</width>
+            <contains-null>true</contains-null>
+            <collation flag='0' name='LEN_RUS' />
+            <attributes>
+              <attribute datatype='string' name='DebugRemoteCollation'>&quot;en_US&quot;</attribute>
+              <attribute datatype='string' name='DebugRemoteMetadata (compression)'>&quot;heap&quot;</attribute>
+              <attribute datatype='integer' name='DebugRemoteMetadata (size)'>4294967292</attribute>
+              <attribute datatype='integer' name='DebugRemoteMetadata (storagewidth)'>8</attribute>
+              <attribute datatype='string' name='DebugRemoteType'>&quot;str&quot;</attribute>
+            </attributes>
+          </metadata-record>
+          <metadata-record class='capability'>
+            <remote-name></remote-name>
+            <remote-type>0</remote-type>
+            <parent-name>[movies#csv]</parent-name>
+            <remote-alias></remote-alias>
+            <aggregation>Count</aggregation>
+            <contains-null>true</contains-null>
+            <attributes>
+              <attribute datatype='string' name='character-set'>&quot;UTF-8&quot;</attribute>
+              <attribute datatype='string' name='collation'>&quot;en_US&quot;</attribute>
+              <attribute datatype='string' name='field-delimiter'>&quot;,&quot;</attribute>
+              <attribute datatype='string' name='header-row'>&quot;true&quot;</attribute>
+              <attribute datatype='string' name='locale'>&quot;en_US&quot;</attribute>
+              <attribute datatype='string' name='single-char'>&quot;&quot;</attribute>
+            </attributes>
+          </metadata-record>
+        </metadata-records>
+      </connection>
+      <aliases enabled='yes' />
+      <column datatype='string' name='[:Measure Names]' role='dimension' type='nominal'>
+        <aliases>
+          <alias key='&quot;[textscan.42123.913103044000].[sum:Action (movie_ts.csv):qk]&quot;' value='Action' />
+          <alias key='&quot;[textscan.42123.913103044000].[sum:Animation (movie_ts.csv):qk]&quot;' value='Animation' />
+          <alias key='&quot;[textscan.42123.913103044000].[sum:Comedy (movie_ts.csv):qk]&quot;' value='Comedy' />
+          <alias key='&quot;[textscan.42123.913103044000].[sum:Documentary (movie_ts.csv):qk]&quot;' value='Documentary' />
+          <alias key='&quot;[textscan.42123.913103044000].[sum:Drama (movie_ts.csv):qk]&quot;' value='Drama' />
+          <alias key='&quot;[textscan.42123.913103044000].[sum:Romance (movie_ts.csv):qk]&quot;' value='Romance' />
+          <alias key='&quot;[textscan.42123.913103044000].[sum:Short (movie_ts.csv):qk]&quot;' value='Short' />
+        </aliases>
+      </column>
+      <column caption='Action (movie ts.csv)' datatype='integer' name='[Action (movie_ts.csv)]' role='measure' type='quantitative'>
+      </column>
+      <column datatype='integer' name='[Action]' role='measure' type='quantitative'>
+      </column>
+      <column caption='Animation (movie ts.csv)' datatype='integer' name='[Animation (movie_ts.csv)]' role='measure' type='quantitative'>
+      </column>
+      <column datatype='integer' name='[Animation]' role='measure' type='quantitative'>
+      </column>
+      <column datatype='string' name='[Category]' role='dimension' type='nominal'>
+      </column>
+      <column caption='Comedy (movie ts.csv)' datatype='integer' name='[Comedy (movie_ts.csv)]' role='measure' type='quantitative'>
+      </column>
+      <column datatype='integer' name='[Comedy]' role='measure' type='quantitative'>
+      </column>
+      <column caption='Documentary (movie ts.csv)' datatype='integer' name='[Documentary (movie_ts.csv)]' role='measure' type='quantitative'>
+      </column>
+      <column datatype='integer' name='[Documentary]' role='measure' type='quantitative'>
+      </column>
+      <column caption='Drama (movie ts.csv)' datatype='integer' name='[Drama (movie_ts.csv)]' role='measure' type='quantitative'>
+      </column>
+      <column datatype='integer' name='[Drama]' role='measure' type='quantitative'>
+      </column>
+      <column datatype='integer' name='[Number of Records]' role='measure' type='quantitative' user:auto-column='numrec'>
+        <calculation class='tableau' formula='1' />
+      </column>
+      <column caption='Romance (movie ts.csv)' datatype='integer' name='[Romance (movie_ts.csv)]' role='measure' type='quantitative'>
+      </column>
+      <column datatype='integer' name='[Romance]' role='measure' type='quantitative'>
+      </column>
+      <column caption='Short (movie ts.csv)' datatype='integer' name='[Short (movie_ts.csv)]' role='measure' type='quantitative'>
+      </column>
+      <column datatype='integer' name='[Short]' role='measure' type='quantitative'>
+      </column>
+      <column caption='Avg Budget' datatype='real' name='[avg_budget]' role='measure' type='quantitative'>
+      </column>
+      <column caption='Avg Length' datatype='real' name='[avg_length]' role='measure' type='quantitative'>
+      </column>
+      <column caption='Avg Rating' datatype='real' name='[avg_rating]' role='measure' type='quantitative'>
+      </column>
+      <column caption='Budget' datatype='real' name='[budget]' role='measure' type='quantitative'>
+      </column>
+      <column caption='Length' datatype='integer' name='[length]' role='measure' type='quantitative'>
+      </column>
+      <column caption='Mpaa' datatype='string' name='[mpaa]' role='dimension' type='nominal'>
+      </column>
+      <column caption='R10' datatype='real' name='[r10]' role='measure' type='quantitative'>
+      </column>
+      <column caption='R1' datatype='real' name='[r1]' role='measure' type='quantitative'>
+      </column>
+      <column caption='R2' datatype='real' name='[r2]' role='measure' type='quantitative'>
+      </column>
+      <column caption='R3' datatype='real' name='[r3]' role='measure' type='quantitative'>
+      </column>
+      <column caption='R4' datatype='real' name='[r4]' role='measure' type='quantitative'>
+      </column>
+      <column caption='R5' datatype='real' name='[r5]' role='measure' type='quantitative'>
+      </column>
+      <column caption='R6' datatype='real' name='[r6]' role='measure' type='quantitative'>
+      </column>
+      <column caption='R7' datatype='real' name='[r7]' role='measure' type='quantitative'>
+      </column>
+      <column caption='R8' datatype='real' name='[r8]' role='measure' type='quantitative'>
+      </column>
+      <column caption='R9' datatype='real' name='[r9]' role='measure' type='quantitative'>
+      </column>
+      <column caption='Rating' datatype='real' name='[rating]' role='measure' type='quantitative'>
+      </column>
+      <column caption='Title' datatype='string' name='[title]' role='dimension' type='nominal'>
+      </column>
+      <column caption='Votes' datatype='integer' name='[votes]' role='measure' type='quantitative'>
+      </column>
+      <column caption='Year (Movie Ts.Csv)' datatype='integer' name='[year (movie_ts.csv)]' role='dimension' type='quantitative'>
+      </column>
+      <column caption='Year' datatype='integer' name='[year]' role='dimension' type='quantitative'>
+      </column>
+      <column-instance column='[Category]' derivation='None' name='[none:Category:nk]' pivot='key' type='nominal' />
+      <column-instance column='[Action (movie_ts.csv)]' derivation='Sum' name='[sum:Action (movie_ts.csv):qk]' pivot='key' type='quantitative' />
+      <column-instance column='[Action]' derivation='Sum' name='[sum:Action:qk]' pivot='key' type='quantitative' />
+      <column-instance column='[Animation (movie_ts.csv)]' derivation='Sum' name='[sum:Animation (movie_ts.csv):qk]' pivot='key' type='quantitative' />
+      <column-instance column='[Animation]' derivation='Sum' name='[sum:Animation:qk]' pivot='key' type='quantitative' />
+      <column-instance column='[Comedy (movie_ts.csv)]' derivation='Sum' name='[sum:Comedy (movie_ts.csv):qk]' pivot='key' type='quantitative' />
+      <column-instance column='[Comedy]' derivation='Sum' name='[sum:Comedy:qk]' pivot='key' type='quantitative' />
+      <column-instance column='[Documentary (movie_ts.csv)]' derivation='Sum' name='[sum:Documentary (movie_ts.csv):qk]' pivot='key' type='quantitative' />
+      <column-instance column='[Documentary]' derivation='Sum' name='[sum:Documentary:qk]' pivot='key' type='quantitative' />
+      <column-instance column='[Drama (movie_ts.csv)]' derivation='Sum' name='[sum:Drama (movie_ts.csv):qk]' pivot='key' type='quantitative' />
+      <column-instance column='[Drama]' derivation='Sum' name='[sum:Drama:qk]' pivot='key' type='quantitative' />
+      <column-instance column='[Romance (movie_ts.csv)]' derivation='Sum' name='[sum:Romance (movie_ts.csv):qk]' pivot='key' type='quantitative' />
+      <column-instance column='[Romance]' derivation='Sum' name='[sum:Romance:qk]' pivot='key' type='quantitative' />
+      <column-instance column='[Short (movie_ts.csv)]' derivation='Sum' name='[sum:Short (movie_ts.csv):qk]' pivot='key' type='quantitative' />
+      <column-instance column='[Short]' derivation='Sum' name='[sum:Short:qk]' pivot='key' type='quantitative' />
+      <extract count='-1' enabled='true' units='records'>
+        <connection class='dataengine' dbname='/Users/Aluminum/Documents/MichaelaHull.github.io/data_files/movies.tde' schema='Extract' tablename='Extract' update-time='04/30/2015 08:32:27 AM'>
+          <relation name='Extract' table='[Extract].[Extract]' type='table' />
+          <cols>
+            <map key='[Action (movie_ts.csv)]' value='[Extract].[Action]' />
+            <map key='[Action]' value='[Extract].[Action1]' />
+            <map key='[Animation (movie_ts.csv)]' value='[Extract].[Animation]' />
+            <map key='[Animation]' value='[Extract].[Animation1]' />
+            <map key='[Category]' value='[Extract].[Category]' />
+            <map key='[Comedy (movie_ts.csv)]' value='[Extract].[Comedy]' />
+            <map key='[Comedy]' value='[Extract].[Comedy1]' />
+            <map key='[Documentary (movie_ts.csv)]' value='[Extract].[Documentary]' />
+            <map key='[Documentary]' value='[Extract].[Documentary1]' />
+            <map key='[Drama (movie_ts.csv)]' value='[Extract].[Drama]' />
+            <map key='[Drama]' value='[Extract].[Drama1]' />
+            <map key='[Number of Records]' value='[Extract].[Number of Records]' />
+            <map key='[Romance (movie_ts.csv)]' value='[Extract].[Romance]' />
+            <map key='[Romance]' value='[Extract].[Romance1]' />
+            <map key='[Short (movie_ts.csv)]' value='[Extract].[Short]' />
+            <map key='[Short]' value='[Extract].[Short1]' />
+            <map key='[avg_budget]' value='[Extract].[avg_budget]' />
+            <map key='[avg_length]' value='[Extract].[avg_length]' />
+            <map key='[avg_rating]' value='[Extract].[avg_rating]' />
+            <map key='[budget]' value='[Extract].[budget]' />
+            <map key='[length]' value='[Extract].[length]' />
+            <map key='[mpaa]' value='[Extract].[mpaa]' />
+            <map key='[r10]' value='[Extract].[r10]' />
+            <map key='[r1]' value='[Extract].[r1]' />
+            <map key='[r2]' value='[Extract].[r2]' />
+            <map key='[r3]' value='[Extract].[r3]' />
+            <map key='[r4]' value='[Extract].[r4]' />
+            <map key='[r5]' value='[Extract].[r5]' />
+            <map key='[r6]' value='[Extract].[r6]' />
+            <map key='[r7]' value='[Extract].[r7]' />
+            <map key='[r8]' value='[Extract].[r8]' />
+            <map key='[r9]' value='[Extract].[r9]' />
+            <map key='[rating]' value='[Extract].[rating]' />
+            <map key='[title]' value='[Extract].[title]' />
+            <map key='[votes]' value='[Extract].[votes]' />
+            <map key='[year (movie_ts.csv)]' value='[Extract].[year]' />
+            <map key='[year]' value='[Extract].[year1]' />
+          </cols>
+          <calculations>
+            <calculation column='[Number of Records]' formula='1' />
+          </calculations>
+          <refresh>
+            <refresh-event add-from-file-path='' increment-value='%null%' refresh-type='create' rows-inserted='0' timestamp-start='2015-04-30 08:32:27.546' />
+          </refresh>
+          <metadata-records>
+            <metadata-record class='column'>
+              <remote-name>Action</remote-name>
+              <remote-type>20</remote-type>
+              <local-name>[Action (movie_ts.csv)]</local-name>
+              <parent-name>[Extract]</parent-name>
+              <remote-alias>Action</remote-alias>
+              <ordinal>0</ordinal>
+              <family>movie_ts#csv</family>
+              <local-type>integer</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>0</approx-count>
+              <contains-null>false</contains-null>
+              <attributes>
+                <attribute datatype='string' name='DebugRemoteMetadata (ordered)'>&quot;asc&quot;</attribute>
+                <attribute datatype='integer' name='DebugRemoteMetadata (size)'>8</attribute>
+                <attribute datatype='boolean' name='DebugRemoteMetadata (unique)'>true</attribute>
+                <attribute datatype='string' name='DebugRemoteType'>&quot;sint64&quot;</attribute>
+              </attributes>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>Action1</remote-name>
+              <remote-type>20</remote-type>
+              <local-name>[Action]</local-name>
+              <parent-name>[Extract]</parent-name>
+              <remote-alias>Action1</remote-alias>
+              <ordinal>1</ordinal>
+              <family>movies#csv</family>
+              <local-type>integer</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>0</approx-count>
+              <contains-null>false</contains-null>
+              <attributes>
+                <attribute datatype='string' name='DebugRemoteMetadata (ordered)'>&quot;asc&quot;</attribute>
+                <attribute datatype='integer' name='DebugRemoteMetadata (size)'>8</attribute>
+                <attribute datatype='boolean' name='DebugRemoteMetadata (unique)'>true</attribute>
+                <attribute datatype='string' name='DebugRemoteType'>&quot;sint64&quot;</attribute>
+              </attributes>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>Animation</remote-name>
+              <remote-type>20</remote-type>
+              <local-name>[Animation (movie_ts.csv)]</local-name>
+              <parent-name>[Extract]</parent-name>
+              <remote-alias>Animation</remote-alias>
+              <ordinal>2</ordinal>
+              <family>movie_ts#csv</family>
+              <local-type>integer</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>0</approx-count>
+              <contains-null>false</contains-null>
+              <attributes>
+                <attribute datatype='string' name='DebugRemoteMetadata (ordered)'>&quot;asc&quot;</attribute>
+                <attribute datatype='integer' name='DebugRemoteMetadata (size)'>8</attribute>
+                <attribute datatype='boolean' name='DebugRemoteMetadata (unique)'>true</attribute>
+                <attribute datatype='string' name='DebugRemoteType'>&quot;sint64&quot;</attribute>
+              </attributes>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>Animation1</remote-name>
+              <remote-type>20</remote-type>
+              <local-name>[Animation]</local-name>
+              <parent-name>[Extract]</parent-name>
+              <remote-alias>Animation1</remote-alias>
+              <ordinal>3</ordinal>
+              <family>movies#csv</family>
+              <local-type>integer</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>0</approx-count>
+              <contains-null>false</contains-null>
+              <attributes>
+                <attribute datatype='string' name='DebugRemoteMetadata (ordered)'>&quot;asc&quot;</attribute>
+                <attribute datatype='integer' name='DebugRemoteMetadata (size)'>8</attribute>
+                <attribute datatype='boolean' name='DebugRemoteMetadata (unique)'>true</attribute>
+                <attribute datatype='string' name='DebugRemoteType'>&quot;sint64&quot;</attribute>
+              </attributes>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>Category</remote-name>
+              <remote-type>129</remote-type>
+              <local-name>[Category]</local-name>
+              <parent-name>[Extract]</parent-name>
+              <remote-alias>Category</remote-alias>
+              <ordinal>4</ordinal>
+              <family>movies#csv</family>
+              <local-type>string</local-type>
+              <aggregation>Count</aggregation>
+              <approx-count>0</approx-count>
+              <scale>1</scale>
+              <width>1073741823</width>
+              <contains-null>false</contains-null>
+              <collation flag='0' name='LEN_RUS' />
+              <attributes>
+                <attribute datatype='string' name='DebugRemoteCollation'>&quot;en_US&quot;</attribute>
+                <attribute datatype='boolean' name='DebugRemoteMetadata (comparable)'>true</attribute>
+                <attribute datatype='string' name='DebugRemoteMetadata (compression)'>&quot;heap&quot;</attribute>
+                <attribute datatype='boolean' name='DebugRemoteMetadata (distinct)'>true</attribute>
+                <attribute datatype='string' name='DebugRemoteMetadata (ordered)'>&quot;asc&quot;</attribute>
+                <attribute datatype='integer' name='DebugRemoteMetadata (size)'>4294967292</attribute>
+                <attribute datatype='integer' name='DebugRemoteMetadata (storagewidth)'>1</attribute>
+                <attribute datatype='boolean' name='DebugRemoteMetadata (unique)'>true</attribute>
+                <attribute datatype='string' name='DebugRemoteType'>&quot;str&quot;</attribute>
+              </attributes>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>Comedy</remote-name>
+              <remote-type>20</remote-type>
+              <local-name>[Comedy (movie_ts.csv)]</local-name>
+              <parent-name>[Extract]</parent-name>
+              <remote-alias>Comedy</remote-alias>
+              <ordinal>5</ordinal>
+              <family>movie_ts#csv</family>
+              <local-type>integer</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>0</approx-count>
+              <contains-null>false</contains-null>
+              <attributes>
+                <attribute datatype='string' name='DebugRemoteMetadata (ordered)'>&quot;asc&quot;</attribute>
+                <attribute datatype='integer' name='DebugRemoteMetadata (size)'>8</attribute>
+                <attribute datatype='boolean' name='DebugRemoteMetadata (unique)'>true</attribute>
+                <attribute datatype='string' name='DebugRemoteType'>&quot;sint64&quot;</attribute>
+              </attributes>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>Comedy1</remote-name>
+              <remote-type>20</remote-type>
+              <local-name>[Comedy]</local-name>
+              <parent-name>[Extract]</parent-name>
+              <remote-alias>Comedy1</remote-alias>
+              <ordinal>6</ordinal>
+              <family>movies#csv</family>
+              <local-type>integer</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>0</approx-count>
+              <contains-null>false</contains-null>
+              <attributes>
+                <attribute datatype='string' name='DebugRemoteMetadata (ordered)'>&quot;asc&quot;</attribute>
+                <attribute datatype='integer' name='DebugRemoteMetadata (size)'>8</attribute>
+                <attribute datatype='boolean' name='DebugRemoteMetadata (unique)'>true</attribute>
+                <attribute datatype='string' name='DebugRemoteType'>&quot;sint64&quot;</attribute>
+              </attributes>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>Documentary</remote-name>
+              <remote-type>20</remote-type>
+              <local-name>[Documentary (movie_ts.csv)]</local-name>
+              <parent-name>[Extract]</parent-name>
+              <remote-alias>Documentary</remote-alias>
+              <ordinal>7</ordinal>
+              <family>movie_ts#csv</family>
+              <local-type>integer</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>0</approx-count>
+              <contains-null>false</contains-null>
+              <attributes>
+                <attribute datatype='string' name='DebugRemoteMetadata (ordered)'>&quot;asc&quot;</attribute>
+                <attribute datatype='integer' name='DebugRemoteMetadata (size)'>8</attribute>
+                <attribute datatype='boolean' name='DebugRemoteMetadata (unique)'>true</attribute>
+                <attribute datatype='string' name='DebugRemoteType'>&quot;sint64&quot;</attribute>
+              </attributes>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>Documentary1</remote-name>
+              <remote-type>20</remote-type>
+              <local-name>[Documentary]</local-name>
+              <parent-name>[Extract]</parent-name>
+              <remote-alias>Documentary1</remote-alias>
+              <ordinal>8</ordinal>
+              <family>movies#csv</family>
+              <local-type>integer</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>0</approx-count>
+              <contains-null>false</contains-null>
+              <attributes>
+                <attribute datatype='string' name='DebugRemoteMetadata (ordered)'>&quot;asc&quot;</attribute>
+                <attribute datatype='integer' name='DebugRemoteMetadata (size)'>8</attribute>
+                <attribute datatype='boolean' name='DebugRemoteMetadata (unique)'>true</attribute>
+                <attribute datatype='string' name='DebugRemoteType'>&quot;sint64&quot;</attribute>
+              </attributes>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>Drama</remote-name>
+              <remote-type>20</remote-type>
+              <local-name>[Drama (movie_ts.csv)]</local-name>
+              <parent-name>[Extract]</parent-name>
+              <remote-alias>Drama</remote-alias>
+              <ordinal>9</ordinal>
+              <family>movie_ts#csv</family>
+              <local-type>integer</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>0</approx-count>
+              <contains-null>false</contains-null>
+              <attributes>
+                <attribute datatype='string' name='DebugRemoteMetadata (ordered)'>&quot;asc&quot;</attribute>
+                <attribute datatype='integer' name='DebugRemoteMetadata (size)'>8</attribute>
+                <attribute datatype='boolean' name='DebugRemoteMetadata (unique)'>true</attribute>
+                <attribute datatype='string' name='DebugRemoteType'>&quot;sint64&quot;</attribute>
+              </attributes>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>Drama1</remote-name>
+              <remote-type>20</remote-type>
+              <local-name>[Drama]</local-name>
+              <parent-name>[Extract]</parent-name>
+              <remote-alias>Drama1</remote-alias>
+              <ordinal>10</ordinal>
+              <family>movies#csv</family>
+              <local-type>integer</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>0</approx-count>
+              <contains-null>false</contains-null>
+              <attributes>
+                <attribute datatype='string' name='DebugRemoteMetadata (ordered)'>&quot;asc&quot;</attribute>
+                <attribute datatype='integer' name='DebugRemoteMetadata (size)'>8</attribute>
+                <attribute datatype='boolean' name='DebugRemoteMetadata (unique)'>true</attribute>
+                <attribute datatype='string' name='DebugRemoteType'>&quot;sint64&quot;</attribute>
+              </attributes>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>Number of Records</remote-name>
+              <remote-type>16</remote-type>
+              <local-name>[Number of Records]</local-name>
+              <parent-name>[Extract]</parent-name>
+              <remote-alias>Number of Records</remote-alias>
+              <ordinal>11</ordinal>
+              <local-type>integer</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>0</approx-count>
+              <contains-null>false</contains-null>
+              <attributes>
+                <attribute datatype='string' name='DebugRemoteMetadata (ordered)'>&quot;asc&quot;</attribute>
+                <attribute datatype='integer' name='DebugRemoteMetadata (size)'>1</attribute>
+                <attribute datatype='boolean' name='DebugRemoteMetadata (unique)'>true</attribute>
+                <attribute datatype='string' name='DebugRemoteType'>&quot;sint8&quot;</attribute>
+              </attributes>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>Romance</remote-name>
+              <remote-type>20</remote-type>
+              <local-name>[Romance (movie_ts.csv)]</local-name>
+              <parent-name>[Extract]</parent-name>
+              <remote-alias>Romance</remote-alias>
+              <ordinal>12</ordinal>
+              <family>movie_ts#csv</family>
+              <local-type>integer</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>0</approx-count>
+              <contains-null>false</contains-null>
+              <attributes>
+                <attribute datatype='string' name='DebugRemoteMetadata (ordered)'>&quot;asc&quot;</attribute>
+                <attribute datatype='integer' name='DebugRemoteMetadata (size)'>8</attribute>
+                <attribute datatype='boolean' name='DebugRemoteMetadata (unique)'>true</attribute>
+                <attribute datatype='string' name='DebugRemoteType'>&quot;sint64&quot;</attribute>
+              </attributes>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>Romance1</remote-name>
+              <remote-type>20</remote-type>
+              <local-name>[Romance]</local-name>
+              <parent-name>[Extract]</parent-name>
+              <remote-alias>Romance1</remote-alias>
+              <ordinal>13</ordinal>
+              <family>movies#csv</family>
+              <local-type>integer</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>0</approx-count>
+              <contains-null>false</contains-null>
+              <attributes>
+                <attribute datatype='string' name='DebugRemoteMetadata (ordered)'>&quot;asc&quot;</attribute>
+                <attribute datatype='integer' name='DebugRemoteMetadata (size)'>8</attribute>
+                <attribute datatype='boolean' name='DebugRemoteMetadata (unique)'>true</attribute>
+                <attribute datatype='string' name='DebugRemoteType'>&quot;sint64&quot;</attribute>
+              </attributes>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>Short</remote-name>
+              <remote-type>20</remote-type>
+              <local-name>[Short (movie_ts.csv)]</local-name>
+              <parent-name>[Extract]</parent-name>
+              <remote-alias>Short</remote-alias>
+              <ordinal>14</ordinal>
+              <family>movie_ts#csv</family>
+              <local-type>integer</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>0</approx-count>
+              <contains-null>false</contains-null>
+              <attributes>
+                <attribute datatype='string' name='DebugRemoteMetadata (ordered)'>&quot;asc&quot;</attribute>
+                <attribute datatype='integer' name='DebugRemoteMetadata (size)'>8</attribute>
+                <attribute datatype='boolean' name='DebugRemoteMetadata (unique)'>true</attribute>
+                <attribute datatype='string' name='DebugRemoteType'>&quot;sint64&quot;</attribute>
+              </attributes>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>Short1</remote-name>
+              <remote-type>20</remote-type>
+              <local-name>[Short]</local-name>
+              <parent-name>[Extract]</parent-name>
+              <remote-alias>Short1</remote-alias>
+              <ordinal>15</ordinal>
+              <family>movies#csv</family>
+              <local-type>integer</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>0</approx-count>
+              <contains-null>false</contains-null>
+              <attributes>
+                <attribute datatype='string' name='DebugRemoteMetadata (ordered)'>&quot;asc&quot;</attribute>
+                <attribute datatype='integer' name='DebugRemoteMetadata (size)'>8</attribute>
+                <attribute datatype='boolean' name='DebugRemoteMetadata (unique)'>true</attribute>
+                <attribute datatype='string' name='DebugRemoteType'>&quot;sint64&quot;</attribute>
+              </attributes>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>avg_budget</remote-name>
+              <remote-type>5</remote-type>
+              <local-name>[avg_budget]</local-name>
+              <parent-name>[Extract]</parent-name>
+              <remote-alias>avg_budget</remote-alias>
+              <ordinal>16</ordinal>
+              <family>movie_ts#csv</family>
+              <local-type>real</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>0</approx-count>
+              <contains-null>false</contains-null>
+              <attributes>
+                <attribute datatype='string' name='DebugRemoteMetadata (ordered)'>&quot;asc&quot;</attribute>
+                <attribute datatype='integer' name='DebugRemoteMetadata (size)'>8</attribute>
+                <attribute datatype='boolean' name='DebugRemoteMetadata (unique)'>true</attribute>
+                <attribute datatype='string' name='DebugRemoteType'>&quot;double&quot;</attribute>
+              </attributes>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>avg_length</remote-name>
+              <remote-type>5</remote-type>
+              <local-name>[avg_length]</local-name>
+              <parent-name>[Extract]</parent-name>
+              <remote-alias>avg_length</remote-alias>
+              <ordinal>17</ordinal>
+              <family>movie_ts#csv</family>
+              <local-type>real</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>0</approx-count>
+              <contains-null>false</contains-null>
+              <attributes>
+                <attribute datatype='string' name='DebugRemoteMetadata (ordered)'>&quot;asc&quot;</attribute>
+                <attribute datatype='integer' name='DebugRemoteMetadata (size)'>8</attribute>
+                <attribute datatype='boolean' name='DebugRemoteMetadata (unique)'>true</attribute>
+                <attribute datatype='string' name='DebugRemoteType'>&quot;double&quot;</attribute>
+              </attributes>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>avg_rating</remote-name>
+              <remote-type>5</remote-type>
+              <local-name>[avg_rating]</local-name>
+              <parent-name>[Extract]</parent-name>
+              <remote-alias>avg_rating</remote-alias>
+              <ordinal>18</ordinal>
+              <family>movie_ts#csv</family>
+              <local-type>real</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>0</approx-count>
+              <contains-null>false</contains-null>
+              <attributes>
+                <attribute datatype='string' name='DebugRemoteMetadata (ordered)'>&quot;asc&quot;</attribute>
+                <attribute datatype='integer' name='DebugRemoteMetadata (size)'>8</attribute>
+                <attribute datatype='boolean' name='DebugRemoteMetadata (unique)'>true</attribute>
+                <attribute datatype='string' name='DebugRemoteType'>&quot;double&quot;</attribute>
+              </attributes>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>budget</remote-name>
+              <remote-type>5</remote-type>
+              <local-name>[budget]</local-name>
+              <parent-name>[Extract]</parent-name>
+              <remote-alias>budget</remote-alias>
+              <ordinal>19</ordinal>
+              <family>movies#csv</family>
+              <local-type>real</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>0</approx-count>
+              <contains-null>false</contains-null>
+              <attributes>
+                <attribute datatype='string' name='DebugRemoteMetadata (ordered)'>&quot;asc&quot;</attribute>
+                <attribute datatype='integer' name='DebugRemoteMetadata (size)'>8</attribute>
+                <attribute datatype='boolean' name='DebugRemoteMetadata (unique)'>true</attribute>
+                <attribute datatype='string' name='DebugRemoteType'>&quot;double&quot;</attribute>
+              </attributes>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>length</remote-name>
+              <remote-type>20</remote-type>
+              <local-name>[length]</local-name>
+              <parent-name>[Extract]</parent-name>
+              <remote-alias>length</remote-alias>
+              <ordinal>20</ordinal>
+              <family>movies#csv</family>
+              <local-type>integer</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>0</approx-count>
+              <contains-null>false</contains-null>
+              <attributes>
+                <attribute datatype='string' name='DebugRemoteMetadata (ordered)'>&quot;asc&quot;</attribute>
+                <attribute datatype='integer' name='DebugRemoteMetadata (size)'>8</attribute>
+                <attribute datatype='boolean' name='DebugRemoteMetadata (unique)'>true</attribute>
+                <attribute datatype='string' name='DebugRemoteType'>&quot;sint64&quot;</attribute>
+              </attributes>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>mpaa</remote-name>
+              <remote-type>129</remote-type>
+              <local-name>[mpaa]</local-name>
+              <parent-name>[Extract]</parent-name>
+              <remote-alias>mpaa</remote-alias>
+              <ordinal>21</ordinal>
+              <family>movies#csv</family>
+              <local-type>string</local-type>
+              <aggregation>Count</aggregation>
+              <approx-count>0</approx-count>
+              <scale>1</scale>
+              <width>1073741823</width>
+              <contains-null>false</contains-null>
+              <collation flag='0' name='LEN_RUS' />
+              <attributes>
+                <attribute datatype='string' name='DebugRemoteCollation'>&quot;en_US&quot;</attribute>
+                <attribute datatype='boolean' name='DebugRemoteMetadata (comparable)'>true</attribute>
+                <attribute datatype='string' name='DebugRemoteMetadata (compression)'>&quot;heap&quot;</attribute>
+                <attribute datatype='boolean' name='DebugRemoteMetadata (distinct)'>true</attribute>
+                <attribute datatype='string' name='DebugRemoteMetadata (ordered)'>&quot;asc&quot;</attribute>
+                <attribute datatype='integer' name='DebugRemoteMetadata (size)'>4294967292</attribute>
+                <attribute datatype='integer' name='DebugRemoteMetadata (storagewidth)'>1</attribute>
+                <attribute datatype='boolean' name='DebugRemoteMetadata (unique)'>true</attribute>
+                <attribute datatype='string' name='DebugRemoteType'>&quot;str&quot;</attribute>
+              </attributes>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>r10</remote-name>
+              <remote-type>5</remote-type>
+              <local-name>[r10]</local-name>
+              <parent-name>[Extract]</parent-name>
+              <remote-alias>r10</remote-alias>
+              <ordinal>22</ordinal>
+              <family>movies#csv</family>
+              <local-type>real</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>0</approx-count>
+              <contains-null>false</contains-null>
+              <attributes>
+                <attribute datatype='string' name='DebugRemoteMetadata (ordered)'>&quot;asc&quot;</attribute>
+                <attribute datatype='integer' name='DebugRemoteMetadata (size)'>8</attribute>
+                <attribute datatype='boolean' name='DebugRemoteMetadata (unique)'>true</attribute>
+                <attribute datatype='string' name='DebugRemoteType'>&quot;double&quot;</attribute>
+              </attributes>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>r1</remote-name>
+              <remote-type>5</remote-type>
+              <local-name>[r1]</local-name>
+              <parent-name>[Extract]</parent-name>
+              <remote-alias>r1</remote-alias>
+              <ordinal>23</ordinal>
+              <family>movies#csv</family>
+              <local-type>real</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>0</approx-count>
+              <contains-null>false</contains-null>
+              <attributes>
+                <attribute datatype='string' name='DebugRemoteMetadata (ordered)'>&quot;asc&quot;</attribute>
+                <attribute datatype='integer' name='DebugRemoteMetadata (size)'>8</attribute>
+                <attribute datatype='boolean' name='DebugRemoteMetadata (unique)'>true</attribute>
+                <attribute datatype='string' name='DebugRemoteType'>&quot;double&quot;</attribute>
+              </attributes>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>r2</remote-name>
+              <remote-type>5</remote-type>
+              <local-name>[r2]</local-name>
+              <parent-name>[Extract]</parent-name>
+              <remote-alias>r2</remote-alias>
+              <ordinal>24</ordinal>
+              <family>movies#csv</family>
+              <local-type>real</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>0</approx-count>
+              <contains-null>false</contains-null>
+              <attributes>
+                <attribute datatype='string' name='DebugRemoteMetadata (ordered)'>&quot;asc&quot;</attribute>
+                <attribute datatype='integer' name='DebugRemoteMetadata (size)'>8</attribute>
+                <attribute datatype='boolean' name='DebugRemoteMetadata (unique)'>true</attribute>
+                <attribute datatype='string' name='DebugRemoteType'>&quot;double&quot;</attribute>
+              </attributes>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>r3</remote-name>
+              <remote-type>5</remote-type>
+              <local-name>[r3]</local-name>
+              <parent-name>[Extract]</parent-name>
+              <remote-alias>r3</remote-alias>
+              <ordinal>25</ordinal>
+              <family>movies#csv</family>
+              <local-type>real</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>0</approx-count>
+              <contains-null>false</contains-null>
+              <attributes>
+                <attribute datatype='string' name='DebugRemoteMetadata (ordered)'>&quot;asc&quot;</attribute>
+                <attribute datatype='integer' name='DebugRemoteMetadata (size)'>8</attribute>
+                <attribute datatype='boolean' name='DebugRemoteMetadata (unique)'>true</attribute>
+                <attribute datatype='string' name='DebugRemoteType'>&quot;double&quot;</attribute>
+              </attributes>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>r4</remote-name>
+              <remote-type>5</remote-type>
+              <local-name>[r4]</local-name>
+              <parent-name>[Extract]</parent-name>
+              <remote-alias>r4</remote-alias>
+              <ordinal>26</ordinal>
+              <family>movies#csv</family>
+              <local-type>real</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>0</approx-count>
+              <contains-null>false</contains-null>
+              <attributes>
+                <attribute datatype='string' name='DebugRemoteMetadata (ordered)'>&quot;asc&quot;</attribute>
+                <attribute datatype='integer' name='DebugRemoteMetadata (size)'>8</attribute>
+                <attribute datatype='boolean' name='DebugRemoteMetadata (unique)'>true</attribute>
+                <attribute datatype='string' name='DebugRemoteType'>&quot;double&quot;</attribute>
+              </attributes>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>r5</remote-name>
+              <remote-type>5</remote-type>
+              <local-name>[r5]</local-name>
+              <parent-name>[Extract]</parent-name>
+              <remote-alias>r5</remote-alias>
+              <ordinal>27</ordinal>
+              <family>movies#csv</family>
+              <local-type>real</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>0</approx-count>
+              <contains-null>false</contains-null>
+              <attributes>
+                <attribute datatype='string' name='DebugRemoteMetadata (ordered)'>&quot;asc&quot;</attribute>
+                <attribute datatype='integer' name='DebugRemoteMetadata (size)'>8</attribute>
+                <attribute datatype='boolean' name='DebugRemoteMetadata (unique)'>true</attribute>
+                <attribute datatype='string' name='DebugRemoteType'>&quot;double&quot;</attribute>
+              </attributes>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>r6</remote-name>
+              <remote-type>5</remote-type>
+              <local-name>[r6]</local-name>
+              <parent-name>[Extract]</parent-name>
+              <remote-alias>r6</remote-alias>
+              <ordinal>28</ordinal>
+              <family>movies#csv</family>
+              <local-type>real</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>0</approx-count>
+              <contains-null>false</contains-null>
+              <attributes>
+                <attribute datatype='string' name='DebugRemoteMetadata (ordered)'>&quot;asc&quot;</attribute>
+                <attribute datatype='integer' name='DebugRemoteMetadata (size)'>8</attribute>
+                <attribute datatype='boolean' name='DebugRemoteMetadata (unique)'>true</attribute>
+                <attribute datatype='string' name='DebugRemoteType'>&quot;double&quot;</attribute>
+              </attributes>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>r7</remote-name>
+              <remote-type>5</remote-type>
+              <local-name>[r7]</local-name>
+              <parent-name>[Extract]</parent-name>
+              <remote-alias>r7</remote-alias>
+              <ordinal>29</ordinal>
+              <family>movies#csv</family>
+              <local-type>real</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>0</approx-count>
+              <contains-null>false</contains-null>
+              <attributes>
+                <attribute datatype='string' name='DebugRemoteMetadata (ordered)'>&quot;asc&quot;</attribute>
+                <attribute datatype='integer' name='DebugRemoteMetadata (size)'>8</attribute>
+                <attribute datatype='boolean' name='DebugRemoteMetadata (unique)'>true</attribute>
+                <attribute datatype='string' name='DebugRemoteType'>&quot;double&quot;</attribute>
+              </attributes>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>r8</remote-name>
+              <remote-type>5</remote-type>
+              <local-name>[r8]</local-name>
+              <parent-name>[Extract]</parent-name>
+              <remote-alias>r8</remote-alias>
+              <ordinal>30</ordinal>
+              <family>movies#csv</family>
+              <local-type>real</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>0</approx-count>
+              <contains-null>false</contains-null>
+              <attributes>
+                <attribute datatype='string' name='DebugRemoteMetadata (ordered)'>&quot;asc&quot;</attribute>
+                <attribute datatype='integer' name='DebugRemoteMetadata (size)'>8</attribute>
+                <attribute datatype='boolean' name='DebugRemoteMetadata (unique)'>true</attribute>
+                <attribute datatype='string' name='DebugRemoteType'>&quot;double&quot;</attribute>
+              </attributes>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>r9</remote-name>
+              <remote-type>5</remote-type>
+              <local-name>[r9]</local-name>
+              <parent-name>[Extract]</parent-name>
+              <remote-alias>r9</remote-alias>
+              <ordinal>31</ordinal>
+              <family>movies#csv</family>
+              <local-type>real</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>0</approx-count>
+              <contains-null>false</contains-null>
+              <attributes>
+                <attribute datatype='string' name='DebugRemoteMetadata (ordered)'>&quot;asc&quot;</attribute>
+                <attribute datatype='integer' name='DebugRemoteMetadata (size)'>8</attribute>
+                <attribute datatype='boolean' name='DebugRemoteMetadata (unique)'>true</attribute>
+                <attribute datatype='string' name='DebugRemoteType'>&quot;double&quot;</attribute>
+              </attributes>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>rating</remote-name>
+              <remote-type>5</remote-type>
+              <local-name>[rating]</local-name>
+              <parent-name>[Extract]</parent-name>
+              <remote-alias>rating</remote-alias>
+              <ordinal>32</ordinal>
+              <family>movies#csv</family>
+              <local-type>real</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>0</approx-count>
+              <contains-null>false</contains-null>
+              <attributes>
+                <attribute datatype='string' name='DebugRemoteMetadata (ordered)'>&quot;asc&quot;</attribute>
+                <attribute datatype='integer' name='DebugRemoteMetadata (size)'>8</attribute>
+                <attribute datatype='boolean' name='DebugRemoteMetadata (unique)'>true</attribute>
+                <attribute datatype='string' name='DebugRemoteType'>&quot;double&quot;</attribute>
+              </attributes>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>title</remote-name>
+              <remote-type>129</remote-type>
+              <local-name>[title]</local-name>
+              <parent-name>[Extract]</parent-name>
+              <remote-alias>title</remote-alias>
+              <ordinal>33</ordinal>
+              <family>movies#csv</family>
+              <local-type>string</local-type>
+              <aggregation>Count</aggregation>
+              <approx-count>0</approx-count>
+              <scale>1</scale>
+              <width>1073741823</width>
+              <contains-null>false</contains-null>
+              <collation flag='0' name='LEN_RUS' />
+              <attributes>
+                <attribute datatype='string' name='DebugRemoteCollation'>&quot;en_US&quot;</attribute>
+                <attribute datatype='boolean' name='DebugRemoteMetadata (comparable)'>true</attribute>
+                <attribute datatype='string' name='DebugRemoteMetadata (compression)'>&quot;heap&quot;</attribute>
+                <attribute datatype='boolean' name='DebugRemoteMetadata (distinct)'>true</attribute>
+                <attribute datatype='string' name='DebugRemoteMetadata (ordered)'>&quot;asc&quot;</attribute>
+                <attribute datatype='integer' name='DebugRemoteMetadata (size)'>4294967292</attribute>
+                <attribute datatype='integer' name='DebugRemoteMetadata (storagewidth)'>1</attribute>
+                <attribute datatype='boolean' name='DebugRemoteMetadata (unique)'>true</attribute>
+                <attribute datatype='string' name='DebugRemoteType'>&quot;str&quot;</attribute>
+              </attributes>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>votes</remote-name>
+              <remote-type>20</remote-type>
+              <local-name>[votes]</local-name>
+              <parent-name>[Extract]</parent-name>
+              <remote-alias>votes</remote-alias>
+              <ordinal>34</ordinal>
+              <family>movies#csv</family>
+              <local-type>integer</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>0</approx-count>
+              <contains-null>false</contains-null>
+              <attributes>
+                <attribute datatype='string' name='DebugRemoteMetadata (ordered)'>&quot;asc&quot;</attribute>
+                <attribute datatype='integer' name='DebugRemoteMetadata (size)'>8</attribute>
+                <attribute datatype='boolean' name='DebugRemoteMetadata (unique)'>true</attribute>
+                <attribute datatype='string' name='DebugRemoteType'>&quot;sint64&quot;</attribute>
+              </attributes>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>year</remote-name>
+              <remote-type>20</remote-type>
+              <local-name>[year (movie_ts.csv)]</local-name>
+              <parent-name>[Extract]</parent-name>
+              <remote-alias>year</remote-alias>
+              <ordinal>35</ordinal>
+              <family>movie_ts#csv</family>
+              <local-type>integer</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>0</approx-count>
+              <contains-null>false</contains-null>
+              <attributes>
+                <attribute datatype='string' name='DebugRemoteMetadata (ordered)'>&quot;asc&quot;</attribute>
+                <attribute datatype='integer' name='DebugRemoteMetadata (size)'>8</attribute>
+                <attribute datatype='boolean' name='DebugRemoteMetadata (unique)'>true</attribute>
+                <attribute datatype='string' name='DebugRemoteType'>&quot;sint64&quot;</attribute>
+              </attributes>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>year1</remote-name>
+              <remote-type>20</remote-type>
+              <local-name>[year]</local-name>
+              <parent-name>[Extract]</parent-name>
+              <remote-alias>year1</remote-alias>
+              <ordinal>36</ordinal>
+              <family>movies#csv</family>
+              <local-type>integer</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>0</approx-count>
+              <contains-null>false</contains-null>
+              <attributes>
+                <attribute datatype='string' name='DebugRemoteMetadata (ordered)'>&quot;asc&quot;</attribute>
+                <attribute datatype='integer' name='DebugRemoteMetadata (size)'>8</attribute>
+                <attribute datatype='boolean' name='DebugRemoteMetadata (unique)'>true</attribute>
+                <attribute datatype='string' name='DebugRemoteType'>&quot;sint64&quot;</attribute>
+              </attributes>
+            </metadata-record>
+          </metadata-records>
+        </connection>
+        <filter class='quantitative' column='[Action (movie_ts.csv)]' included-values='in-range'>
+          <min>0</min>
+          <max>67</max>
+        </filter>
+        <filter class='quantitative' column='[Action]' included-values='in-range'>
+          <min>0</min>
+          <max>1</max>
+        </filter>
+        <filter class='quantitative' column='[Animation (movie_ts.csv)]' included-values='in-range'>
+          <min>0</min>
+          <max>14</max>
+        </filter>
+        <filter class='quantitative' column='[Animation]' included-values='in-range'>
+          <min>0</min>
+          <max>1</max>
+        </filter>
+        <filter class='categorical' column='[Category]'>
+          <groupfilter function='empty-level' member='[Category]' user:ui-domain='relevant' user:ui-enumeration='inclusive' user:ui-marker='enumerate' />
+        </filter>
+        <filter class='quantitative' column='[Comedy (movie_ts.csv)]' included-values='in-range'>
+          <min>0</min>
+          <max>167</max>
+        </filter>
+        <filter class='quantitative' column='[Comedy]' included-values='in-range'>
+          <min>0</min>
+          <max>1</max>
+        </filter>
+        <filter class='quantitative' column='[Documentary (movie_ts.csv)]' included-values='in-range'>
+          <min>0</min>
+          <max>36</max>
+        </filter>
+        <filter class='quantitative' column='[Documentary]' included-values='in-range'>
+          <min>0</min>
+          <max>1</max>
+        </filter>
+        <filter class='quantitative' column='[Drama (movie_ts.csv)]' included-values='in-range'>
+          <min>0</min>
+          <max>182</max>
+        </filter>
+        <filter class='quantitative' column='[Drama]' included-values='in-range'>
+          <min>0</min>
+          <max>1</max>
+        </filter>
+        <filter class='quantitative' column='[Romance (movie_ts.csv)]' included-values='in-range'>
+          <min>0</min>
+          <max>57</max>
+        </filter>
+        <filter class='quantitative' column='[Romance]' included-values='in-range'>
+          <min>0</min>
+          <max>1</max>
+        </filter>
+        <filter class='quantitative' column='[Short (movie_ts.csv)]' included-values='in-range'>
+          <min>0</min>
+          <max>143</max>
+        </filter>
+        <filter class='quantitative' column='[Short]' included-values='in-range'>
+          <min>0</min>
+          <max>1</max>
+        </filter>
+        <filter class='quantitative' column='[avg_budget]' included-values='in-range'>
+          <min>0.0</min>
+          <max>23978515.544041499</max>
+        </filter>
+        <filter class='quantitative' column='[avg_length]' included-values='in-range'>
+          <min>12.0</min>
+          <max>151.0</max>
+        </filter>
+        <filter class='quantitative' column='[avg_rating]' included-values='in-range'>
+          <min>5.0999999999999996</min>
+          <max>7.9000000000000004</max>
+        </filter>
+        <filter class='quantitative' column='[budget]' included-values='in-range'>
+          <min>0.0</min>
+          <max>200000000.0</max>
+        </filter>
+        <filter class='quantitative' column='[length]' included-values='in-range'>
+          <min>1</min>
+          <max>390</max>
+        </filter>
+        <filter class='quantitative' column='[rating]' included-values='in-range'>
+          <min>1.0</min>
+          <max>10.0</max>
+        </filter>
+        <filter class='categorical' column='[title]'>
+          <groupfilter function='empty-level' member='[title]' user:ui-domain='relevant' user:ui-enumeration='inclusive' user:ui-marker='enumerate' />
+        </filter>
+        <filter class='quantitative' column='[year (movie_ts.csv)]' included-values='in-range'>
+          <min>1903</min>
+          <max>2005</max>
+        </filter>
+        <filter class='quantitative' column='[year]' included-values='in-range'>
+          <min>1903</min>
+          <max>2005</max>
+        </filter>
+      </extract>
+      <layout dim-ordering='alphabetic' dim-percentage='0.5' measure-ordering='alphabetic' measure-percentage='0.4' show-structure='true' />
+      <style>
+        <style-rule element='mark'>
+          <encoding attr='color' field='[:Measure Names]' type='palette'>
+            <map to='#17becf'>
+              <bucket>&quot;[textscan.42123.913103044000].[sum:Short (movie_ts.csv):qk]&quot;</bucket>
+            </map>
+            <map to='#1f77b4'>
+              <bucket>&quot;[textscan.42123.913103044000].[sum:Action (movie_ts.csv):qk]&quot;</bucket>
+            </map>
+            <map to='#1f77b4'>
+              <bucket>&quot;[textscan.42123.913103044000].[sum:Romance:qk]&quot;</bucket>
+            </map>
+            <map to='#2ca02c'>
+              <bucket>&quot;[textscan.42123.913103044000].[sum:Animation:qk]&quot;</bucket>
+            </map>
+            <map to='#2ca02c'>
+              <bucket>&quot;[textscan.42123.913103044000].[sum:Documentary (movie_ts.csv):qk]&quot;</bucket>
+            </map>
+            <map to='#8c564b'>
+              <bucket>&quot;[textscan.42123.913103044000].[sum:Comedy (movie_ts.csv):qk]&quot;</bucket>
+            </map>
+            <map to='#8c564b'>
+              <bucket>&quot;[textscan.42123.913103044000].[sum:Drama:qk]&quot;</bucket>
+            </map>
+            <map to='#9467bd'>
+              <bucket>&quot;[textscan.42123.913103044000].[sum:Documentary:qk]&quot;</bucket>
+            </map>
+            <map to='#9467bd'>
+              <bucket>&quot;[textscan.42123.913103044000].[sum:Drama (movie_ts.csv):qk]&quot;</bucket>
+            </map>
+            <map to='#bcbd22'>
+              <bucket>&quot;[textscan.42123.913103044000].[sum:Animation (movie_ts.csv):qk]&quot;</bucket>
+            </map>
+            <map to='#d62728'>
+              <bucket>&quot;[textscan.42123.913103044000].[sum:Comedy:qk]&quot;</bucket>
+            </map>
+            <map to='#e377c2'>
+              <bucket>&quot;[textscan.42123.913103044000].[sum:Romance (movie_ts.csv):qk]&quot;</bucket>
+            </map>
+            <map to='#e377c2'>
+              <bucket>&quot;[textscan.42123.913103044000].[sum:Short:qk]&quot;</bucket>
+            </map>
+            <map to='#ff7f0e'>
+              <bucket>&quot;[textscan.42123.913103044000].[sum:Action:qk]&quot;</bucket>
+            </map>
+          </encoding>
+          <encoding attr='color' field='[none:Category:nk]' type='palette'>
+            <map to='#17becf'>
+              <bucket>&quot;Short&quot;</bucket>
+            </map>
+            <map to='#2ca02c'>
+              <bucket>&quot;Documentary&quot;</bucket>
+            </map>
+            <map to='#8c564b'>
+              <bucket>&quot;Comedy&quot;</bucket>
+            </map>
+            <map to='#9467bd'>
+              <bucket>&quot;Drama&quot;</bucket>
+            </map>
+            <map to='#bcbd22'>
+              <bucket>&quot;Animation&quot;</bucket>
+            </map>
+            <map to='#e377c2'>
+              <bucket>&quot;Romance&quot;</bucket>
+            </map>
+            <map to='#ff7f0e'>
+              <bucket>&quot;Action&quot;</bucket>
+            </map>
+          </encoding>
+        </style-rule>
+      </style>
+      <semantic-values>
+        <semantic-value key='[Country].[Name]' value='&quot;United States&quot;' />
+      </semantic-values>
+    </datasource>
+  </datasources>
+  <worksheets>
+    <worksheet name='Sheet 1'>
+      <table>
+        <view>
+          <datasources>
+            <datasource caption='movies' name='textscan.42123.913103044000' />
+          </datasources>
+          <datasource-dependencies datasource='textscan.42123.913103044000'>
+            <column datatype='string' name='[Category]' role='dimension' type='nominal'>
+            </column>
+            <column-instance column='[budget]' derivation='Avg' name='[avg:budget:qk]' pivot='key' type='quantitative' />
+            <column caption='Budget' datatype='real' name='[budget]' role='measure' type='quantitative'>
+            </column>
+            <column-instance column='[Category]' derivation='None' name='[none:Category:nk]' pivot='key' type='nominal' />
+          </datasource-dependencies>
+          <sort class='computed' column='[textscan.42123.913103044000].[none:Category:nk]' direction='DESC' using='[textscan.42123.913103044000].[avg:budget:qk]'>
+          </sort>
+          <aggregation value='true' />
+        </view>
+        <style>
+          <style-rule element='axis'>
+            <format attr='height' field='[textscan.42123.913103044000].[avg:budget:qk]' value='39' />
+          </style-rule>
+          <style-rule element='cell'>
+            <format attr='height' field='[textscan.42123.913103044000].[none:Category:nk]' value='52' />
+          </style-rule>
+        </style>
+        <panes>
+          <pane>
+            <view>
+              <breakdown value='auto' />
+            </view>
+            <mark class='Automatic' />
+            <encodings>
+              <color column='[textscan.42123.913103044000].[none:Category:nk]' />
+            </encodings>
+          </pane>
+        </panes>
+        <rows>[textscan.42123.913103044000].[none:Category:nk]</rows>
+        <cols>[textscan.42123.913103044000].[avg:budget:qk]</cols>
+      </table>
+    </worksheet>
+    <worksheet name='Sheet 2'>
+      <table>
+        <view>
+          <datasources>
+            <datasource caption='movies' name='textscan.42123.913103044000' />
+          </datasources>
+          <datasource-dependencies datasource='textscan.42123.913103044000'>
+            <column caption='Action (movie ts.csv)' datatype='integer' name='[Action (movie_ts.csv)]' role='measure' type='quantitative'>
+            </column>
+            <column caption='Animation (movie ts.csv)' datatype='integer' name='[Animation (movie_ts.csv)]' role='measure' type='quantitative'>
+            </column>
+            <column caption='Comedy (movie ts.csv)' datatype='integer' name='[Comedy (movie_ts.csv)]' role='measure' type='quantitative'>
+            </column>
+            <column caption='Documentary (movie ts.csv)' datatype='integer' name='[Documentary (movie_ts.csv)]' role='measure' type='quantitative'>
+            </column>
+            <column caption='Drama (movie ts.csv)' datatype='integer' name='[Drama (movie_ts.csv)]' role='measure' type='quantitative'>
+            </column>
+            <column caption='Romance (movie ts.csv)' datatype='integer' name='[Romance (movie_ts.csv)]' role='measure' type='quantitative'>
+            </column>
+            <column caption='Short (movie ts.csv)' datatype='integer' name='[Short (movie_ts.csv)]' role='measure' type='quantitative'>
+            </column>
+            <column-instance column='[year (movie_ts.csv)]' derivation='None' name='[none:year (movie_ts.csv):qk]' pivot='key' type='quantitative' />
+            <column-instance column='[Action (movie_ts.csv)]' derivation='Sum' name='[sum:Action (movie_ts.csv):qk]' pivot='key' type='quantitative' />
+            <column-instance column='[Animation (movie_ts.csv)]' derivation='Sum' name='[sum:Animation (movie_ts.csv):qk]' pivot='key' type='quantitative' />
+            <column-instance column='[Comedy (movie_ts.csv)]' derivation='Sum' name='[sum:Comedy (movie_ts.csv):qk]' pivot='key' type='quantitative' />
+            <column-instance column='[Documentary (movie_ts.csv)]' derivation='Sum' name='[sum:Documentary (movie_ts.csv):qk]' pivot='key' type='quantitative' />
+            <column-instance column='[Drama (movie_ts.csv)]' derivation='Sum' name='[sum:Drama (movie_ts.csv):qk]' pivot='key' type='quantitative' />
+            <column-instance column='[Romance (movie_ts.csv)]' derivation='Sum' name='[sum:Romance (movie_ts.csv):qk]' pivot='key' type='quantitative' />
+            <column-instance column='[Short (movie_ts.csv)]' derivation='Sum' name='[sum:Short (movie_ts.csv):qk]' pivot='key' type='quantitative' />
+            <column caption='Year (Movie Ts.Csv)' datatype='integer' name='[year (movie_ts.csv)]' role='dimension' type='quantitative'>
+            </column>
+          </datasource-dependencies>
+          <filter class='categorical' column='[textscan.42123.913103044000].[:Measure Names]'>
+            <groupfilter function='union' user:op='manual'>
+              <groupfilter function='member' level='[:Measure Names]' member='&quot;[textscan.42123.913103044000].[sum:Action (movie_ts.csv):qk]&quot;' />
+              <groupfilter function='member' level='[:Measure Names]' member='&quot;[textscan.42123.913103044000].[sum:Animation (movie_ts.csv):qk]&quot;' />
+              <groupfilter function='member' level='[:Measure Names]' member='&quot;[textscan.42123.913103044000].[sum:Comedy (movie_ts.csv):qk]&quot;' />
+              <groupfilter function='member' level='[:Measure Names]' member='&quot;[textscan.42123.913103044000].[sum:Documentary (movie_ts.csv):qk]&quot;' />
+              <groupfilter function='member' level='[:Measure Names]' member='&quot;[textscan.42123.913103044000].[sum:Drama (movie_ts.csv):qk]&quot;' />
+              <groupfilter function='member' level='[:Measure Names]' member='&quot;[textscan.42123.913103044000].[sum:Romance (movie_ts.csv):qk]&quot;' />
+              <groupfilter function='member' level='[:Measure Names]' member='&quot;[textscan.42123.913103044000].[sum:Short (movie_ts.csv):qk]&quot;' />
+            </groupfilter>
+          </filter>
+          <slices>
+            <column>[textscan.42123.913103044000].[:Measure Names]</column>
+          </slices>
+          <aggregation value='true' />
+        </view>
+        <style>
+          <style-rule element='axis'>
+            <format attr='title' class='0' field='[textscan.42123.913103044000].[none:year (movie_ts.csv):qk]' scope='cols' value='Year' />
+            <format attr='subtitle' class='0' field='[textscan.42123.913103044000].[none:year (movie_ts.csv):qk]' scope='cols' value='' />
+            <format attr='auto-subtitle' class='0' field='[textscan.42123.913103044000].[none:year (movie_ts.csv):qk]' scope='cols' value='true' />
+            <format attr='title' class='0' field='[textscan.42123.913103044000].[Multiple Values]' scope='rows' value='Number of Movies Made' />
+            <format attr='subtitle' class='0' field='[textscan.42123.913103044000].[Multiple Values]' scope='rows' value='' />
+            <format attr='auto-subtitle' class='0' field='[textscan.42123.913103044000].[Multiple Values]' scope='rows' value='true' />
+          </style-rule>
+          <style-rule element='legend-title-text'>
+            <format attr='color' field='[textscan.42123.913103044000].[:Measure Names]' value='Movie Categories'>
+              <formatted-text>
+                <run>Movie Categories</run>
+              </formatted-text>
+            </format>
+          </style-rule>
+        </style>
+        <panes>
+          <pane id='2'>
+            <view>
+              <breakdown value='auto' />
+            </view>
+            <mark class='Automatic' />
+            <encodings>
+              <color column='[textscan.42123.913103044000].[:Measure Names]' />
+            </encodings>
+            <customized-tooltip>
+              <formatted-text>
+                <run fontcolor='#787878'>Year:&#9;</run>
+                <run bold='true'>&lt;[textscan.42123.913103044000].[none:year (movie_ts.csv):qk]&gt;</run>
+                <run fontcolor='#787878'>&#10;&lt;[textscan.42123.913103044000].[:Measure Names]&gt;:&#9;</run>
+                <run bold='true'>&lt;[textscan.42123.913103044000].[Multiple Values]&gt;</run>
+              </formatted-text>
+            </customized-tooltip>
+            <style>
+              <style-rule element='pane'>
+                <format attr='minwidth' value='783' />
+                <format attr='maxwidth' value='783' />
+                <format attr='minheight' value='480' />
+                <format attr='maxheight' value='480' />
+                <format attr='aspect' value='0' />
+                <format attr='minwidth' value='783' />
+                <format attr='maxwidth' value='783' />
+                <format attr='minheight' value='480' />
+                <format attr='maxheight' value='480' />
+                <format attr='aspect' value='0' />
+              </style-rule>
+            </style>
+          </pane>
+        </panes>
+        <rows>[textscan.42123.913103044000].[Multiple Values]</rows>
+        <cols>[textscan.42123.913103044000].[none:year (movie_ts.csv):qk]</cols>
+      </table>
+    </worksheet>
+    <worksheet name='Sheet 3'>
+      <table>
+        <view>
+          <datasources>
+            <datasource caption='movies' name='textscan.42123.913103044000' />
+          </datasources>
+          <datasource-dependencies datasource='textscan.42123.913103044000'>
+            <column datatype='string' name='[Category]' role='dimension' type='nominal'>
+            </column>
+            <column-instance column='[title]' derivation='Attribute' name='[attr:title:nk]' pivot='key' type='nominal' />
+            <column-instance column='[year]' derivation='Attribute' name='[attr:year:qk]' pivot='key' type='quantitative' />
+            <column caption='Length' datatype='integer' name='[length]' role='measure' type='quantitative'>
+            </column>
+            <column-instance column='[Category]' derivation='None' name='[none:Category:nk]' pivot='key' type='nominal' />
+            <column-instance column='[length]' derivation='None' name='[none:length:qk]' pivot='key' type='quantitative' />
+            <column-instance column='[rating]' derivation='None' name='[none:rating:qk]' pivot='key' type='quantitative' />
+            <column caption='Rating' datatype='real' name='[rating]' role='measure' type='quantitative'>
+            </column>
+            <column caption='Title' datatype='string' name='[title]' role='dimension' type='nominal'>
+            </column>
+            <column caption='Year' datatype='integer' name='[year]' role='dimension' type='quantitative'>
+            </column>
+          </datasource-dependencies>
+          <aggregation value='true' />
+        </view>
+        <style>
+        </style>
+        <panes>
+          <pane id='4'>
+            <view>
+              <breakdown value='auto' />
+            </view>
+            <mark class='Automatic' />
+            <encodings>
+              <tooltip column='[textscan.42123.913103044000].[attr:title:nk]' />
+              <tooltip column='[textscan.42123.913103044000].[attr:year:qk]' />
+              <lod column='[textscan.42123.913103044000].[none:Category:nk]' />
+            </encodings>
+            <customized-tooltip>
+              <formatted-text>
+                <run fontcolor='#787878'>Title:&#9;</run>
+                <run bold='true'>&lt;[textscan.42123.913103044000].[attr:title:nk]&gt;</run>
+                <run fontcolor='#787878'>&#10;Year:&#9;</run>
+                <run bold='true'>&lt;[textscan.42123.913103044000].[attr:year:qk]&gt;</run>
+                <run fontcolor='#787878'>&#10;Category:&#9;</run>
+                <run bold='true'>&lt;[textscan.42123.913103044000].[none:Category:nk]&gt;</run>
+                <run fontcolor='#787878'>&#10;Length:&#9;</run>
+                <run bold='true'>&lt;[textscan.42123.913103044000].[none:length:qk]&gt;</run>
+                <run fontcolor='#787878'>&#10;Rating:&#9;</run>
+                <run bold='true'>&lt;[textscan.42123.913103044000].[none:rating:qk]&gt;</run>
+                <run fontcolor='#787878'>Æ&#10;</run>
+              </formatted-text>
+            </customized-tooltip>
+          </pane>
+        </panes>
+        <rows>[textscan.42123.913103044000].[none:rating:qk]</rows>
+        <cols>[textscan.42123.913103044000].[none:length:qk]</cols>
+      </table>
+    </worksheet>
+  </worksheets>
+  <dashboards>
+    <dashboard name='Dashboard 1'>
+      <style>
+      </style>
+      <size maxheight='800' maxwidth='1000' minheight='800' minwidth='1000' />
+      <zones>
+        <zone h='100000' id='2' type='layout-basic' w='100000' x='0' y='0'>
+          <zone h='100000' id='5' param='horz' type='layout-flow' w='100000' x='0' y='0'>
+            <zone h='100000' id='3' type='layout-basic' w='84000' x='0' y='0'>
+              <zone h='42875' id='1' name='Sheet 2' w='84000' x='0' y='0'>
+              </zone>
+              <zone h='57125' id='7' name='Sheet 1' w='42000' x='42000' y='42875'>
+              </zone>
+              <zone h='57125' id='8' name='Sheet 3' w='42000' x='0' y='42875'>
+              </zone>
+            </zone>
+            <zone fixed-size='160' h='100000' id='4' is-fixed='true' param='vert' type='layout-flow' w='16000' x='84000' y='0'>
+              <zone fixed-size='210' h='27750' id='6' is-fixed='true' name='Sheet 2' pane-specification-id='2' param='[textscan.42123.913103044000].[:Measure Names]' type='color' w='16000' x='84000' y='0'>
+              </zone>
+            </zone>
+          </zone>
+        </zone>
+      </zones>
+    </dashboard>
+  </dashboards>
+  <windows>
+    <window class='schema' source-height='-1' />
+    <window auto-hidden='0' class='dashboard' maximized='0' name='Dashboard 1'>
+      <active id='7' />
+      <zones>
+        <zone name='Sheet 2'>
+          <viewpoint>
+            <zoom type='entire-view' />
+          </viewpoint>
+          <highlight field='[textscan.42123.913103044000].[:Measure Names]'>
+            <bucket-selection>
+            </bucket-selection>
+          </highlight>
+        </zone>
+        <zone name='Sheet 3'>
+          <viewpoint>
+            <zoom type='entire-view' />
+          </viewpoint>
+        </zone>
+        <zone name='Sheet 2' pane-specification-id='2' param='[textscan.42123.913103044000].[:Measure Names]' type='color' />
+      </zones>
+    </window>
+    <window auto-hidden='0' class='worksheet' maximized='1' name='Sheet 1'>
+      <cards>
+        <edge name='left'>
+          <strip size='300'>
+            <card type='pages' />
+            <card type='filters' />
+            <card type='marks' />
+            <card pane-specification-id='0' param='[textscan.42123.913103044000].[none:Category:nk]' type='color' />
+          </strip>
+        </edge>
+        <edge name='top'>
+          <strip size='2147483647'>
+            <card type='columns' />
+          </strip>
+          <strip size='2147483647'>
+            <card type='rows' />
+          </strip>
+        </edge>
+      </cards>
+      <highlight>
+        <color-one-way>
+          <field>[textscan.42123.913103044000].[none:Category:nk]</field>
+          <field>[textscan.42123.913103044000].[none:budget:qk]</field>
+          <field>[textscan.42123.913103044000].[sum:Action:qk]</field>
+        </color-one-way>
+      </highlight>
+    </window>
+    <window auto-hidden='0' class='worksheet' maximized='0' name='Sheet 2'>
+      <cards>
+        <edge name='left'>
+          <strip size='160'>
+            <card type='pages' />
+            <card type='filters' />
+            <card type='marks' />
+            <card pane-specification-id='2' param='[textscan.42123.913103044000].[:Measure Names]' type='color' />
+            <card type='measures' />
+          </strip>
+        </edge>
+        <edge name='top'>
+          <strip size='2147483647'>
+            <card type='columns' />
+          </strip>
+          <strip size='2147483647'>
+            <card type='rows' />
+          </strip>
+        </edge>
+      </cards>
+      <highlight field='[textscan.42123.913103044000].[:Measure Names]'>
+        <bucket-selection>
+        </bucket-selection>
+      </highlight>
+    </window>
+    <window auto-hidden='0' class='worksheet' maximized='0' name='Sheet 3'>
+      <cards>
+        <edge name='left'>
+          <strip size='160'>
+            <card type='pages' />
+            <card type='filters' />
+            <card type='marks' />
+          </strip>
+        </edge>
+        <edge name='top'>
+          <strip size='2147483647'>
+            <card type='columns' />
+          </strip>
+          <strip size='2147483647'>
+            <card type='rows' />
+          </strip>
+        </edge>
+      </cards>
+      <highlight>
+        <color-one-way>
+          <field>[textscan.42123.913103044000].[none:Category:nk]</field>
+          <field>[textscan.42123.913103044000].[none:budget:qk]</field>
+          <field>[textscan.42123.913103044000].[none:rating:qk]</field>
+          <field>[textscan.42123.913103044000].[none:title:nk]</field>
+          <field>[textscan.42123.913103044000].[none:year:qk]</field>
+        </color-one-way>
+      </highlight>
+    </window>
+  </windows>
+  <thumbnails>
+    <thumbnail height='384' name='Dashboard 1' width='384'>
+      iVBORw0KGgoAAAANSUhEUgAAAYAAAAGACAIAAAArpSLoAAAACXBIWXMAAAsTAAALEwEAmpwY
+      AAAEzElEQVR4nO3UMQEAIAzAMMC/501GDxIFvXpn5gAUXh0A/MuAgIwBARkDAjIGBGQMCMgY
+      EJAxICBjQEDGgICMAQEZAwIyBgRkDAjIGBCQMSAgY0BAxoCAjAEBGQMCMgYEZAwIyBgQkDEg
+      IGNAQMaAgIwBARkDAjIGBGQMCMgYEJAxICBjQEDGgICMAQEZAwIyBgRkDAjIGBCQMSAgY0BA
+      xoCAjAEBGQMCMgYEZAwIyBgQkDEgIGNAQMaAgIwBARkDAjIGBGQMCMgYEJAxICBjQEDGgICM
+      AQEZAwIyBgRkDAjIGBCQMSAgY0BAxoCAjAEBGQMCMgYEZAwIyBgQkDEgIGNAQMaAgIwBARkD
+      AjIGBGQMCMgYEJAxICBjQEDGgICMAQEZAwIyBgRkDAjIGBCQMSAgY0BAxoCAjAEBGQMCMgYE
+      ZAwIyBgQkDEgIGNAQMaAgIwBARkDAjIGBGQMCMgYEJAxICBjQEDGgICMAQEZAwIyBgRkDAjI
+      GBCQMSAgY0BAxoCAjAEBGQMCMgYEZAwIyBgQkDEgIGNAQMaAgIwBARkDAjIGBGQMCMgYEJAx
+      ICBjQEDGgICMAQEZAwIyBgRkDAjIGBCQMSAgY0BAxoCAjAEBGQMCMgYEZAwIyBgQkDEgIGNA
+      QMaAgIwBARkDAjIGBGQMCMgYEJAxICBjQEDGgICMAQEZAwIyBgRkDAjIGBCQMSAgY0BAxoCA
+      jAEBGQMCMgYEZAwIyBgQkDEgIGNAQMaAgIwBARkDAjIGBGQMCMgYEJAxICBjQEDGgICMAQEZ
+      AwIyBgRkDAjIGBCQMSAgY0BAxoCAjAEBGQMCMgYEZAwIyBgQkDEgIGNAQMaAgIwBARkDAjIG
+      BGQMCMgYEJAxICBjQEDGgICMAQEZAwIyBgRkDAjIGBCQMSAgY0BAxoCAjAEBGQMCMgYEZAwI
+      yBgQkDEgIGNAQMaAgIwBARkDAjIGBGQMCMgYEJAxICBjQEDGgICMAQEZAwIyBgRkDAjIGBCQ
+      MSAgY0BAxoCAjAEBGQMCMgYEZAwIyBgQkDEgIGNAQMaAgIwBARkDAjIGBGQMCMgYEJAxICBj
+      QEDGgICMAQEZAwIyBgRkDAjIGBCQMSAgY0BAxoCAjAEBGQMCMgYEZAwIyBgQkDEgIGNAQMaA
+      gIwBARkDAjIGBGQMCMgYEJAxICBjQEDGgICMAQEZAwIyBgRkDAjIGBCQMSAgY0BAxoCAjAEB
+      GQMCMgYEZAwIyBgQkDEgIGNAQMaAgIwBARkDAjIGBGQMCMgYEJAxICBjQEDGgICMAQEZAwIy
+      BgRkDAjIGBCQMSAgY0BAxoCAjAEBGQMCMgYEZAwIyBgQkDEgIGNAQMaAgIwBARkDAjIGBGQM
+      CMgYEJAxICBjQEDGgICMAQEZAwIyBgRkDAjIGBCQMSAgY0BAxoCAjAEBGQMCMgYEZAwIyBgQ
+      kDEgIGNAQMaAgIwBARkDAjIGBGQMCMgYEJAxICBjQEDGgICMAQEZAwIyBgRkDAjIGBCQMSAg
+      Y0BAxoCAjAEBGQMCMgYEZAwIyBgQkDEgIGNAQMaAgIwBARkDAjIGBGQMCMgYEJAxICBjQEDG
+      gICMAQEZAwIyBgRkDAjIGBCQMSAgY0BAxoCAjAEBGQMCMgYEZAwIyBgQkFn+TAX9KCaHvgAA
+      AABJRU5ErkJggg==
+    </thumbnail>
+  </thumbnails>
+</workbook>

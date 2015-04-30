@@ -46,7 +46,74 @@
   <div class="banner">
     <div class="container">
       <h1>Michaela Hull: Homework 4</h1>
+      <ul class="pull-right">
+        <li><a href="https://github.com/MichaelaHull/MichaelaHull.github.io/blob/master/data_files/homework_4.R">Pre-processing</a></li>
+        <li><a href="https://github.com/MichaelaHull/MichaelaHull.github.io/blob/master/data_files/movies.csv">Data</a></li>
+        <li><a href="https://github.com/MichaelaHull/MichaelaHull.github.io/blob/master/homework4.html">Code</a></li>
+      </ul>
     </div>
+  </div>
+  <div class="section">
+    <div class="container">
+      <h2 align="left">Tableau Prototype</h2>
+      <script type='text/javascript' src='https://public.tableau.com/javascripts/api/viz_v1.js'></script><div class='tableauPlaceholder' style='width: 1004px; height: 869px;'><noscript><a href='#'><img alt='Dashboard 1 ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Ho&#47;Homework4Prototype&#47;Dashboard1&#47;1_rss.png' style='border: none' /></a></noscript><object class='tableauViz' width='1004' height='869' style='display:none;'><param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' /> <param name='site_root' value='' /><param name='name' value='Homework4Prototype&#47;Dashboard1' /><param name='tabs' value='no' /><param name='toolbar' value='yes' /><param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Ho&#47;Homework4Prototype&#47;Dashboard1&#47;1.png' /> <param name='animate_transition' value='yes' /><param name='display_static_image' value='yes' /><param name='display_spinner' value='yes' /><param name='display_overlay' value='yes' /><param name='display_count' value='yes' /><param name='showVizHome' value='no' /><param name='showTabs' value='y' /><param name='bootstrapWhenNotified' value='true' /></object></div>
+    </div>
+  </div>
+
+  <div class="section">
+  <div class="container">
+  <script type="text/javascript">
+  var color_ref = {
+    "Action": "#d95f02",
+    "Animation": "#e6ab02",
+    "Comedy": "#a6761d",
+    "Drama": "#7570b3",
+    "Documentary": "#1b9e77",
+    "Romance": "#e7298a",
+    "Short": "#66a61e"
+  };
+
+  var colors = {
+    "grey":   "#bbbbbb",
+    "blue":   "#377eb8",
+    "purple": "#984ea3",
+    "green":  "#4daf4a",
+    "orange": "#ff7f00"
+  };
+
+  var genres = ["Action", "Animation", "Comedy", "Drama", "Documentary", "Romance", "Short"];
+
+  var svg_ts_height = 400;
+  var svg_ts_width = 800;
+  var svg_brush_height = 100;
+  var svg_bud_height = 300;
+  var svg_bud_width = 500;
+  var svg_rat_height = svg_bud_height;
+  var svg_rat_width = svg_ts_width - svg_bud_width;
+
+  var svg_ts = d3.select("body").append("svg")
+    .attr("height", svg_ts_height)
+    .attr("width", svg_ts_width)
+    .style("border-color", colors.grey)
+    .style("border-width", 1)
+    .style("border-style", "solid");
+
+  var svg_bud = d3.select("body").append("svg")
+    .attr("height", svg_bud_height)
+    .attr("width", svg_bud_width)
+    .style("border-color", colors.grey)
+    .style("border-width", 1)
+    .style("border-style", "solid");
+
+  var svg_rat = d3.select("body").append("svg")
+    .attr("height", svg_rat_height)
+    .attr("width", svg_rat_width)
+    .style("border-color", colors.grey)
+    .style("border-width", 1)
+    .style("border-style", "solid");
+
+  </script>
+  </div>
   </div>
 
 </body>
