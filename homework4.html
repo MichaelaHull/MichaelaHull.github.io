@@ -84,36 +84,303 @@
   var genres = ["Action", "Animation", "Comedy", "Drama", "Documentary", "Romance", "Short"];
 
   var svg_ts_height = 400;
-  var svg_ts_width = 800;
-  var svg_brush_height = 100;
+  var svg_ts_width = 850;
   var svg_bud_height = 300;
   var svg_bud_width = 500;
   var svg_rat_height = svg_bud_height;
   var svg_rat_width = svg_ts_width - svg_bud_width;
+  var margin = 30;
+  var lab_space = 50;
+  var radius = 3;
+
+  var plot_ts_height = svg_ts_height - 2*margin;
+  var plot_ts_width = svg_ts_width - 2*margin - lab_space;
+  var plot_bud_height = svg_bud_height - 2*margin;
+  var plot_bud_width = svg_bud_width - 2*margin - lab_space;
+  var plot_rat_height = svg_rat_height - 2*margin;
+  var plot_rat_width = svg_rat_width - 2*margin - lab_space;
 
   var svg_ts = d3.select("body").append("svg")
     .attr("height", svg_ts_height)
-    .attr("width", svg_ts_width)
-    .style("border-color", colors.grey)
-    .style("border-width", 1)
-    .style("border-style", "solid");
+    .attr("width", svg_ts_width);
+
+  var plot_ts = svg_ts.append("g");
+  plot_ts.attr("transform", "translate(" + (margin + lab_space) + "," + margin + ")");
+
 
   var svg_bud = d3.select("body").append("svg")
     .attr("height", svg_bud_height)
-    .attr("width", svg_bud_width)
-    .style("border-color", colors.grey)
-    .style("border-width", 1)
-    .style("border-style", "solid");
+    .attr("width", svg_bud_width);
+
+  var plot_bud = svg_bud.append("g");
+  plot_bud.attr("transform", "translate(" + (margin + lab_space) + "," + margin + ")");
+
 
   var svg_rat = d3.select("body").append("svg")
     .attr("height", svg_rat_height)
-    .attr("width", svg_rat_width)
-    .style("border-color", colors.grey)
-    .style("border-width", 1)
-    .style("border-style", "solid");
+    .attr("width", svg_rat_width);
 
+  var plot_rat = svg_rat.append("g");
+  plot_rat.attr("transform", "translate(" + (margin + lab_space) + "," + margin + ")");
+
+
+  var bar_keys = ["Animation", "Action", "Romance", "Comedy", "Drama", "Documentary", "Short"];
+  var bar_dict = [];
+  var b;
+  for (b in bar_keys) {
+    d = {}
+    d["id"] = bar_keys[b];
+    d["count"] = 0;
+    d["budget_tot"] = 0;
+    bar_dict.push(d);
+  };
+
+  function bar_plot(dict, keys, plot_space, plot_height, plot_width) {
+    var n = keys.length;
+    var height = .8
+    var x = d3.scale.linear()
+      .domain([0, 33265530])
+      .range([0, plot_width]);
+
+    var y = d3.scale.linear()
+      .domain([0, n])
+      .range([0, plot_height]);
+
+    var yScale = d3.scale.ordinal()
+      .domain(keys)
+      .rangeRoundBands([0, y(n)]);
+
+    var xAxis = d3.svg.axis()
+      .scale(x)
+      .orient("top")
+      .ticks(n + 1);
+
+    var yAxis = d3.svg.axis()
+      .scale(yScale)
+      .orient("left")
+      .ticks(0);
+
+    var boxes = plot_space.selectAll("rect")
+      .data(dict, function (d) {
+        return d.id; 
+      })
+      .enter();
+    boxes.append("rect")
+      .attr("y", function (d, i) { return y(i + 0.1); })
+      .attr("height", y(height))
+      .attr("x", function (d, i) { return x(0); })
+      .attr("width", function (d, i) { return x(d.budget_tot/d.count); })
+      .attr("fill", function (d, i) { return color_ref[d.id]; })
+      .attr("opacity", 0.7);
+
+    plot_space.append("g")
+      .attr("class", "y axis")
+      .call(yAxis);
+
+    plot_space.append("g")
+      .attr("class", "x axis")
+      .call(xAxis);
+
+    plot_space.append("text")
+      .attr("transform", "translate(" + plot_width / 2 + ", -22)")
+      .style("text-anchor", "middle")
+      .style("font-size", "10px")
+      .style("font-weight", "bold")
+      .style("font-family", "sans-serif")
+      .text("Average Budget (Dollars)");
+  };
+
+  function time_line(variable, plot_space, plot_height, plot_width, data) {
+    var x = d3.scale.linear()
+      .range([0, plot_width])
+      .domain([1900, 2005]);
+
+    var y = d3.scale.linear()
+      .range([plot_height, 0])
+      .domain([0, 182]);
+
+    var line = d3.svg.line()
+      .x(function (d) { return x(d.year); })
+      .y(function (d) { return y(d[variable]); })
+
+    plot_space.append("path")
+      .datum(data)
+      .attr("class", "line")
+      .attr("d", line)
+      .attr("stroke", color_ref[variable])
+      .attr("fill", "none")
+      .attr("stroke-width", "2px");
+  };
+
+  d3.csv("data_files/movies.csv", function (error, data) {
+    data.forEach(function (d) {
+      d.id = d.id;
+      d.title = d.title;
+      d.year = + d.year;
+      d.length = + d.length;
+      d.budget = + d.budget;
+      d.rating = + d.rating;
+      d.Action = + d.Action;
+      d.Animation = + d.Animation;
+      d.Comedy = + d.Comedy;
+      d.Drama = + d.Drama;
+      d.Documentary = + d.Documentary;
+      d.Romance = + d.Romance;
+      d.Short = + d.Short;
+      d.Category = d.Category;
+      var u = bar_keys.indexOf(d.Category);
+      bar_dict[u]['count'] = bar_dict[u]['count'] + 1;
+      bar_dict[u]["budget_tot"] = bar_dict[u]["budget_tot"] + d.budget;
+    });
+    console.log("Bar Dict", bar_dict);
+    bar_plot(bar_dict, bar_keys, plot_bud, plot_bud_height, plot_bud_width);
+    var x = d3.scale.linear()
+      .domain([0, 390])
+      .range([0, plot_rat_width]);
+
+    var y = d3.scale.linear()
+      .domain([0, 10])
+      .range([plot_rat_height, 0]);
+
+    var xAxis = d3.svg.axis()
+      .scale(x)
+      .orient("bottom");
+
+    var yAxis = d3.svg.axis()
+      .scale(y)
+      .orient("left");
+
+    var dots = plot_rat.selectAll("circle")
+      .data(data, function (d) {
+        return d.id
+      })
+      .enter();
+
+    dots.append("circle")
+      .attr("cx", function (d) { return x(d.length); })
+      .attr("cy", function (d) { return y(d.rating); })
+      .attr("r", radius)
+      .attr("fill", "#4D4D94")
+      .attr("opacity", 0.4);
+
+    plot_rat.append("g")
+      .attr("class", "x axis")
+      .attr("transform", "translate(0," + plot_rat_height + ")")
+      .call(xAxis);
+
+    plot_rat.append("text")
+      .attr("transform", "translate(" + plot_rat_width / 2 + "," + (plot_rat_height + 27) + ")")
+      .style("text-anchor", "middle")
+      .style("font-size", "11px")
+      .style("font-family", "sans-serif")
+      .text("Movie Length (Minutes)");
+
+    plot_rat.append("g")
+      .attr("class", "y axis")
+      .call(yAxis);
+
+    plot_rat.append("text")
+      .attr("transform", "translate(-30, 10) rotate(-90)")
+      .attr("text-anchor", "end")
+      .style("font-size", "11px")
+      .style("font-family", "sans-serif")
+      .text("Movie Rating");
+  });
+
+  d3.csv("data_files/movie_ts.csv", function (error, data) {
+    data.forEach(function (d) {
+      d.year = + d.year;
+      d.Action = d.Action;
+      d.Animation = d.Animation;
+      d.Comedy = d.Comedy;
+      d.Drama = d.Drama;
+      d.Documentary = d.Documetary;
+      d.Romance = d.Romance;
+      d.Short = d.Short;
+    });
+
+    var genre;
+    for (genre in genres) {
+      time_line(genres[genre], plot_ts, plot_ts_height, plot_ts_width, data);
+      plot_ts.append("rect")
+        .attr("x", 20)
+        .attr("width", 14)
+        .attr("y", function (d) {
+          return (genre*15 + 20)
+        })
+        .attr("height", 14)
+        .attr("fill", color_ref[genres[genre]])
+        .attr("opacity", 0.8);
+      plot_ts.append("text")
+        .attr("x", 40)
+        .attr("y", function (d) {
+          return (genre*15 + 31)
+        })
+        .attr("text-anchor", "beginning")
+        .attr("font-size", "11px")
+        .text(genres[genre]);
+    };
+
+    var x = d3.scale.linear()
+      .range([0, plot_ts_width])
+      .domain([1900, 2005]);
+
+    var y = d3.scale.linear()
+      .range([plot_ts_height, 0])
+      .domain([0, 182]);
+
+    var xAxis = d3.svg.axis()
+      .scale(x)
+      .orient("bottom");
+
+    var yAxis = d3.svg.axis()
+      .scale(y)
+      .orient("left");
+
+    plot_ts.append("g")
+      .attr("class", "x axis")
+      .attr("transform", "translate(0," + plot_ts_height + ")")
+      .call(xAxis);
+
+    plot_ts.append("g")
+      .attr("class", "y axis")
+      .call(yAxis);
+
+    plot_ts.append("text")
+      .attr("transform", "translate(-30, 10) rotate(-90)")
+      .attr("text-anchor", "end")
+      .attr("font-size", "12px")
+      .text("Number of Movies Made");
+
+    plot_ts.append("text")
+      .attr("transform", "translate(" + plot_ts_width / 2 + ", 0)")
+      .attr("font-size", "13px")
+      .attr("font-weight", "bold")
+      .attr("text-anchor", "middle")
+      .text("Genre of Movies Made Annually from 1903 to 2005");
+    
+  });
+
+//for time series
+  // 
   </script>
   </div>
+  </div>
+  <div class="section">
+    <div class="container">
+      <h2 align="left">Basic Functionality</h2>
+      <ul>
+        <li align="left">Time series of types of movies each year</li>
+        <li align="left">Bar plot of average budget of movies by category</li>
+        <li align="left">Scatterplot of movie rating and movie length in minutes</br>
+        Note: I considered putting more information in this plot, but there are too many points for it to be meaningful</li>
+        <li align="left">Some interactivity, but not between plots--tool tips are personalized to reflect the information that is in the plot as well as some information that might not be in the plot (such as the name of the movie for the scatterplot)</li>
+      </ul>
+      <h2 align="left">Moderate Functionality</h2>
+      <p align="left">My D3.js dashboard is pretty much exactly the same as my dashboard in Tableau, but it is not interactive. I also toned down some of the colors a little so that they are not quite so overwhelming, especially in the bar plot. I also included opacity in the scatterplot to that there is some sense of the density of points.</p>
+      <h2 align="left">Data Preprocessing</h2>
+      <p align="left">Given the large amount of missing information (in particular with regard to budgets), I subsetted the data to remove all movies with missing budget values. This also meant that I was dealing with a more manageable number of entries with which to graph. I added a categorical column showing the category of each of the movies. Because some of the movies were more than one category, this slightly increased the number of entries (note: I took care to make sure that this did not affect the numbers in the graph). Given this, I added an ID number. Using SQL I also manually created a time series rather than attempting to do that in D3, grouping by year and summing the various movie categories. All preprocessing code can be found <a href="https://github.com/MichaelaHull/MichaelaHull.github.io/blob/master/data_files/homework_4.R">here</a>.</p>
+    </div>
   </div>
 
 </body>

@@ -25,6 +25,9 @@ romance <- mutate(romance, Category = 'Romance')
 short <- filter(data_nona, Short == 1)
 short <- mutate(short, Category = 'Short')
 data_nona <- rbind(action, animation, comedy, drama, doc, romance, short)
+data_nona1 <- filter(data_nona, mpaa != '')
+ids <- seq(1, by = 1, length.out = nrow(data_nona))
+data_nona['id'] <- ids
 write.csv(data_nona, 'movies.csv', row.names=FALSE)
 
 movie_ts <- sqldf("SELECT year, sum(Action), sum(Animation), sum(Comedy), sum(Drama), sum(Documentary),
