@@ -31,7 +31,7 @@ data_nona['id'] <- ids
 write.csv(data_nona, 'movies.csv', row.names=FALSE)
 
 movie_ts <- sqldf("SELECT year, sum(Action), sum(Animation), sum(Comedy), sum(Drama), sum(Documentary),
-            sum(Romance), sum(Short), avg(budget), avg(length), avg(rating) FROM data_nona GROUP BY year")
+            sum(Romance), sum(Short) FROM data_nona GROUP BY year")
 names(movie_ts) <- c('year', 'Action', 'Animation', 'Comedy', 'Drama', 'Documentary', 'Romance', 'Short',
                      'avg_budget', 'avg_length', 'avg_rating')
 write.csv(movie_ts, 'movie_ts.csv', row.names=FALSE)

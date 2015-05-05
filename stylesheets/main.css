@@ -82,6 +82,9 @@
 .section .container {
 	padding: 20px;
   }
+.section .container .left {
+	float: left;
+}
 .section h1 {
 	color: #333333;
 	font-size: 30px;

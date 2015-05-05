@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-quiv="X-UA-Compatible" content="IE-edge">
+  <meta name="viewpoint" content="width=device-width, initial-scale=1">
+
+  <title>Project Prototype</title>
+  
+  <link rel="stylesheet" href="http://s3.amazonaws.com/codecademy-content/courses/ltp/css/bootstrap.css">
+  <link rel="stylesheet" href="stylesheets/main.css">
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+  <link href="http://s3.amazonaws.com/codecademy-content/courses/ltp/css/shift.css" rel="stylesheet">
+  <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+  <script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
+  <style type="text/css">
+
+  </style>
+</head>
+<body align="center">
+
+<!--NAVIGATIONBAR-->
+  <div class="nav">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-0">
+        <ul class="pull-left">
+          <li><a href="http://MichaelaHull.github.io#homework">Homework</a></li>
+          <li><a href="http://MichaelaHull.github.io#projects">Projects</a></li>
+          <li><a href="http://MichaelaHull.github.io#participation">Participation</a></li>
+        </ul>
+        </div>
+        <div class="col-md-0">
+        <ul class="pull-right">
+          <li><a href="http://MichaelaHull.github.io#about">About</a></li>
+          <li><a href="http://MichaelaHull.github.io#contact">Contact</a></li>
+          <li><a href="http://MichaelaHull.github.io">Home</a></li>
+        </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<!--BANNER-->
+  <div class="banner">
+    <div class="container">
+      <h1>Michaela Hull: Project Prototype</h1>
+      <ul class="pull-right">
+      	<li><a href="">Code</a></li>
+      	<li><a href="">Data</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section">
+  <div class="container">
+  <div class="left">
+  <script type="text/javascript">
+  var svg_ts_height = 400;
+  var svg_ts_width = 850;
+  var margin = 30;
+  var lab_margin = 80;
+  var svg_map_height = 400;
+  var svg_map_width = 400;
+  var svg_ff_height = svg_map_height;
+  var svg_ff_width = svg_ts_width - svg_map_width;
+  var svg_brush_height = 100;
+  var svg_brush_width = svg_ts_width;
+
+  var plot_ts_height = svg_ts_height - 2*margin;
+  var plot_ts_width = svg_ts_width - 2*margin;
+  var plot_map_height = svg_map_height - 2*margin;
+  var plot_map_width = svg_map_width - 2*margin;
+  var plot_freq_height = 280 - 2*margin;
+  var plot_freq_width = svg_ff_width - lab_margin - margin;
+  var plot_filter_height = svg_ff_height - 4*margin - plot_freq_height;
+  var plot_filter_width = svg_ff_width - 2*margin;
+  var plot_brush_height = svg_brush_height - 2*margin;
+  var plot_brush_width = plot_ts_width;
+
+  var svg_map = d3.select("body").append("svg")
+  	.attr("height", svg_map_height)
+  	.attr("width", svg_map_width)
+  	.style("border-width", "1px")
+  	.style("border-fill", "black")
+  	.style("border-style", "solid");
+
+  var plot_map = svg_map.append("g")
+  	.attr("transform", "translate(" + margin + "," + margin + ")");
+
+  var svg_ff = d3.select("body").append("svg")
+  	.attr("height", svg_ff_height)
+  	.attr("width", svg_ff_width)
+  	.style("border-width", "1px")
+  	.style("border-fill", "black")
+  	.style("border-style", "solid");
+
+  var plot_freq = svg_ff.append("g")
+  	.attr("transform", "translate(" + lab_margin + "," + margin + ")");
+
+  var plot_filter = svg_ff.append("g")
+  	.attr("transform", "translate(" + margin + "," + (3*margin + plot_freq_height) + ")");
+
+  var svg_ts = d3.select("body").append("svg")
+  	.attr("height", svg_ts_height)
+  	.attr("width", svg_ts_width)
+  	.style("border-width", "1px")
+  	.style("border-fill", "black")
+  	.style("border-style", "solid");
+
+  var plot_ts = svg_ts.append("g")
+  	.attr("transform", "translate(" + margin + "," + margin + ")");
+
+  var svg_brush = d3.select("body").append("svg")
+  	.attr("height", svg_brush_height)
+  	.attr("width", svg_brush_width)
+  	.style("border-width", "1px")
+  	.style("border-fill", "black")
+  	.style("border-style", "solid");
+
+  var plot_brush = svg_brush.append("g")
+  	.attr("transform", "translate(" + margin + "," + margin + ")");
+
+  var color_ref = {
+  	"Other": "#e6ab02",
+  	"Theft": "#7570b3",
+  	"Controlled": "#d95f02",
+  	"Assault": "#e7298a",
+  	"Kidnapping": "#66a61e",
+  	"Conduct": "#1b9e77"
+  };
+
+  var colors = {
+    "grey":   "#bbbbbb",
+    "blue":   "#4D4D94",
+    "purple": "#A37ACC",
+    "green":  "#33AD5C",
+    "orange": "#CCA300"
+  };
+
+  var districts = ["Southern", "Mission", "Northern", "Central", "Bayview",
+  	"Ingleside", "Tenderloin", "Taraval", "Park", "Richmond"];
+
+  var district_dict = [];
+
+  function count_start(keys, dict, thing) {
+  	var k;
+  	for (k in keys) {
+  		var u = {};
+  		u[thing] = keys[k];
+  		u["count"] = 0;
+  		dict.push(u);
+  	};
+  };
+
+  count_start(districts, district_dict, "district");
+
+  var date_format = d3.time.format("%m/%d/%Y");
+  var date_time = d3.time.format("%Y-%m-%d %H:%M:%S")
+
+  d3.csv("data_files/sfpd_incidents_2014.csv", function (error, data) {
+  	data.forEach(function (d) {
+  	  d.IncidntNum = d.IncidntNum;
+  	  d.Category = d.Category;
+  	  d.Descript = d.Descript;
+  	  d.DayOfWeek = d.DayOfWeek;
+  	  d.Date = date_format.parse(d.Date);
+  	  d.Time = d.Time;
+  	  d.PdDistrict = d.PdDistrict;
+  	  d.Resolution = d.Resolution;
+  	  d.X = + d.X;
+  	  d.Y = + d.Y;
+  	  d.gen_cat = d.gen_cat;
+  	  d.datetime = date_time.parse(d.datetime);
+  	  var u = districts.indexOf(d.PdDistrict);
+  	  district_dict[u]["count"] = district_dict[u]["count"] + 1;
+  	});
+  	console.log("Districts:", district_dict);
+  	var x_freq = d3.scale.linear()
+  		.domain([0, 28871])
+  		.range([0, plot_freq_width]);
+  	var y_freq_scale = d3.scale.linear()
+  		.domain([0, districts.length])
+  		.range([0, plot_freq_height]);
+  	var y_freq = d3.scale.ordinal()
+  		.domain(districts)
+  		.rangeRoundBands([0, y_freq_scale(districts.length)]);
+
+  	var xAxis_freq = d3.svg.axis()
+  		.scale(x_freq)
+  		.orient("top");
+
+  	var yAxis_freq = d3.svg.axis()
+  		.scale(y_freq)
+  		.orient("left")
+  		.ticks(0);
+
+  	var boxes = plot_freq.selectAll("rect")
+  		.data(district_dict, function (d) {
+  			return d.district;
+  		})
+  		.enter();
+  	boxes.append("rect")
+  		.attr("y", function (d, i) { return y_freq_scale(i + 0.1); })
+  		.attr("x", 0)
+  		.attr("height", y_freq_scale(0.8))
+  		.attr("width", function (d, i) { return x_freq(+d.count); })
+  		.attr("fill", "#4D4D94")
+  		.attr("opacity", 0.7);
+
+  	plot_freq.append("g")
+  		.attr("class", "y axis")
+  		.call(yAxis_freq);
+
+  	plot_freq.append("g")
+  		.attr("class", "x axis")
+  		.call(xAxis_freq);
+
+  	var x_map_domain = d3.extent(data, function (d) { return d.X; });
+  	var y_map_domain = d3.extent(data, function (d) { return d.Y; });
+  	var x_map = d3.scale.linear()
+  		.domain(x_map_domain)
+  		.range([0, plot_map_width]);
+  	var y_map = d3.scale.linear()
+  		.domain(y_map_domain)
+  		.range([plot_map_height, 0]);
+  	var radius = 2;
+
+  	var dots = plot_map.selectAll("circle")
+  		.data(data, function (d, i) {
+  			return d.PdId;
+  		})
+  		.enter();
+  	dots.append("circle")
+  		.attr("r", radius)
+  		.attr("cx", function (d, i) { return x_map(d.X); })
+  		.attr("cy", function (d, i) { return y_map(d.Y); })
+  		.attr("fill", function (d, i) { return color_ref[d.gen_cat]; })
+  		.attr("opacity", 0.1);
+
+  });
+
+  </script>	
+  </div>	
+  </div>
+  </div>
+
+</body>
+</head>
+</html>
