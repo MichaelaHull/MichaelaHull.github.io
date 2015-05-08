@@ -213,7 +213,7 @@
 
   var color = d3.scale.ordinal()
     .domain(crimes)
-    .range(["#e6ab02", "#7570b3", "#d95f02", "#e7298a", "#66a61e", "#1b9e77"]);
+    .range(["#e6ab02", "#7570b3", "#1b9e77", "#e7298a", "#66a61e", "#d95f02"]);
 
   d3.csv("data_files/sfpd_incidents_2014.csv", function (error, data) {
   	data.forEach(function (d) {
