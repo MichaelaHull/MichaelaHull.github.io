@@ -79,7 +79,7 @@
   var svg_brush_width = svg_ts_width;
 
   var plot_ts_height = svg_ts_height - 2*margin;
-  var plot_ts_width = svg_ts_width - 2*margin;
+  var plot_ts_width = svg_ts_width - margin - lab_margin;
   var plot_map_height = svg_map_height - 2*margin;
   var plot_map_width = svg_map_width - 2*margin;
   var plot_crime_height = svg_crime_height - 2*margin;
@@ -140,7 +140,7 @@
   	.style("border-style", "solid");
 
   var plot_ts = svg_ts.append("g")
-  	.attr("transform", "translate(" + margin + "," + margin + ")");
+  	.attr("transform", "translate(" + lab_margin + "," + margin + ")");
 
   var svg_brush = d3.select("body").append("svg")
   	.attr("height", svg_brush_height)
@@ -150,7 +150,7 @@
   	.style("border-style", "solid");
 
   var plot_brush = svg_brush.append("g")
-  	.attr("transform", "translate(" + margin + "," + margin + ")");
+  	.attr("transform", "translate(" + lab_margin + "," + margin + ")");
 
   // Working on making a map of San Francisco
 
@@ -219,6 +219,10 @@
   var date_format = d3.time.format("%m/%d/%Y");
   var date_time = d3.time.format("%Y-%m-%d %H:%M:%S")
 
+  var color = d3.scale.ordinal()
+    .domain(crimes)
+    .range(["#e6ab02", "#7570b3", "#d95f02", "#e7298a", "#66a61e", "#1b9e77"]);
+
   d3.csv("data_files/sfpd_incidents_2014.csv", function (error, data) {
   	data.forEach(function (d) {
   	  d.IncidntNum = d.IncidntNum;
@@ -238,8 +242,6 @@
       var v = crimes.indexOf(d.gen_cat);
       crime_dict[v]["count"] = crime_dict[v]["count"] + 1;
   	});
-  	console.log("Districts:", district_dict);
-    console.log("Crimes:", crime_dict);
   	var x_freq = d3.scale.linear()
   		.domain([0, 28871])
   		.range([0, plot_hood_width]);
@@ -310,7 +312,7 @@
       .attr("x", 0)
       .attr("height", y_crime_scale(0.8))
       .attr("width", function (d, i) { return x_crime(+d.count); })
-      .attr("fill", function (d, i) { return color_ref[d.gen_cat]; })
+      .attr("fill", function (d, i) { return color(d.gen_cat); })
       .attr("opacity", 0.7);
 
     plot_crime.append("g")
@@ -343,12 +345,10 @@
   		.attr("r", radius)
   		.attr("cx", function (d, i) { return x_map(d.X); })
   		.attr("cy", function (d, i) { return y_map(d.Y); })
-  		.attr("fill", function (d, i) { return color_ref[d.gen_cat]; })
-  		.attr("opacity", 0.1);
+  		.attr("fill", function (d, i) { return color(d.gen_cat); })
+  		.attr("opacity", 0.2);
 
   });
-
-  var line = d3.svg.line();
 
   function line_plot(variable, plotspace, data, xscale, yscale) {
     line.x(function (d, i) { return xscale(d.Date)})
@@ -380,6 +380,10 @@
     .scale(x_ts)
     .orient("bottom");
 
+  var xAxis_brush_ts = d3.svg.axis()
+    .scale(x_brush_ts)
+    .orient("bottom");
+
   var yAxis_ts = d3.svg.axis()
     .scale(y_ts)
     .orient("left");
@@ -393,7 +397,16 @@
     .x(x_brush_ts)
     .on("brush", brushed);
 
-  var lines = plot_ts.selectAll("path")
+  var line = d3.svg.line()
+    .interpolate("basis")
+    .x(function (d, i) { return x_ts(d.Date); })
+    .y(function (d, i) { return y_ts(d.rate); })
+
+  var line_brush = d3.svg.line()
+    .interpolate("basis")
+    .x(function (d, i) { return x_brush_ts(d.Date); })
+    .y(function (d, i) { return y_brush_ts(d.rate); })
+
 
   d3.csv("data_files/sfpd_incidents_2014_ts_crime.csv", function (error, data) {
     data.forEach(function (d) {
@@ -405,33 +418,49 @@
       d.Controlled = + d.Controlled;
       d.Kidnapping = + d.Kidnapping;
     });
-    console.log("TS:", data);
     
-
     var time_domain = d3.extent(data, function (d, i) { return d.Date; });
 
     x_ts.domain(time_domain);
     x_brush_ts.domain(time_domain);
 
-    lines.data(data, function (d, i) { return d.Date; })
-      .enter();
+    var crime = color.domain().map(function (name) {
+      return {
+        name: name,
+        values: data.map(function (d, i) {
+          return {Date: d.Date, rate: +d[name]};
+        })
+      };
+    });
+    console.log("Crime", crime);
 
-    var c;
+    var crime_series = plot_ts.selectAll(".crime_series")
+      .data(crime)
+      .enter()
+      .append("g")
+      .attr("class", "crime_series");
 
-    // lines.append("path")
-    //   .attr("class", "line")
-    //   .attr("d", d3.svg.line()
-    //     .x(function (d, i) { return x_ts(d.Date); })
-    //     .y(function (d, i) { return y_ts(d[crimes[c]]); }))
-    //   .attr("fill", "none")
-    //   .attr("stroke", color_ref[crimes[c]])
-    //   .attr("stroke-width", "1.5px");
+    crime_series.append("path")
+      .attr("class", "line")
+      .attr("d", function (d, i) { return line(d.values); })
+      .style("fill", "none")
+      .style("stroke-width", "1.5px")
+      .style("opacity", 0.8)
+      .style("stroke", function (d, i) { return color(d.name); });
 
-    // var c;
-    for (c in crimes) {
-      line_plot(crimes[c], plot_ts, data, x_ts, y_ts);
-      line_plot(crimes[c], plot_brush, data, x_brush_ts, y_brush_ts);
-    };
+    var crime_brush = plot_brush.selectAll(".crime_brush")
+      .data(crime)
+      .enter()
+      .append("g")
+      .attr("class", "crime_brush");
+
+    crime_brush.append("path")
+      .attr("class", "line")
+      .attr("d", function (d, i) { return line_brush(d.values); })
+      .style("fill", "none")
+      .style("stroke-width", "1.5px")
+      .style("opacity", 0.8)
+      .style("stroke", function (d, i) { return color(d.name); });
 
     plot_brush.append("g")
       .attr("class", "x brush")
@@ -439,13 +468,32 @@
       .selectAll("rect")
       .attr("y", -6)
       .attr("height", plot_brush_height + 7);
+
+    plot_ts.append("g")
+      .attr("class", "x axis")
+      .attr("transform", "translate(0," + plot_ts_height + ")")
+      .call(xAxis_ts);
+
+    plot_ts.append("g")
+      .attr("class", "y axis")
+      .call(yAxis_ts);
+
+    plot_brush.append("g")
+      .attr("class", "x axis")
+      .attr("transform", "translate(0," + plot_brush_height + ")")
+      .call(xAxis_brush_ts);
+
+    plot_brush.append("g")
+      .attr("class", "y axis")
+      .call(yAxis_brush_ts);
+
   });
 
   function brushed() {
     x_ts.domain(brush.empty() ? x_brush_ts.domain() : brush.extent());
-    plot_ts.select(".line").attr("d", line);
+    plot_ts.select(".line").attr("d", function (d, i) { return line(d.values); });
     plot_ts.select(".x.axis").call(xAxis_ts);
-  }
+  };
 
   </script>	
   </div>
