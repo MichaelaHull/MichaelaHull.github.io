@@ -21,6 +21,10 @@
     fill-opacity: .125;
     shape-rendering: crispEdges;
   }
+
+  .area {
+    clip-path: url(#clip);
+  }
   </style>
 </head>
 <body align="center">
@@ -93,30 +97,21 @@
 
   var svg_map = d3.select("body").append("svg")
   	.attr("height", svg_map_height)
-  	.attr("width", svg_map_width)
-  	.style("border-width", "1px")
-  	.style("border-fill", "black")
-  	.style("border-style", "solid");
+  	.attr("width", svg_map_width);
 
   var plot_map = svg_map.append("g")
   	.attr("transform", "translate(" + margin + "," + margin + ")");
 
   var svg_var = d3.select("body").append("svg")
   	.attr("height", svg_var_height)
-  	.attr("width", svg_var_width)
-  	.style("border-width", "1px")
-  	.style("border-fill", "black")
-  	.style("border-style", "solid");
+  	.attr("width", svg_var_width);
 
   var plot_var = svg_var.append("g")
   	.attr("transform", "translate(" + margin + "," + margin + ")");
 
   var svg_crime = d3.select("body").append("svg")
     .attr("height", svg_crime_height)
-    .attr("width", svg_crime_width)
-    .style("border-width", "1px")
-    .style("border-fill", "black")
-    .style("border-style", "solid");
+    .attr("width", svg_crime_width);
 
   var plot_crime = svg_crime.append("g")
     .attr("transform", "translate(" + 2*lab_margin + "," + margin + ")");
@@ -124,20 +119,19 @@
 
   var svg_hood = d3.select("body").append("svg")
     .attr("height", svg_hood_height)
-    .attr("width", svg_hood_width)
-    .style("border-width", "1px")
-    .style("border-fill", "black")
-    .style("border-style", "solid");
+    .attr("width", svg_hood_width);
 
   var plot_hood = svg_hood.append("g")
     .attr("transform", "translate(" + lab_margin + "," + margin + ")");
 
   var svg_ts = d3.select("body").append("svg")
   	.attr("height", svg_ts_height)
-  	.attr("width", svg_ts_width)
-  	.style("border-width", "1px")
-  	.style("border-fill", "black")
-  	.style("border-style", "solid");
+  	.attr("width", svg_ts_width);
+  svg_ts.append("defs").append("clipPath")
+    .attr("id", "clip")
+    .append("rect")
+    .attr("width", plot_ts_width)
+    .attr("height", plot_ts_height);
 
   var plot_ts = svg_ts.append("g")
   	.attr("transform", "translate(" + lab_margin + "," + margin + ")");
@@ -145,9 +139,7 @@
   var svg_brush = d3.select("body").append("svg")
   	.attr("height", svg_brush_height)
   	.attr("width", svg_brush_width)
-  	.style("border-width", "1px")
-  	.style("border-fill", "black")
-  	.style("border-style", "solid");
+  	.style("border-width", "1px");
 
   var plot_brush = svg_brush.append("g")
   	.attr("transform", "translate(" + lab_margin + "," + margin + ")");
@@ -313,7 +305,7 @@
       .attr("height", y_crime_scale(0.8))
       .attr("width", function (d, i) { return x_crime(+d.count); })
       .attr("fill", function (d, i) { return color(d.gen_cat); })
-      .attr("opacity", 0.7);
+      .attr("opacity", 0.9);
 
     plot_crime.append("g")
       .attr("class", "x axis")
@@ -350,18 +342,6 @@
 
   });
 
-  function line_plot(variable, plotspace, data, xscale, yscale) {
-    line.x(function (d, i) { return xscale(d.Date)})
-      .y(function (d, i) { return yscale(d[variable])});
-    plotspace.append("path")
-      .datum(data)
-      .attr("class", "line")
-      .attr("d", line)
-      .attr("fill", "none")
-      .attr("stroke", function (d, i) { return color_ref[variable]; })
-      .attr("stroke-width", "1.5px");
-  };
-
   var x_ts = d3.time.scale()
     .range([0, plot_ts_width]);
 
@@ -391,7 +371,7 @@
   var yAxis_brush_ts = d3.svg.axis()
     .scale(y_brush_ts)
     .orient("left")
-    .ticks(1);
+    .ticks(0);
 
   var brush = d3.svg.brush()
     .x(x_brush_ts)
@@ -478,6 +458,13 @@
       .attr("class", "y axis")
       .call(yAxis_ts);
 
+    plot_ts.append("text")
+      .attr("transform", "translate(-28,0) rotate(-90)")
+      .style("text-anchor", "end")
+      .style("font-size", "10px")
+      .style("font-weight", "bold")
+      .text("Number of Crimes Committed");
+
     plot_brush.append("g")
       .attr("class", "x axis")
       .attr("transform", "translate(0," + plot_brush_height + ")")
@@ -491,7 +478,7 @@
 
   function brushed() {
     x_ts.domain(brush.empty() ? x_brush_ts.domain() : brush.extent());
-    plot_ts.select(".line").attr("d", function (d, i) { return line(d.values); });
+    plot_ts.selectAll(".line").attr("d", function (d, i) { return line(d.values); });
     plot_ts.select(".x.axis").call(xAxis_ts);
   };
 
