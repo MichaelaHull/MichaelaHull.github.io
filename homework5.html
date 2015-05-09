@@ -50,16 +50,16 @@
     <div class="container">
       <h1>Michaela Hull: Homework 5</h1>
       <ul class="pull-right">
-      	<li><a href="">Code</a></li>
-      	<li><a href="">Data</a></li>
+      	<li><a href="https://github.com/MichaelaHull/MichaelaHull.github.io/blob/master/homework5.html">Code</a></li>
+      	<li><a href="https://github.com/MichaelaHull/MichaelaHull.github.io/blob/master/data_files/4.5_month.csv">Data</a></li>
       </ul>
     </div>
   </div>
 
-  <div class="section">
-  <div class="container">
-  <div id="block">
-<svg id="map" width="940" height="480"></svg>
+<div class="section">
+<div class="container">
+<div id="block">
+<svg id="map" width="860" height="550"></svg>
 <p id="log">Loading map... please wait.</p>
 </div>
 
@@ -82,7 +82,7 @@ var url = {
 var chart = symbolMap();
 
 // Update how we access data (need the precip property)
-chart = chart.value(function(d) { return d.precip; });
+chart = chart.value(function(d) { return d.mag; });
 
 // Nested calls to trigger drawing in proper order
 d3.json(url.world, function(mapError, mapJSON) {
@@ -111,6 +111,26 @@ d3.json(url.world, function(mapError, mapJSON) {
 
 </script>
  </div>
+ </div>
+
+ <div class="section">
+ 	<div class="container">
+ 		<h3 align="left">Basic Functionality</h3>
+ 		<ul>
+ 			<li align="left">Switched to the d3.geo.mercator() projection</li>
+ 			<li align="left">Changed the scale so that it is more appropriate for my needs while not emphasizing the poles too much</li>
+ 			<li align="left">Updated the appropriate viariable names</li>
+ 			<li align="left">Commented out code regarding American states, which is to say code which is not relevant for our purposes</li>
+ 			<li align="left">The text at the bottom updates to something which is more appropriate for this visualization giving the location, magnitude, and depth of the earthquake</li>
+ 		</ul>
+ 		<h3 align="left">Moderate Functionality</h3>
+ 		<ul>
+ 			<li align="left">The earthquakes are shown using a linear color scale which indicates the depth of the earthquake</li>
+ 			<li align="left">The dots are made less opaque and given a fine border so that more than overlapping earthquake dots are not entirely obscured and so they are not lost given that most of them now have a pale color</li>
+ 		</ul>
+ 		<h3 align="left">About this graph</h3>
+ 		<p align="left">The only interactivity with this graph comes from the hover/tool tip, which allows the viewer to see greater detail regarding an earthquake of interest.</p>
+ 	</div>
  </div>
 
 </body>

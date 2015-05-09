@@ -74,8 +74,8 @@ function symbolMap() {
         // update project scale
         // (this may need to be customized for different projections)
         var projection = d3.geo.mercator()//projection.scale(bbox.width);
-            .scale((bbox.width + 1) / 2 / Math.PI)
-            .translate([bbox.width / 2, bbox.height / 2])
+            .scale((bbox.width -39) / 2 / Math.PI)
+            .translate([bbox.width / 2 + 10, bbox.height / 2 + 10])
             .precision(0.1);
 
         // update projection translation
@@ -109,6 +109,7 @@ function symbolMap() {
             // not an array of features (needed for data() call)
             .datum(topojson.feature(map, map.objects.land))
             .attr("d", path)
+            .attr("fill", "#C2D1D9")
             .classed({"country": true});
 
         // draw states (invisible for now)
@@ -123,6 +124,11 @@ function symbolMap() {
         //     .classed({"state": true});
 
         // draw symbols
+        var color = d3.scale.linear()
+            .domain([0, 604])
+            .range(["#EBCCCC", "#990000"])
+            .interpolate(d3.interpolateLab);
+
         symbols.selectAll("circle")
             .data(values)
             .enter()
@@ -133,11 +139,17 @@ function symbolMap() {
             .attr("cx", function(d, i) {
                 // projection takes [longitude, latitude]
                 // and returns [x, y] as output
-                return projection([d.lon, d.lat])[0];
+                return projection([d.longitude, d.latitude])[0];
             })
             .attr("cy", function(d, i) {
-                return projection([d.lon, d.lat])[1];
+                return projection([d.longitude, d.latitude])[1];
             })
+            .style("fill", function (d, i) {
+                return color(d.depth);
+            })
+            .style("opacity", 0.5)
+            .style("stroke-width", "1px")
+            .style("stroke", "#7A0000")
             .classed({"symbol": true})
             .on("mouseover", showHighlight)
             .on("mouseout", hideHighlight);
@@ -271,16 +283,10 @@ function symbolMap() {
         });
 
         // highlight state associated with symbol
-        d3.select("g#states")
-            .select("path#state" + lookup[d.state])
-            .classed({
-                "highlight": true,
-                "state": true
-            });
 
-        updateLog(d.city + ", " + d.state +
-            " received an average of " + d.precip +
-            " inches of precipitation.");
+        updateLog(d.place +
+            " experienced a magnitude " + d.mag +
+            " earthquake at a depth of " + d.depth + ".");
     }
 
     // called on mouseout
