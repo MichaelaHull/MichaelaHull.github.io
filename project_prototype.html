@@ -71,8 +71,8 @@
   var svg_ts_width = 900;
   var margin = 30;
   var lab_margin = 80;
-  var svg_map_height = 400;
-  var svg_map_width = 510;
+  var svg_map_height = 500;
+  var svg_map_width = 638;
   var svg_var_height = svg_map_height;
   var svg_var_width = svg_ts_width - svg_map_width;
   var svg_crime_height = 250;
@@ -81,6 +81,8 @@
   var svg_hood_width = svg_crime_width;
   var svg_brush_height = 100;
   var svg_brush_width = svg_ts_width;
+  var svg_smallmap_width = svg_ts_width;
+  var svg_smallmap_height = 100;
 
   var plot_ts_height = svg_ts_height - 2*margin;
   var plot_ts_width = svg_ts_width - margin - lab_margin;
@@ -94,6 +96,10 @@
   var plot_var_width = svg_var_width - 2*margin;
   var plot_brush_height = svg_brush_height - 2*margin;
   var plot_brush_width = plot_ts_width;
+
+  var svg_smallmap = d3.select("body").append("svg")
+    .attr("height", svg_smallmap_height)
+    .attr("width", svg_smallmap_width);
 
   var svg_map = d3.select("body").append("svg")
   	.attr("height", svg_map_height)
@@ -167,6 +173,27 @@
 //       .attr("fill", "#ddc")
 //       .attr("d", path)
 //   });
+
+  function map(plotspace, plotwidth, plotheight, variable, data, xdomain, ydomain) {
+    // var n = variables.length;
+    // var w = plotwidth/n - 2*5;
+    // var h = plotheight - 2*5;
+    var x = d3.scale.linear()
+      .domain(xdomain)
+      .range([0, plotwidth]);
+    var y = d3.scale.linear()
+      .domain(ydomain)
+      .range([plotheight, 0]);
+    var dots = plotspace.selectAll("circle")
+      .data(data, function (d, i) { if (d.gen_cat === variable) {return d.IncidntNum; }})
+      .enter();
+    dots.append("circle")
+      .attr("cx", function (d, i) { return x(d.X); })
+      .attr("cy", function (d, i) { return y(d.Y); })
+      .attr("r", 2)
+      .style("fill", color(variable))
+      .style("opacity", 0.2);
+  };
 
   var color_ref = {
   	"Other": "#e6ab02",
@@ -340,6 +367,17 @@
   		.attr("fill", function (d, i) { return color(d.gen_cat); })
   		.attr("opacity", 0.2);
 
+    var small_margin = 5;
+    var n = crimes.length;
+    var little_svg_w = svg_smallmap_width / n;
+    var w_small = little_svg_w - 2 * small_margin;
+    var h_small = svg_smallmap_height - 2 * small_margin;
+    var v;
+    for (v in crimes) {
+      var newplot = svg_smallmap.append("g")
+        .attr("transform", "translate(" + (little_svg_w * v + small_margin) + "," + small_margin + ")");
+      map(newplot, w_small, h_small, crimes[v], data, x_map_domain, y_map_domain);
+    };
   });
 
   var x_ts = d3.time.scale()
@@ -485,6 +523,81 @@
   </script>	
   </div>
   </div>
+  <div class="section">
+    <div class="container">
+      <h2 align="left">How the data is sorted</h2>
+      <div class="row">
+        <div class="col-sm-2">
+          <h3 align="left">Theft</h3>
+          <ul align="left">
+            <li>Larceny/theft</li>
+            <li>Vehicle theft</li>
+            <li>Robbery</li>
+            <li>Forgery/counterfeiting</li>
+            <li>Stolen property</li>
+            <li>Embezzlement</li>
+            <li>Bad checks</li>
+            <li>Extortion</li>
+            <li>Bribery</li>
+            <li>Burglary</li>
+            <li>Fraud</li>
+          </ul>
+        </div>
+        <div class="col-sm-2">
+          <h3 align="left">Controlled Substances/ Items</h3>
+          <ul align="left">
+            <li>Weapon laws</li>
+            <li>Liquor laws</li>
+            <li>Drug/narcotic</li>
+            <li>Drunkenness</li>
+            <li>Driving under the influence</li>
+          </ul>
+        </div>
+        <div class="col-sm-2">
+          <h3 align="left">Disorderly Conduct</h3>
+          <ul align="left">
+            <li>Vandalism</li>
+            <li>Suspicious occ.</li>
+            <li>Loitering</li>
+            <li>Disorderly conduct</li>
+            <li>Tresspass</li>
+            <li>Gambling</li>
+            <li>Prostitution</li>
+          </ul>
+        </div>
+        <div class="col-sm-2">
+          <h3 align="left">Violent Crime</h3>
+          <ul align="left">
+            <li>Arson</li>
+            <li>Assault</li>
+            <li>Suicide</li>
+            <li>Sex offenses, forcible</li>
+            <li>Sex offenses, non forcible</li>
+          </ul>
+        </div>
+        <div class="col-sm-2">
+          <h3 align="left">Kidnapping</h3>
+          <ul align="left">
+            <li>Runaway</li>
+            <li>Kidnapping</li>
+            <li>Missing person</li>
+          </ul>
+        </div>
+        <div class="col-sm-2">
+          <h3 align="left">Other</h3>
+          <ul align="left">
+            <li>Warrants</li>
+            <li>Non-criminal</li>
+            <li>Secondary codes</li>
+            <li>Pornography/obscene mat.</li>
+            <li>Family offenses</li>
+            <li>Other offenses</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div class="section">
   	<div class="container">
   		<h2 align="left">Data-Preprocessing</h2>
