@@ -10,7 +10,7 @@
   
   <link rel="stylesheet" href="http://s3.amazonaws.com/codecademy-content/courses/ltp/css/bootstrap.css">
   <link rel="stylesheet" href="stylesheets/main.css">
-  <link href="css/bootstrap.min.css" rel="stylesheet">
+  <link href="bootstrap-3.3.4-dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="http://s3.amazonaws.com/codecademy-content/courses/ltp/css/shift.css" rel="stylesheet">
   <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
   <script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
@@ -36,7 +36,7 @@
         <div class="col-md-0">
         <ul class="pull-left">
           <li><a href="http://MichaelaHull.github.io#homework">Homework</a></li>
-          <li><a href="http://MichaelaHull.github.io#projects">Projects</a></li>
+          <li><a href="http://MichaelaHull.github.io#projects">Project</a></li>
           <li><a href="http://MichaelaHull.github.io#participation">Participation</a></li>
         </ul>
         </div>
@@ -56,6 +56,7 @@
     <div class="container">
       <h1>Michaela Hull: Project Prototype</h1>
       <ul class="pull-right">
+      	<li><a href="https://data.sfgov.org/Public-Safety/SFPD-Incidents-from-1-January-2003/tmnf-yvry">Source Data</a></li>
       	<li><a href="https://github.com/MichaelaHull/MichaelaHull.github.io/blob/master/project_prototype.html">Code</a></li>
       	<li><a href="https://github.com/MichaelaHull/MichaelaHull.github.io/blob/master/data_files/sfpd_incidents_2014.csv">Data</a></li>
       </ul>
@@ -240,7 +241,7 @@
 
   var color = d3.scale.ordinal()
     .domain(crimes)
-    .range(["#e6ab02", "#7570b3", "#1b9e77", "#e7298a", "#66a61e", "#d95f02"]);
+    .range(["#e6ab02", "#666666", "#1b9e77", "#e7298a", "#7570b3", "#17becf"]);
 
   d3.csv("data_files/sfpd_incidents_2014.csv", function (error, data) {
   	data.forEach(function (d) {
@@ -290,7 +291,7 @@
   		.attr("x", 0)
   		.attr("height", y_freq_scale(0.8))
   		.attr("width", function (d, i) { return x_freq(+d.count); })
-  		.attr("fill", "#4D4D94")
+  		.attr("fill", "#66a61e")
   		.attr("opacity", 0.9);
 
   	plot_hood.append("g")
@@ -332,7 +333,7 @@
       .attr("height", y_crime_scale(0.8))
       .attr("width", function (d, i) { return x_crime(+d.count); })
       .attr("fill", function (d, i) { return color(d.gen_cat); })
-      .attr("opacity", 0.9);
+      .attr("opacity", 1);
 
     plot_crime.append("g")
       .attr("class", "x axis")
