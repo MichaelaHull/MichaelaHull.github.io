@@ -137,3 +137,7 @@
     font-family: sans-serif;
     font-size: 10px;
 }
+
+.svg {
+	float: left;
+}

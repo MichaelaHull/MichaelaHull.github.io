@@ -8,6 +8,10 @@ library(sqldf)
 setwd('/Users/Aluminum/Documents/MichaelaHull.GitHub.io/data_files')
 
 data <- fread('sfpd_incidents_2014.csv')
+data <- mutate(data, month = substr(Date, 1, 2))
+oct <- filter(data, month == 10)
+write.csv(oct, "sfpd_incidents_10_2014.csv", row.names = FALSE)
+
 districts <- unique(data$PdDistrict)
 categories <- unique(data$Category)
 cat_freq <- data.frame(table(data$Category))

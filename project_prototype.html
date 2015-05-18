@@ -65,7 +65,9 @@
 
   <div class="section">
   <div class="container">
+  <p id="log">Fetching data... Please wait</p>
   <script type="text/javascript">
+
   var baseURL = "https://gist.githubusercontent.com/mbostock/4090846/raw/"
 
   var svg_ts_height = 400;
@@ -152,33 +154,82 @@
   	.attr("transform", "translate(" + lab_margin + "," + margin + ")");
 
   // Working on making a map of San Francisco
+  // Much of the following code and data regarding the map of San Francisco was borrowed, with permission, from Monica Meyer. Her GitHub account can be found here: https://github.com/monicameyer/MSAN622_repo_meyer
+  // The primary files used were /js/prototype_map.js and /data/sf_neighborhoods.json
+  // THANK YOU MONICA
 
-//   var projection = d3.geo.albersUsa()
-//     .scale(1000)
-//     .translate([plot_map_width / 2, plot_map_height / 2]);
+  
 
-//   var projection = d3.geo.albers()
-// //    .center([0, -122.439441393979])
-// //    .rotate([37.763948697877794, 0])
-//     .parallels([50, 60])
-//     .scale(1000)
-//     .translate([plot_map_width / 2, plot_map_height / 2]);
+// function map_geo(plotspace, plotwidth, plotheight){
+//   d3.json("/data_files/sf_topojson.json", function (error, data) {
+//   	console.log("Data", data);
+//   	var projection = d3.geo.mercator()
+//   		.scale(1)
+//   		.translate([0, 0])
+//   		.precision(0);
+//  	var path = d3.geo.path()
+//   		.projection(projection);
+//   	var xS = plotwidth / Math.abs(data.bbox[0] - data.bbox[2]);
+//   	var yS = plotheight / Math.abs(data.bbox[1] - data.bbox[3]);
+//   	var scale = xS < yS ? xS : yS;
+//   	var trans = [(plotwidth - scale * (data.bbox[0] + data.bbox[2])) / 2,
+//   		(plotheight - scale * (data.bbox[1] + data.bbox[3])) / 2];
+//   	projection.scale(scale).translate(trans);
+//   	plotspace.selectAll("path")
+//   		.data(data.arcs)
+//   		.enter()
+//   		.append("path")
+//   		.attr("d", path)
+//   		// .attr("data-id", function (d) {
+//   		// 	console.log(d.id);
+//   		// 	return d.id;
+//   		// })
+//   		// .attr("data-name", function (d) {
+//   		// 	console.log(d.properties.name);
+//   		// 	return d.properties.name;
+//   		// })
+//   		.style("fill", "#AEC2D6")
+//   		.style("stroke", "#23272B");
 
-//   var path = d3.geo.path()
-//     .projection(projection);  
-
-//   d3.json(baseURL + 'us.json', function (error, us) {
-//     plot_map.insert("path", ".graticule")
-//       .datum(topojson.feature(us, us.objects.land))
-//       .attr("class", "land")
-//       .attr("fill", "#ddc")
-//       .attr("d", path)
 //   });
+// };
+
+  function map_geo(plotspace, plotwidth, plotheight) {
+  	d3.json("data_files/sf_topojson.json", function (error, data) {
+  		console.log("Map", data);
+  		var features = topojson.feature(data, data.objects.collection);
+  		var bounds = d3.geo.bounds(features);
+  		var xS = plotwidth / Math.abs(data.bbox[0] - data.bbox[2]);
+  		var yS = plotheight / Math.abs(data.bbox[1] - data.bbox[3]);
+  		var scale = xS < yS ? xS : yS;
+  		var trans = [(plotwidth - scale * (data.bbox[0] + data.bbox[2])) / 2,
+  			(plotheight - scale * (data.bbox[1] + data.bbox[3])) / 2];
+  		projection.scale(scale).translate(trans);
+  		var projection = d3.geo.mercator()
+  			.scale(1)
+  			.translate([0, 0])
+  			.precision(0);
+  		var path = d3.geo.path()
+  			.projection(projection);
+  		plotspace.append("path")
+  			.datum(topojson.feature(data, data.objects.collection))
+  			.attr("class", "land")
+  			.attr("d", path)
+  			.attr("fill", "#AEC2D6")
+  			.attr("stroke", "#23272B");
+  		// plotspace.append("path")
+  		// 	.datum(topojson.mesh(data, data.objects.collection, function (a, b) { return a !== b; }))
+  		// 	.attr("class", "boundary")
+  		// 	.attr("d", path)
+  		// 	;
+  	});
+  }
 
   function map(plotspace, plotwidth, plotheight, variable, data, xdomain, ydomain) {
     // var n = variables.length;
     // var w = plotwidth/n - 2*5;
     // var h = plotheight - 2*5;
+    map_geo(plotspace, plotwidth, plotheight);
     var x = d3.scale.linear()
       .domain(xdomain)
       .range([0, plotwidth]);
@@ -262,6 +313,9 @@
       var v = crimes.indexOf(d.gen_cat);
       crime_dict[v]["count"] = crime_dict[v]["count"] + 1;
   	});
+  	var log = d3.select("#log");
+  	log.text("Fetching data... Please wait");
+
   	var x_freq = d3.scale.linear()
   		.domain([0, 28871])
   		.range([0, plot_hood_width]);
@@ -379,6 +433,7 @@
         .attr("transform", "translate(" + (little_svg_w * v + small_margin) + "," + small_margin + ")");
       map(newplot, w_small, h_small, crimes[v], data, x_map_domain, y_map_domain);
     };
+    log.text("");
   });
 
   var x_ts = d3.time.scale()
