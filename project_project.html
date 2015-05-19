@@ -81,6 +81,30 @@
 <div id="filter"><b>Neighborhoods: </b></div>
 <script type="text/javascript">
 
+  function wrap(text, width) {
+    text.each(function() {
+      var text = d3.select(this),
+          words = text.text().split(/\s+/).reverse(),
+          word,
+          line = [],
+          lineNumber = 0,
+          lineHeight = 1.1, // ems
+          y = text.attr("y"),
+          dy = 12, //parseFloat(text.attr("dy")),
+          tspan = text.text(null).append("tspan").attr("x", width / 2).attr("y", y).attr("dy", dy + "em");
+      while (word = words.pop()) {
+        line.push(word);
+        tspan.text(line.join(" "));
+        if (tspan.node().getComputedTextLength() > width) {
+          line.pop();
+          tspan.text(line.join(" "));
+          line = [word];
+          tspan = text.append("tspan").attr("x", width / 2).attr("y", y).attr("dy", ++lineNumber * lineHeight + dy + "em").text(word);
+        }
+      }
+    });
+  }
+
   var baseURL = "https://gist.githubusercontent.com/mbostock/4090846/raw/"
 
   var svg_ts_height = 400;
@@ -94,11 +118,13 @@
   var svg_brush_height = 100;
   var svg_brush_width = svg_ts_width;
   var svg_smallmap_width = 120;
-  var svg_smallmap_height = 120;
+  var svg_smallmap_height = 100;
   var svg_map_height = 500;
   var svg_map_width = 650;
   var svg_mapfilter_height = svg_map_height;
   var svg_mapfilter_width = svg_ts_width - svg_map_width;
+  var svg_smallmult_height = svg_map_height;
+  var svg_smallmult_width = 245;
 
   var plot_ts_height = svg_ts_height - 2*margin;
   var plot_ts_width = svg_ts_width - margin - lab_margin;
@@ -111,37 +137,59 @@
 
   var duration = 300;
 
-  var map_theft = d3.select("body").append("svg")
-    .attr("height", svg_smallmap_height)
-    .attr("width", svg_smallmap_width);
+  // var map_theft = d3.select("body").append("svg")
+  //   .attr("height", svg_smallmap_height)
+  //   .attr("width", svg_smallmap_width);
 
-  var map_other = d3.select("body").append("svg")
-    .attr("height", svg_smallmap_height)
-    .attr("width", svg_smallmap_width);
+  // var map_other = d3.select("body").append("svg")
+  //   .attr("height", svg_smallmap_height)
+  //   .attr("width", svg_smallmap_width);
 
-  var map_vandalism = d3.select("body").append("svg")
-    .attr("height", svg_smallmap_height)
-    .attr("width", svg_smallmap_width);
+  // var map_vandalism = d3.select("body").append("svg")
+  //   .attr("height", svg_smallmap_height)
+  //   .attr("width", svg_smallmap_width);
 
-  var map_assault = d3.select("body").append("svg")
-    .attr("height", svg_smallmap_height)
-    .attr("width", svg_smallmap_width);
+  // var map_assault = d3.select("body").append("svg")
+  //   .attr("height", svg_smallmap_height)
+  //   .attr("width", svg_smallmap_width);
 
-  var map_controlled = d3.select("body").append("svg")
-    .attr("height", svg_smallmap_height)
-    .attr("width", svg_smallmap_width);
+  // var map_controlled = d3.select("body").append("svg")
+  //   .attr("height", svg_smallmap_height)
+  //   .attr("width", svg_smallmap_width);
 
-  var map_kidnapping = d3.select("body").append("svg")
-    .attr("height", svg_smallmap_height)
-    .attr("width", svg_smallmap_width);
+  // var map_kidnapping = d3.select("body").append("svg")
+  //   .attr("height", svg_smallmap_height)
+  //   .attr("width", svg_smallmap_width);
 
   var svg_map = d3.select("body").append("svg")
     .attr("height", svg_map_height)
     .attr("width", svg_map_width);
 
-  var svg_filter = d3.select("body").append("svg")
-    .attr("height", svg_mapfilter_height)
-    .attr("width", svg_mapfilter_width);
+  var svg_smallmult = d3.select("body").append("svg")
+    .attr("height", svg_smallmult_height)
+    .attr("width", svg_smallmult_width);
+
+  var map_theft = svg_smallmult.append("g")
+    .attr("transform", "translate(" + (0 * (svg_smallmap_width + 15)) + "," + (0 * (svg_smallmap_height + 15) + 80) + ")");
+
+  var map_other = svg_smallmult.append("g")
+    .attr("transform", "translate(" + (1 * (svg_smallmap_width + 15)) + "," + (0 * (svg_smallmap_height + 15) + 80) + ")");
+
+  var map_vandalism = svg_smallmult.append("g")
+    .attr("transform", "translate(" + (0 * (svg_smallmap_width + 15)) + "," + (1 * (svg_smallmap_height + 15) + 80) + ")");
+
+  var map_assault = svg_smallmult.append("g")
+    .attr("transform", "translate(" + (1 * (svg_smallmap_width + 15)) + "," + (1 * (svg_smallmap_height + 15) + 80) + ")");
+
+  var map_controlled = svg_smallmult.append("g")
+    .attr("transform", "translate(" + (0 * (svg_smallmap_width + 15)) + "," + (2 * (svg_smallmap_height + 15) + 80) + ")");
+
+  var map_kidnapping = svg_smallmult.append("g")
+    .attr("transform", "translate(" + (1 * (svg_smallmap_width + 15)) + "," + (2 * (svg_smallmap_height + 15) + 80) + ")");
+
+  // var svg_filter = d3.select("body").append("svg")
+  //   .attr("height", svg_mapfilter_height)
+  //   .attr("width", svg_mapfilter_width);
 
   var svg_crime = d3.select("body").append("svg")
     .attr("height", svg_crime_height)
@@ -260,12 +308,12 @@
             .attr("class", "land")
             .attr("d", big_path)
             .attr("fill", "#DAE3E8");
-        svg_map.append("path")
-            .datum(topojson.mesh(mapData, mapData.objects.collection, function (a, b) { return a !== b; }))
-            .attr("class", "boundary")
-            .attr("d", big_path)
-            .attr("fill", "none")
-            .attr("stroke", "white");
+        // svg_map.append("path")
+        //     .datum(topojson.mesh(mapData, mapData.objects.collection, function (a, b) { return a !== b; }))
+        //     .attr("class", "boundary")
+        //     .attr("d", big_path)
+        //     .attr("fill", "none")
+        //     .attr("stroke", "white");
 
         var s;
         for (s in small_maps) {
@@ -274,12 +322,12 @@
             .attr("class", "land")
             .attr("d", small_path)
             .attr("fill", "#DAE3E8");
-          small_maps[s].append("path")
-            .datum(topojson.mesh(mapData, mapData.objects.collection, function (a, b) { return a !== b; }))
-            .attr("class", "boundary")
-            .attr("d", small_path)
-            .attr("fill", "none")
-            .attr("stroke", "white");
+          // small_maps[s].append("path")
+          //   .datum(topojson.mesh(mapData, mapData.objects.collection, function (a, b) { return a !== b; }))
+          //   .attr("class", "boundary")
+          //   .attr("d", small_path)
+          //   .attr("fill", "none")
+          //   .attr("stroke", "white");
         };
         log.text("Fetching data... Please wait");
 
@@ -310,6 +358,7 @@
           .data(dataData)
           .enter();
         circles.append("circle")
+          .attr("class", "circles")
           .attr({
             r: 1.5*radius,
             cx: function (d, i) { return big_projection([d.X, d.Y])[0]; },
@@ -357,7 +406,34 @@
             .attr("cy", function (d, i) { return small_projection([d.X, d.Y])[1]; })
             .attr("fill", function (d, i) { return color(d.gen_cat); })
             .attr("opacity", 0.2);
+          small_maps[b].append("text")
+            .attr("x", svg_smallmap_width)
+            .attr("y", -10)
+            .attr("text-anchor", "middle")
+            .attr("font-size", "10px")
+            .text(crime_name_dict[crimes[b]])
+            .call(wrap, svg_smallmap_width);
         };
+        var buttons = svg_smallmult.append("g").selectAll("rect")
+            .data(crimes, function (d, i) { return crimes[i]; })
+            .enter();
+        buttons.append("rect")
+            .attr("height", svg_smallmap_height)
+            .attr("width", svg_smallmap_width)
+            .attr("x", function (d, i) { return (i % 2) * (svg_smallmap_width + 15); })
+            .attr("y", function (d, i) { return (i % 3) * (svg_smallmap_height + 15) + 80; })
+            .style("fill", "#99BEE3")
+            .attr("opacity", 0)
+            .on("mouseover", function (d, i) {
+              d3.select(this)
+                .transition(duration)
+                .attr("opacity", 0.2);
+            })
+            .on("mouseout", function (d, i) {
+              d3.select(this)
+                .transition(duration)
+                .attr("opacity", 0);
+            });
         log.text("Hover over visualizations for more information");
       });
     });
