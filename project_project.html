@@ -259,7 +259,8 @@
   var plot_brush = svg_brush.append("g")
     .attr("transform", "translate(" + lab_margin + "," + margin + ")");
 
-  var districts = ["Southern", "Mission", "Northern", "Central", "Bayview", "Ingleside", "Tenderloin", "Taraval", "Park", "Richmond"];
+  var districts = ["Southern", "Northern", "Mission", "Central", "Ingleside", "Bayview", "Tenderloin", "Taraval", "Park", "Richmond"];
+  var sorted_districts = ["Bayview", "Central", "Ingleside", "Mission", "Northern", "Park", "Richmond", "Southern", "Taraval", "Tenderloin"]
   var crimes = ["Theft", "Other", "Vandalism", "Assault", "Controlled", "Kidnapping"];
   var crime_names = ["Theft", "Other", "Disorderly Conduct", "Violent Crime", "Controlled Substances/Items", "Kidnapping"];
   var crime_name_dict = {
@@ -316,12 +317,11 @@
   var small_path = d3.geo.path()
     .projection(small_projection);
 
-  var neighbors = districts.sort();
   var dropDownNeighbor = d3.select("#filter")
     .append("select")
     .attr("name", "neighbor-list");
   var neighborOptions = dropDownNeighbor.selectAll("option")
-    .data(["All"].concat(neighbors))
+    .data(["All"].concat(sorted_districts))
     .enter()
     .append("option");
 
@@ -408,19 +408,17 @@
         var x_crime_scale = d3.scale.linear()
           .domain([0, 5716])
           .range([0, plot_crime_width]);
-
         var y_crime_scale = d3.scale.linear()
           .domain([0, crimes.length])
           .range([0, plot_crime_height]);
-
         var y_crime = d3.scale.ordinal()
           .domain(crime_names)
-          .rangeRoundBands([0, y_crime_scale(districts.length)]);
+          .rangeRoundBands([0, y_crime_scale(crimes.length)]);
 
         var xAxis_crime = d3.svg.axis()
           .scale(x_crime_scale)
-          .orient("top");
-
+          .orient("top")
+          .ticks(5);
         var yAxis_crime = d3.svg.axis()
           .scale(y_crime)
           .orient("left")
@@ -437,7 +435,46 @@
         console.log("First object:", crime_bars.length);
 
         plot_crime.append("g")
-          .attr("")
+          .attr("class", "y axis")
+          .call(yAxis_crime);
+        plot_crime.append("g")
+          .attr("class", "x axis")
+          .call(xAxis_crime);
+
+        var neighbor_bars = plot_hood.selectAll("rect")
+          .data(district_dict, function (d, i) { return d.district; })
+          .enter();
+
+        var x_neighbor_scale = d3.scale.linear()
+          .domain([0, 2614])
+          .range([0, plot_hood_width]);
+        var y_neighbor_scale = d3.scale.linear()
+          .domain([0, districts.length])
+          .range([0, plot_hood_height]);
+        var y_neighbor = d3.scale.ordinal()
+          .domain(districts)
+          .rangeRoundBands([0, y_neighbor_scale(districts.length)]);
+
+        neighbor_bars.append("rect")
+          .attr("x", 0)
+          .attr("y", function (d, i) { return y_neighbor_scale(i + 0.1); })
+          .attr("height", y_neighbor_scale(0.8))
+          .attr("width", function (d, i) { return x_neighbor_scale(d.count); })
+          .attr("fill", "#66a61e");
+
+        var xAxis_neighbor = d3.svg.axis()
+          .scale(x_neighbor_scale)
+          .orient("top");
+        var yAxis_neighbor = d3.svg.axis()
+          .scale(y_neighbor)
+          .orient("left");
+
+        plot_hood.append("g")
+          .attr("class", "x axis")
+          .call(xAxis_neighbor);
+        plot_hood.append("g")
+          .attr("class", "y axis")
+          .call(yAxis_neighbor);
 
         var radius = 2;
         var circles = svg_map.append("g").selectAll("circle")
