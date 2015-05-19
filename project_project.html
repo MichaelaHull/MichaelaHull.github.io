@@ -543,7 +543,7 @@
                 .attr("display", display);
 
             plot_crime.selectAll(".crime_bars")
-                .attr("width", function (d, i) {console.log("Selected: ", d.selected); return x_crime_scale(+d.selected); });
+                .attr("width", function (d, i) {console.log("Selected: ", d.selected); return x_crime_scale(+d[selected]); });
 
             plot_hood.selectAll(".neighbor_bars")
                 .attr("width", function (d, i) {
