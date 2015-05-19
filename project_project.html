@@ -306,7 +306,7 @@
         });
         
         var radius = 2;
-        var circles = svg_map.selectAll("circle")
+        var circles = svg_map.append("g").selectAll("circle")
           .data(dataData)
           .enter();
         circles.append("circle")
