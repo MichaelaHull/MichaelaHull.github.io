@@ -456,6 +456,7 @@
           .rangeRoundBands([0, y_neighbor_scale(districts.length)]);
 
         neighbor_bars.append("rect")
+          .attr("class", "neighbor_bars")
           .attr("x", 0)
           .attr("y", function (d, i) { return y_neighbor_scale(i + 0.1); })
           .attr("height", y_neighbor_scale(0.8))
@@ -529,6 +530,8 @@
                 .attr("display", display);
             plot_crime.selectAll(".crime_bars")
                 .attr("width", function (d, i) { return x_crime_scale(d.count); });
+            plot_hood.selectAll(".neighbor_bars")
+                .attr("width", function (d, i) { return x_neighbor_scale(d.count); });
           }
           else {
             svg_map.selectAll(".circles")
@@ -540,7 +543,13 @@
                 .attr("display", display);
 
             plot_crime.selectAll(".crime_bars")
-                .attr("width", function (d, i) { return x_crime_scale(+d.selected); });
+                .attr("width", function (d, i) {console.log("Selected: ", d.selected); return x_crime_scale(+d.selected); });
+
+            plot_hood.selectAll(".neighbor_bars")
+                .attr("width", function (d, i) {
+                  if (d.district === selected) { return x_neighbor_scale(d.count);
+                  }
+                  else {return 0; } });
           }
         });
         var b;
