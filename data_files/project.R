@@ -8,9 +8,7 @@ library(sqldf)
 setwd('/Users/Aluminum/Documents/MichaelaHull.GitHub.io/data_files')
 
 data <- fread('sfpd_incidents_2014.csv')
-data <- mutate(data, month = substr(Date, 1, 2))
-oct <- filter(data, month == 10)
-write.csv(oct, "sfpd_incidents_10_2014.csv", row.names = FALSE)
+data <- mutate(data, month = substr(Date, 1, 2)
 
 districts <- unique(data$PdDistrict)
 categories <- unique(data$Category)
@@ -62,6 +60,9 @@ data <- mutate(data, Time = paste(Time, ':00', sep = ''))
 
 data <- mutate(data, datetime = paste(Date, Time, sep = " "))
 data <- mutate(data, datetime = mdy_hms(datetime))
+
+oct <- filter(data, month == 10)
+write.csv(oct, "sfpd_incidents_10_2014.csv", row.names = FALSE)
 
 write.csv(data, "sfpd_incidents_2014.csv", row.names = FALSE)
 

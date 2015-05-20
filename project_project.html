@@ -30,14 +30,12 @@
   }
 
   .d3-tip {
-  line-height: 1;
-  padding: 12px;
-/*  background: rgba(0, 0, 0, 0.8);*/
-  color: #fff;
-  border-radius: 2px;
-  font-family: sans-serif;
-  font-size: 14px;
+    padding: 12px;
+    background: #99BEE3;
+    font-family: sans-serif;
+    font-size: 12px;
   }
+
   </style>
 </head>
 <body align="center">
@@ -81,6 +79,12 @@
 <div id="filter"><b>Neighborhoods: </b></div>
 <script type="text/javascript">
 
+// The wrapping function is Bostock's with a few small alterations and can be found here: http://bl.ocks.org/mbostock/7555321 
+
+// A special thanks to Monica Meyer for her help in getting my maps working and for allowing me to use her topoJSON file. A lot of my map code is inspired by hers (though not copied!!!) with her permission. Her repo with the map code and original topoJSON file can be found here: https://github.com/monicameyer/MSAN622_repo_meyer
+
+// A lot of the filtering was largely based on the following example: http://plnkr.co/edit/5g4lUXnJa3pmWEfFq8rq?p=preview
+
   function wrap(text, width) {
     text.each(function() {
       var text = d3.select(this),
@@ -104,41 +108,6 @@
       }
     });
   }
-
-  function mouseOn() { 
-    var circle = d3.select(this);
-    circle.transition(duration)
-      .attr("r", 10);
-    circle.append("g")
-      .append("text")
-      .attr("class", "hovertext")
-      .attr("y", d3.mouse(this)[1])
-      .attr("x", d3.mouse(this)[0])
-      .text(function (d, i) { return d.gen_cat; });
-
-  // function to move mouseover item to front of SVG stage, in case
-  // another bubble overlaps it
-    d3.selection.prototype.moveToFront = function() { 
-      return this.each(function() { 
-      this.parentNode.appendChild(this); 
-      }); 
-    };
-
-  // skip this functionality for IE9, which doesn't like it
-    if (!$.browser.msie) {
-      circle.moveToFront(); 
-      }
-  };
-
-  var mouseOff = function() {
-    var circle = d3.select(this);
-
-    // go back to original size and opacity
-    circle.transition(duration)
-      .attr("r", 3);
-
-    // fade out guide lines, then remove them
-  };
 
   var baseURL = "https://gist.githubusercontent.com/mbostock/4090846/raw/"
 
@@ -172,30 +141,6 @@
 
   var duration = 300;
 
-  // var map_theft = d3.select("body").append("svg")
-  //   .attr("height", svg_smallmap_height)
-  //   .attr("width", svg_smallmap_width);
-
-  // var map_other = d3.select("body").append("svg")
-  //   .attr("height", svg_smallmap_height)
-  //   .attr("width", svg_smallmap_width);
-
-  // var map_vandalism = d3.select("body").append("svg")
-  //   .attr("height", svg_smallmap_height)
-  //   .attr("width", svg_smallmap_width);
-
-  // var map_assault = d3.select("body").append("svg")
-  //   .attr("height", svg_smallmap_height)
-  //   .attr("width", svg_smallmap_width);
-
-  // var map_controlled = d3.select("body").append("svg")
-  //   .attr("height", svg_smallmap_height)
-  //   .attr("width", svg_smallmap_width);
-
-  // var map_kidnapping = d3.select("body").append("svg")
-  //   .attr("height", svg_smallmap_height)
-  //   .attr("width", svg_smallmap_width);
-
   var svg_map = d3.select("body").append("svg")
     .attr("height", svg_map_height)
     .attr("width", svg_map_width);
@@ -205,26 +150,31 @@
     .attr("width", svg_smallmult_width);
 
   var map_theft = svg_smallmult.append("g")
-    .attr("transform", "translate(" + (0 * (svg_smallmap_width + 15)) + "," + (0 * (svg_smallmap_height + 15) + 80) + ")");
+    .attr("transform", "translate(" + (0 * (svg_smallmap_width + 15)) + "," + (0 * (svg_smallmap_height + 25)) + ")");
 
   var map_other = svg_smallmult.append("g")
-    .attr("transform", "translate(" + (1 * (svg_smallmap_width + 15)) + "," + (0 * (svg_smallmap_height + 15) + 80) + ")");
+    .attr("transform", "translate(" + (1 * (svg_smallmap_width + 15)) + "," + (0 * (svg_smallmap_height + 25)) + ")");
 
   var map_vandalism = svg_smallmult.append("g")
-    .attr("transform", "translate(" + (0 * (svg_smallmap_width + 15)) + "," + (1 * (svg_smallmap_height + 15) + 80) + ")");
+    .attr("transform", "translate(" + (0 * (svg_smallmap_width + 15)) + "," + (1 * (svg_smallmap_height + 25)) + ")");
 
   var map_assault = svg_smallmult.append("g")
-    .attr("transform", "translate(" + (1 * (svg_smallmap_width + 15)) + "," + (1 * (svg_smallmap_height + 15) + 80) + ")");
+    .attr("transform", "translate(" + (1 * (svg_smallmap_width + 15)) + "," + (1 * (svg_smallmap_height + 25)) + ")");
 
   var map_controlled = svg_smallmult.append("g")
-    .attr("transform", "translate(" + (0 * (svg_smallmap_width + 15)) + "," + (2 * (svg_smallmap_height + 15) + 80) + ")");
+    .attr("transform", "translate(" + (0 * (svg_smallmap_width + 15)) + "," + (2 * (svg_smallmap_height + 25)) + ")");
 
   var map_kidnapping = svg_smallmult.append("g")
-    .attr("transform", "translate(" + (1 * (svg_smallmap_width + 15)) + "," + (2 * (svg_smallmap_height + 15) + 80) + ")");
+    .attr("transform", "translate(" + (1 * (svg_smallmap_width + 15)) + "," + (2 * (svg_smallmap_height + 25)) + ")");
 
-  // var svg_filter = d3.select("body").append("svg")
-  //   .attr("height", svg_mapfilter_height)
-  //   .attr("width", svg_mapfilter_width);
+  var map_all = svg_smallmult.append("g")
+    .attr("transform", "translate(" + (0 * (svg_smallmap_width + 15)) + "," + (3 * (svg_smallmap_height + 25)) + ")");
+
+  var tip = d3.tip()
+    .attr("class", "d3-tip")
+    .offset([-10, 0])
+    .html(function (d, i) { return crime_name_dict[d.gen_cat] + " in " + d.PdDistrict + "</br>on " + d.DayOfWeek + ", " + d.Date.substring(3, 5) + " October, 2014, at " + d.Time.substring(0, 5) + "</br>Category: " + d.Category + "</br>Description: " + d.Descript + "</br>Resolution: " + d.Resolution; });
+  svg_map.call(tip);
 
   var svg_crime = d3.select("body").append("svg")
     .attr("height", svg_crime_height)
@@ -269,7 +219,8 @@
     "Vandalism": "Vandalism/disorderly conduct",
     "Assault": "Assault/violent crime",
     "Controlled": "Controlled substances/items",
-    "Kidnapping": "Kidnapping/missing persons"
+    "Kidnapping": "Kidnapping/missing persons",
+    "All": "All crime types"
   };
 
   var crime_dict = [];
@@ -301,7 +252,7 @@
     .domain(crimes)
     .range(["#e6ab02", "#666666", "#1b9e77", "#e7298a", "#7570b3", "#17becf"]);
 
-  var small_maps = [map_theft, map_other, map_vandalism, map_assault, map_controlled, map_kidnapping];
+  var small_maps = [map_theft, map_other, map_vandalism, map_assault, map_controlled, map_kidnapping, map_all];
 
   var big_projection = d3.geo.mercator()
     .scale(1)
@@ -370,19 +321,13 @@
         };
         log.text("Fetching data... Please wait");
 
-      // var circles = d3.svg.circle()
-      //   .interpolate("basis")
-      //   .x(function (d, i) { return big_projection([d.X, d.Y])[0]; })
-      //   .y(function (d, i) { return big_projection([d.X, d.Y])[1]; })
-      //   .r(radius);
-
       d3.csv("data_files/sfpd_incidents_10_2014.csv", function (dataError, dataData) {
         dataData.forEach(function (d, i) {
           d.IncidntNum = d.IncidntNum;
           d.Category = d.Category;
           d.Descript = d.Descript;
           d.DayOfWeek = d.DayOfWeek;
-          d.Date = date_format.parse(d.Date);
+          d.Date = d.Date;
           d.Time = d.Time;
           d.PdDistrict = d.PdDistrict;
           d.Resolution = d.Resolution;
@@ -397,9 +342,6 @@
           district_dict[v]["count"] = district_dict[v]["count"] + 1;
           district_dict[v][d.gen_cat] = district_dict[v][d.gen_cat] + 1;
         });
-
-        console.log("Crime Dict: ", crime_dict);
-        console.log("Dist Dict: ", district_dict);
         
         var crime_bars = plot_crime.selectAll("rect")
           .data(crime_dict, function (d, i) { return d.gen_cat; })
@@ -431,8 +373,6 @@
           .attr("height", y_crime_scale(0.8))
           .attr("width", function (d, i) { return x_crime_scale(d.count); })
           .attr("fill", function (d, i) { return color(d.gen_cat); });
-        console.log("Crime bars: ", crime_bars);
-        console.log("First object:", crime_bars.length);
 
         plot_crime.append("g")
           .attr("class", "y axis")
@@ -465,7 +405,8 @@
 
         var xAxis_neighbor = d3.svg.axis()
           .scale(x_neighbor_scale)
-          .orient("top");
+          .orient("top")
+          .ticks(6);
         var yAxis_neighbor = d3.svg.axis()
           .scale(y_neighbor)
           .orient("left");
@@ -481,16 +422,10 @@
         var circles = svg_map.append("g").selectAll("circle")
           .data(dataData)
           .enter();
-        var tip = circles.append("g")
-          .attr("class", "hovertext")
-          .attr("x", 0)
-          .attr("y", 0)
-          .style("background-fill", "#99BEE3")
-          .attr("font-size", "12px");
         circles.append("circle")
           .attr("class", "circles")
           .attr({
-            r: 1.5*radius,
+            r: radius,
             cx: function (d, i) { return big_projection([d.X, d.Y])[0]; },
             cy: function (d, i) { return big_projection([d.X, d.Y])[1]; },
             id: function (d, i) { return d.IncidntNum; }
@@ -500,30 +435,25 @@
           .on("mouseover", function (d, i) {
             d3.select(this)
               .transition(duration)
-              .attr("fill", "#0000FF")
-              .attr("opacity", 1);
-            tip.text(function (d, i) { return
-              d.gen_cat + " in " + d.PdDistrict + 
-              "</br>on " + d.Date + " at " + d.Time + 
-              "</br>Description: " + d.Descript +
-              "</br>Resolution: " + d.Resolution;
-            });
+              .style("fill", "#0000FF")
+              .style("opacity", 1)
+              .attr("r", 4 * radius);
+            var mouse = d3.mouse(svg_map.node()).map(function (d, i) { return parseInt(d); });
+            tip.show(d, i);
           })
           .on("mouseout", function (d, i) {
             d3.select(this)
               .transition(duration)
-              .attr("fill", function (d, i) { return color(d.gen_cat); })
-              .attr("opacity", 0.3);
-            tip.text(null);
+              .style("fill", function (d, i) { return color(d.gen_cat); })
+              .style("opacity", 0.3)
+              .attr("r", radius);
+            tip.hide(d, i);
           });
  
         dropDownNeighbor.on("change", function() {
           var selected = this.value;
-          console.log("Selected: ", selected);
           displayOthers = this.checked ? "inline" : "none";
-          console.log("DisplayOthers: ", displayOthers);
           display = this.checked ? "none" : "inline";
-          console.log("Display: ", display);
 
           if (selected == 'All') {
             svg_map.selectAll(".circles")
@@ -543,7 +473,7 @@
                 .attr("display", display);
 
             plot_crime.selectAll(".crime_bars")
-                .attr("width", function (d, i) {console.log("Selected: ", d.selected); return x_crime_scale(+d[selected]); });
+                .attr("width", function (d, i) { return x_crime_scale(+d[selected]); });
 
             plot_hood.selectAll(".neighbor_bars")
                 .attr("width", function (d, i) {
@@ -553,14 +483,15 @@
           }
         });
         var b;
-        for (b in crimes) {
+        for (b in crimes.concat(["All"])) {
           var points = small_maps[b].selectAll("circle")
             .data(dataData, function (d, i) {
-              if (d.gen_cat === crimes[b]) { return d.PdId; }
+              if (crimes.concat(["All"])[b] === "All") { return d.PdId; }
+              else if (d.gen_cat === crimes[b]) { return d.PdId; }
             })
             .enter();
           points.append("circle")
-            .attr("r", radius)
+            .attr("r", radius/2)
             .attr("cx", function (d, i) { return small_projection([d.X, d.Y])[0]; })
             .attr("cy", function (d, i) { return small_projection([d.X, d.Y])[1]; })
             .attr("fill", function (d, i) { return color(d.gen_cat); })
@@ -570,17 +501,19 @@
             .attr("y", -10)
             .attr("text-anchor", "middle")
             .attr("font-size", "10px")
-            .text(crime_name_dict[crimes[b]])
+            .text(crime_name_dict[crimes.concat(["All"])[b]])
             .call(wrap, svg_smallmap_width);
         };
         var buttons = svg_smallmult.append("g").selectAll("rect")
-            .data(crimes, function (d, i) { return crimes[i]; })
+            .data(crimes.concat(["All"]), function (d, i) { return crimes.concat(["All"])[i]; })
             .enter();
         buttons.append("rect")
+            .attr("class", "buttons")
+            .attr("id", function (d, i) { return crimes.concat(["All"])[i]; })
             .attr("height", svg_smallmap_height)
             .attr("width", svg_smallmap_width)
             .attr("x", function (d, i) { return (i % 2) * (svg_smallmap_width + 15); })
-            .attr("y", function (d, i) { return (i % 3) * (svg_smallmap_height + 15) + 80; })
+            .attr("y", function (d, i) { return Math.floor(i / 2) * (svg_smallmap_height + 25); })
             .style("fill", "#99BEE3")
             .attr("opacity", 0)
             .on("mouseover", function (d, i) {
@@ -592,6 +525,35 @@
               d3.select(this)
                 .transition(duration)
                 .attr("opacity", 0);
+            })
+            .on("click", function (d, i) {
+              if (d === "All") {
+                svg_map.selectAll(".circles")
+                  .attr("display", this.checked ? "none": "inline");
+                plot_crime.selectAll(".crime_bars")
+                  .attr("width", function (a, b) { return x_crime_scale(a.count); });
+                plot_hood.selectAll(".neighbor_bars")
+                  .attr("width", function (a, b) { return x_neighbor_scale(a.count); });
+              }
+              else {
+                svg_map.selectAll(".circles")
+                  .filter(function (a, b) { return a.gen_cat === d; })
+                  .transition(duration)
+                  .attr("display", this.checked ? "none": "inline");
+                svg_map.selectAll(".circles")
+                  .filter(function (a, b) { return a.gen_cat != d; })
+                  .transition(duration)
+                  .attr("display", this.checked ? "inline": "none");
+                plot_crime.selectAll(".crime_bars")
+                  .transition(duration)
+                  .attr("width", function (a, b) {
+                    if (a.gen_cat === d) { return x_crime_scale(a.count); }
+                    else { return 0; }
+                  });
+                plot_hood.selectAll(".neighbor_bars")
+                  .transition(duration)
+                  .attr("width", function (a, b) { return x_neighbor_scale(a[d]); });
+              };
             });
         log.text("Hover over visualizations for more information");
       });
@@ -741,6 +703,7 @@
 <div class="section">
     <div class="container">
       <h2 align="left">How the data is sorted</h2>
+      <p align="left">For this visualization I thought it would be most interesting to have categories for different types of crime. However, there are over 30 different categories generally, so in order to do this I sorted the different categories into even more general categories. Unfortunately, this has resulted in a large number of incidents being classified as 'other', but overall it seems to be reasonable. The exact categories which make up my six more general categories are shown below.</p>
       <div class="row">
         <div class="col-sm-2">
           <h3 align="left">Theft</h3>
