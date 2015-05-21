@@ -134,3 +134,38 @@ names(ts) <- c('Date', 'Southern', 'Mission', 'Northern', 'Central', 'Bayview', 
                'Tenderloin', 'Taraval', 'Park', 'Richmond')
 
 write.csv(ts, 'sfpd_incidents_2014_ts_neighborhoods.csv', row.names = FALSE)
+
+data <- mutate(data, hour = substr(Time, 1, 2))
+data$hour <- as.numeric(as.character(data$hour))
+
+timeofday_ts <- sqldf('SELECT hour, SUM(Theft), SUM(Other), SUM(Vandalism), SUM(Kidnapping), SUM(Assault),
+                      SUM(Controlled) FROM ts_data GROUP BY hour')
+names(timeofday_ts) <- c('hour', 'Theft', 'Other', 'Vandalism', 'Kidnapping', 'Assault', 'Controlled')
+hour24 <- timeofday_ts[1, ]
+hour24$hour[1] <- '24'
+timeofday_ts <- rbind(timeofday_ts, hour24)
+
+ggplot() + geom_point(data = timeofday_ts, aes(x = as.numeric(hour), y = Theft), col="yellow") +
+  geom_point(data = timeofday_ts, aes(x = as.numeric(hour), y = Other)) +
+  geom_point(data = timeofday_ts, aes(x = as.numeric(hour), y = Controlled), col="purple") +
+  geom_point(data = timeofday_ts, aes(x = as.numeric(hour), y = Kidnapping), col="blue") +
+  geom_point(data = timeofday_ts, aes(x = as.numeric(hour), y = Assault), col="red") +
+  geom_point(data = timeofday_ts, aes(x = as.numeric(hour), y = Vandalism), col="green")
+write.csv(timeofday_ts, 'sfpd_incidents_2014_time_ts.csv', row.names = FALSE)
+
+dayofweek_ts <- sqldf('SELECT DayOfWeek, SUM(Theft), SUM(Other), SUM(Vandalism), SUM(Kidnapping), SUM(Assault),
+                      SUM(Controlled) FROM ts_data GROUP BY DayOfWeek')
+names(dayofweek_ts) <- c('DayOfWeek', 'Theft', 'Other', 'Vandalism', 'Kidnapping', 'Assault', 'Controlled')
+dayofweek_ts <- mutate(dayofweek_ts, DayNum = 0)
+eighthday <- dayofweek_ts[2, ]
+eighthday$DayNum = 7
+dayofweek_ts <- rbind(dayofweek_ts, eighthday)
+dayofweek_ts$DayNum[6] = 1
+dayofweek_ts$DayNum[7] = 2
+dayofweek_ts$DayNum[5] = 3
+dayofweek_ts$DayNum[1] = 4
+dayofweek_ts$DayNum[3] = 5
+dayofweek_ts$DayNum[4] = 6
+dayofweek_ts <- arrange(dayofweek_ts, DayNum)
+dayofweek_ts$DayOfWeek[8] = "Eighthday"
+write.csv(dayofweek_ts, 'sfpd_incidents_2014_day_ts.csv')
