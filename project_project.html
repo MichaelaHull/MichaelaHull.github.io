@@ -120,7 +120,7 @@
   var svg_ts_width = 900;
   var margin = 30;
   var lab_margin = 80;
-  var svg_crime_height = 250;
+  var svg_crime_height = 280;
   var svg_crime_width = svg_ts_width/2;
   var svg_hood_height = svg_crime_height;
   var svg_hood_width = svg_crime_width;
@@ -141,9 +141,9 @@
 
   var plot_ts_height = svg_ts_height - 2*margin;
   var plot_ts_width = svg_ts_width - margin - lab_margin;
-  var plot_crime_height = svg_crime_height - 2*margin;
+  var plot_crime_height = svg_crime_height - 3*margin;
   var plot_crime_width = svg_crime_width - 2*lab_margin - margin;
-  var plot_hood_height = svg_hood_height - 2*margin;
+  var plot_hood_height = svg_hood_height - 3*margin;
   var plot_hood_width = svg_hood_width - lab_margin - margin;
   var plot_brush_height = svg_brush_height - 2*margin;
   var plot_brush_width = plot_ts_width;
@@ -194,14 +194,14 @@
     .attr("width", svg_crime_width);
 
   var plot_crime = svg_crime.append("g")
-    .attr("transform", "translate(" + 2*lab_margin + "," + margin + ")");
+    .attr("transform", "translate(" + 2*lab_margin + "," + 2*margin + ")");
 
   var svg_hood = d3.select("body").append("svg")
     .attr("height", svg_hood_height)
     .attr("width", svg_hood_width);
 
   var plot_hood = svg_hood.append("g")
-    .attr("transform", "translate(" + lab_margin + "," + margin + ")");
+    .attr("transform", "translate(" + lab_margin + "," + 2*margin + ")");
 
   var svg_ts = d3.select("body").append("svg")
     .attr("height", svg_ts_height)
@@ -442,6 +442,27 @@
         plot_hood.append("g")
           .attr("class", "y axis")
           .call(yAxis_neighbor);
+
+        svg_map.append("text")
+          .attr("text-anchor", "beginning")
+          .attr("transform", "translate(80,40)")
+          .style("font-size", "14px")
+          .style("font-family", "sans-serif")
+          .text("Geographic Locations of SFPD Incidents for October of 2014");
+
+        plot_crime.append("text")
+          .attr("text-anchor", "beginning")
+          .attr("transform", "translate(0,-25)")
+          .style("font-size", "12px")
+          .style("font-family", "sans-serif")
+          .text("Number of Incidents by Type for October, 2014");
+
+        plot_hood.append("text")
+          .attr("text-anchor", "beginning")
+          .attr("transform", "translate(0,-25)")
+          .style("font-size", "12px")
+          .style("font-family", "sans-serif")
+          .text("Number of Incidents by Neighborhood for October, 2014");
 
         var radius = 2;
         var circles = svg_map.append("g").selectAll("circle")
@@ -979,8 +1000,16 @@
     <div class="container">
       <h2 align="left">Discussion</h2>
       <h3 align="left">Techniques</h3>
+      <p align="left">For this project I used d3.js for all of my visualizations and for some of my data manipulation. However, most of my data manipulation was done in R. This was in part for my sanity and also so I could have more interactivity in my plots without it being painfully slow.</p>
       <h3 align="left">Interactivity</h3>
+      <p align="left">The interactivity in these plots is fairly straightforward. In the large map I have a tooltip so that the viewer can see specific information for a single event, including the date, time of day, specific neighborhood and more details about exactly what happened. I also have the size, color, and opacity of the point change so that the viewer can see specifically which point they are looking at. Once the mouse is moved, the point returns to its original state and opacity.</p>
+      <p align="left">I have also added two sorts of filtering. The first uses a drop-down bar and filters by neighborhood while the second uses the small multiples to the right of the larger map as filtering buttons and filters by incident type. As a visual cue to the viewer that these are buttons, the color of the button changes on a mouseover.</p>
+      <p align="left">The frequency bars below the map update with the map. This means that they show only the information about the incidents which are visible on the map. This means that if the neighborhood Richmond is selected, the bars charts will only show incidents which occurred in Richmond. While this makes the neighborhood bar chart rather uninteresting, it is very interesting to see the frequency of incident type in that neighborhood.</p>
+      <p align="left">The last part of interactivity is separate from the map and that is the time series. The time series allows for brushing so that the viewer may look at a specific part of the year.</p>
       <h3 align="left">Challenges</h3>
+      <p align="left">One of the biggest challenges that I had with this project was the size of the dataset. It was initially large enough that I couldn't download it, so I subsetted out just a single year, which was still over 150,000 observations. This worked, but was slow, painfully slow when dealing with any sort of interactivity. In order to deal with that, made the data even smaller, subsetting it further to look only at a single month and doing the pre-processing for the time series in R. However, the more pre-processing that is done the harder it becomes to have interactivity between plots.</p>
+      <p align="left">Filtering was rather difficult for me, though it became much easier once I realized that if I specifically classed and grouped the things I wanted to filter it was fairly simple to call them later. I also found it somewhat difficult to create smooth transitions. Some of this was certainly due to the way that things were being filtered initially though I think later the larger issue was the size of the data.</p>
+      <p align="left">I am somewhat disappointed that I did not manage to create a spider plot. I had hoped to create two spider plots to show the fluctuation of incidents over time either aggregating by hour or aggregating by day of week. Because of the circular nature of days and weeks, I thought it would be fitting to put them as spider plots. While there is not much of a trend for day of week there is for time of day, mostly as you would expect but with a sudden spike around noon. Incidents in the "other" category also showed a distinct drop off after 5 pm, which makes sense when you consider that many of these types of incidents are people executing warrants, which is more likely to happen during business hours. It would have been simple to add time series or small multiple bar charts, but I did not think that these would make quite the same statement as a spider plot and the information would be lost in having too many plots of the same type, so I chose instead not to include them.</p>
       <h3 align="left">Conclusion</h3>
     </div>
   </div>

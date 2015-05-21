@@ -168,4 +168,11 @@ dayofweek_ts$DayNum[3] = 5
 dayofweek_ts$DayNum[4] = 6
 dayofweek_ts <- arrange(dayofweek_ts, DayNum)
 dayofweek_ts$DayOfWeek[8] = "Eighthday"
+
+ggplot() + geom_point(data = dayofweek_ts, aes(y = Theft, x = DayNum), col="yellow") +
+  geom_point(data = dayofweek_ts, aes(y = Other, x = DayNum)) +
+  geom_point(data = dayofweek_ts, aes(y = Assault, x = DayNum), col="red") +
+  geom_point(data = dayofweek_ts, aes(y = Vandalism, x = DayNum), col="green") +
+  geom_point(data = dayofweek_ts, aes(y = Controlled, x = DayNum), col="blue") +
+  geom_point(data = dayofweek_ts, aes(y = Kidnapping, x = DayNum), col="purple")
 write.csv(dayofweek_ts, 'sfpd_incidents_2014_day_ts.csv')
