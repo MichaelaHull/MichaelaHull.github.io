@@ -4,6 +4,7 @@ library(ggplot2)
 library(ifultools)
 library(lubridate)
 library(sqldf)
+library(Hmisc)
 
 setwd('/Users/Aluminum/Documents/MichaelaHull.GitHub.io/data_files')
 
@@ -49,6 +50,14 @@ data <- rbind(theft, controlled, assault, kidnapping, conduct, other)
 
 ggplot() + geom_histogram(data = data, aes(x = PdDistrict))
 ggplot() + geom_histogram(data = data, aes(x = gen_cat))
+res_ftab <- data.frame(table(data$Resolution))
+res_ftab <- arrange(res_ftab, -Freq)
+notpros <- filter(data, Resolution %in% c("Complainant refuses to prosecute", "Not prosecuted",
+                                         "District attorney refuses to prosecute"))
+pros <- filter(data, Resolution %nin% c("Complainant refuses to prosecute", "Not prosecuted",
+                                       "District attorney refuses to prosecute"))
+notpros <- mutate(notpros, Resolution = "Not prosecuted")
+data <- rbind(pros, notpros)
 
 data <- mutate(data, Category = properCase(Category))
 data <- mutate(data, Descript = properCase(Descript))
@@ -61,7 +70,7 @@ data <- mutate(data, Time = paste(Time, ':00', sep = ''))
 data <- mutate(data, datetime = paste(Date, Time, sep = " "))
 data <- mutate(data, datetime = mdy_hms(datetime))
 
-oct <- filter(data, month == 10)
+oct <- filter(data, substr(Date, 1, 2) == 10)
 write.csv(oct, "sfpd_incidents_10_2014.csv", row.names = FALSE)
 
 write.csv(data, "sfpd_incidents_2014.csv", row.names = FALSE)

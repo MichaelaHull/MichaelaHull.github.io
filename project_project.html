@@ -194,6 +194,13 @@
     .html(function (d, i) { return crime_name_dict[d.gen_cat] + " in " + d.PdDistrict + " on</br>" + d.DayOfWeek + ", " + d.Date.substring(3, 5) + " October, 2014, at " + d.Time.substring(0, 5) + "</br>Category: " + d.Category + "</br>Description: " + d.Descript + "</br>Resolution: " + d.Resolution; });
   svg_map.call(tip);
 
+  var svg_res = d3.select("body").append("svg")
+    .attr("height", svg_res_height)
+    .attr("width", svg_res_width);
+
+  var plot_res = svg_res.append("g")
+    .attr("transform", "translate(" + (2*lab_margin + margin) + "," + margin + ")");
+
   var svg_crime = d3.select("body").append("svg")
     .attr("height", svg_crime_height)
     .attr("width", svg_crime_width);
@@ -207,13 +214,6 @@
 
   var plot_hood = svg_hood.append("g")
     .attr("transform", "translate(" + lab_margin + "," + 2*margin + ")");
-
-  var svg_res = d3.select("body").append("svg")
-    .attr("height", svg_res_height)
-    .attr("width", svg_res_width);
-
-  var plot_res = svg_res.append("g")
-    .attr("transform", "translate(" + (2*lab_margin + margin) + "," + margin + ")");
 
   var svg_ts = d3.select("body").append("svg")
     .attr("height", svg_ts_height)
@@ -525,9 +525,9 @@
           .text("Number of Incidents by Neighborhood for October, 2014");
 
         plot_res.append("text")
-          .attr("text-anchor", "beginning")
-          .attr("transform", "translate(0, -20)")
-          .style("font-size", "12px")
+          .attr("text-anchor", "end")
+          .attr("transform", "translate(" + plot_res_width + "," + plot_res_height + ")")
+          .style("font-size", "14px")
           .style("font-family", "sans-serif")
           .text("Number of Incidents by Resolution for October, 2014");
 
