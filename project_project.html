@@ -260,7 +260,7 @@
     "All": "All incident types"
   };
 
-  var resolutions = ["None", "Arrest, booked", "Arrest, cited", "Psychopathic case", "Unfounded", "Located", "Juvenile booked", "Exceptional clearance", "Cleared-contact juvenile for more info", "Complainant refuses to prosecute", "Juvenile admonished", "Juvenile cited", "Not prosecuted", "District attorney refuses to prosecute", "Juvenile diverted"];
+  var resolutions = ["None", "Arrest, booked", "Arrest, cited", "Psychopathic case", "Unfounded", "Located", "Juvenile booked", "Exceptional clearance", "Not prosecuted", "Cleared-contact juvenile for more info", "Juvenile admonished", "Juvenile cited", "Juvenile diverted"];
 
   var crime_dict = [];
   var district_dict = [];
@@ -384,9 +384,10 @@
           district_dict[v]["count"] = district_dict[v]["count"] + 1;
           district_dict[v][d.gen_cat] = district_dict[v][d.gen_cat] + 1;
           var q = resolutions.indexOf(d.Resolution);
+          if (q > -1) {
           res_dict[q]["count"] = res_dict[q]["count"] + 1;
           res_dict[q][d.gen_cat] = res_dict[q][d.gen_cat] + 1;
-          res_dict[q][d.PdDistrict] = res_dict[q][d.PdDistrict] + 1;
+          res_dict[q][d.PdDistrict] = res_dict[q][d.PdDistrict] + 1;};
         });
         console.log("Res: ", res_dict);
         var res_bars = plot_res.selectAll("rect")
@@ -526,7 +527,7 @@
 
         plot_res.append("text")
           .attr("text-anchor", "end")
-          .attr("transform", "translate(" + plot_res_width + "," + plot_res_height + ")")
+          .attr("transform", "translate(" + plot_res_width + ",40)")
           .style("font-size", "14px")
           .style("font-family", "sans-serif")
           .text("Number of Incidents by Resolution for October, 2014");
