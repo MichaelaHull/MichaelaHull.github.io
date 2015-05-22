@@ -75,6 +75,7 @@
         <li><a href="https://data.sfgov.org/Public-Safety/SFPD-Incidents-from-1-January-2003/tmnf-yvry">Source Data</a></li>
         <li><a href="https://github.com/MichaelaHull/MichaelaHull.github.io/blob/master/project_project.html">Code</a></li>
         <li><a href="https://github.com/MichaelaHull/MichaelaHull.github.io/blob/master/data_files/sfpd_incidents_2014.csv">Data</a></li>
+        <li><a href="#discussion">Discussion</a></li>
       </ul>
     </div>
   </div>
@@ -134,6 +135,8 @@
   var svg_mapfilter_width = svg_ts_width - svg_map_width;
   var svg_smallmult_height = svg_map_height;
   var svg_smallmult_width = 245;
+  var svg_res_height = 350;
+  var svg_res_width = svg_ts_width;
   // var svg_time_height = 500;
   // var svg_time_width = svg_time_height;
   // var svg_day_height = svg_time_height;
@@ -147,6 +150,8 @@
   var plot_hood_width = svg_hood_width - lab_margin - margin;
   var plot_brush_height = svg_brush_height - 2*margin;
   var plot_brush_width = plot_ts_width;
+  var plot_res_height = svg_res_height - 2*margin;
+  var plot_res_width = svg_res_width - 2*lab_margin - 2*margin;
   // var plot_time_height = svg_time_height - 2*margin;
   // var plot_time_width = svg_time_width - 2*margin;
   // var plot_day_width = svg_day_width - 2*margin;
@@ -203,6 +208,13 @@
   var plot_hood = svg_hood.append("g")
     .attr("transform", "translate(" + lab_margin + "," + 2*margin + ")");
 
+  var svg_res = d3.select("body").append("svg")
+    .attr("height", svg_res_height)
+    .attr("width", svg_res_width);
+
+  var plot_res = svg_res.append("g")
+    .attr("transform", "translate(" + (2*lab_margin + margin) + "," + margin + ")");
+
   var svg_ts = d3.select("body").append("svg")
     .attr("height", svg_ts_height)
     .attr("width", svg_ts_width);
@@ -248,8 +260,11 @@
     "All": "All incident types"
   };
 
+  var resolutions = ["None", "Arrest, booked", "Arrest, cited", "Psychopathic case", "Unfounded", "Located", "Juvenile booked", "Exceptional clearance", "Cleared-contact juvenile for more info", "Complainant refuses to prosecute", "Juvenile admonished", "Juvenile cited", "Not prosecuted", "District attorney refuses to prosecute", "Juvenile diverted"];
+
   var crime_dict = [];
   var district_dict = [];
+  var res_dict = [];
 
   function count_start(keys, dict, thing, otherthings) {
     var k;
@@ -267,6 +282,7 @@
 
   count_start(districts, district_dict, "district", crimes);
   count_start(crimes, crime_dict, "gen_cat", districts);
+  count_start(resolutions, res_dict, "resolution", crimes.concat(districts));
 
   var date_format = d3.time.format("%m/%d/%Y");
   var date_time = d3.time.format("%Y-%m-%d %H:%M:%S");
@@ -367,8 +383,51 @@
           var v = districts.indexOf(d.PdDistrict);
           district_dict[v]["count"] = district_dict[v]["count"] + 1;
           district_dict[v][d.gen_cat] = district_dict[v][d.gen_cat] + 1;
+          var q = resolutions.indexOf(d.Resolution);
+          res_dict[q]["count"] = res_dict[q]["count"] + 1;
+          res_dict[q][d.gen_cat] = res_dict[q][d.gen_cat] + 1;
+          res_dict[q][d.PdDistrict] = res_dict[q][d.PdDistrict] + 1;
         });
-        
+        console.log("Res: ", res_dict);
+        var res_bars = plot_res.selectAll("rect")
+          .data(res_dict, function (d, i) { return d.resolution; })
+          .enter();
+
+        var x_res_scale = d3.scale.linear()
+          .domain([0, 9140])
+          .range([0, plot_res_width]);
+        var y_res_scale = d3.scale.linear()
+          .domain([0, resolutions.length])
+          .range([0, plot_res_height]);
+        var y_res = d3.scale.ordinal()
+          .domain(resolutions)
+          .rangeRoundBands([0, y_res_scale(resolutions.length)]);
+
+        var xAxis_res = d3.svg.axis()
+          .scale(x_res_scale)
+          .orient("top");
+
+        var yAxis_res = d3.svg.axis()
+          .scale(y_res)
+          .orient("left")
+          .ticks(0);
+
+        res_bars.append("rect")
+          .attr("class", "res_bars")
+          .attr("x", 0)
+          .attr("y", function (d, i) { return y_res_scale(i + 0.1); })
+          .attr("height", y_res_scale(0.8))
+          .attr("width", function (d, i) { return x_res_scale(d.count); })
+          .attr("fill", "#C16C33");
+
+        plot_res.append("g")
+          .attr("class", "x axis")
+          .call(xAxis_res);
+
+        plot_res.append("g")
+          .attr("class", "y axis")
+          .call(yAxis_res);
+
         var crime_bars = plot_crime.selectAll("rect")
           .data(crime_dict, function (d, i) { return d.gen_cat; })
           .enter();
@@ -465,6 +524,13 @@
           .style("font-family", "sans-serif")
           .text("Number of Incidents by Neighborhood for October, 2014");
 
+        plot_res.append("text")
+          .attr("text-anchor", "beginning")
+          .attr("transform", "translate(0, -20)")
+          .style("font-size", "12px")
+          .style("font-family", "sans-serif")
+          .text("Number of Incidents by Resolution for October, 2014");
+
         var radius = 2;
         var circles = svg_map.append("g").selectAll("circle")
           .data(dataData)
@@ -509,13 +575,17 @@
             svg_map.selectAll(".circles")
               .attr("display", display);
             plot_crime.selectAll(".crime_bars")
-                .transition(duration)
-                .ease("elastic")
+                .transition(2*duration)
+                .ease("quad")
                 .attr("width", function (d, i) { return x_crime_scale(d.count); });
             plot_hood.selectAll(".neighbor_bars")
-                .transition(duration)
-                .ease("elastic")
+                .transition(2*duration)
+                .ease("quad")
                 .attr("width", function (d, i) { return x_neighbor_scale(d.count); });
+            plot_res.selectAll(".res_bars")
+                .transition(2*duration)
+                .ease("quad")
+                .attr("width", function (d, i) { return x_res_scale(d.count); });
           }
           else {
             svg_map.selectAll(".circles")
@@ -527,9 +597,6 @@
                   else { return 0; }
                 });
                 
-                // .transition(duration)
-                 
-                
             svg_map.selectAll(".circles")
                 .filter(function(d) { return selected === d.PdDistrict; })
                 .transition(duration)
@@ -540,16 +607,21 @@
 
             plot_crime.selectAll(".crime_bars")
                 .transition(2*duration)
-                .ease("elastic")
+                .ease("quad")
                 .attr("width", function (d, i) { return x_crime_scale(+d[selected]); });
 
             plot_hood.selectAll(".neighbor_bars")
                 .transition(2*duration)
-                .ease("elastic")
+                .ease("quad")
                 .attr("width", function (d, i) {
                   if (d.district === selected) { return x_neighbor_scale(d.count);
                   }
                   else {return 0; } });
+
+            plot_res.selectAll(".res_bars")
+                .transition(2*duration)
+                .ease("quad")
+                .attr("width", function (d, i) { return x_res_scale(+d[selected]); });
           }
         });
         var b;
@@ -603,13 +675,17 @@
                   .style("opacity", 0.3)
                   .attr("display", this.checked ? "none": "inline");
                 plot_crime.selectAll(".crime_bars")
-                  .transition(duration)
-                  .ease("elastic")
+                  .transition(2*duration)
+                  .ease("quad")
                   .attr("width", function (a, b) { return x_crime_scale(a.count); });
                 plot_hood.selectAll(".neighbor_bars")
-                  .transition(duration)
-                  .ease("elastic")
+                  .transition(2*duration)
+                  .ease("quad")
                   .attr("width", function (a, b) { return x_neighbor_scale(a.count); });
+                plot_res.selectAll(".res_bars")
+                  .transition(2*duration)
+                  .ease("quad")
+                  .attr("width", function (a, b) { return x_res_scale(a.count); });
               }
               else {
                 svg_map.selectAll(".circles")
@@ -630,15 +706,19 @@
                   });
                 plot_crime.selectAll(".crime_bars")
                   .transition(2*duration)
-                  .ease("elastic")
+                  .ease("quad")
                   .attr("width", function (a, b) {
                     if (a.gen_cat === d) { return x_crime_scale(a.count); }
                     else { return 0; }
                   });
                 plot_hood.selectAll(".neighbor_bars")
                   .transition(2*duration)
-                  .ease("elastic")
+                  .ease("quad")
                   .attr("width", function (a, b) { return x_neighbor_scale(a[d]); });
+                plot_res.selectAll(".res_bars")
+                  .transition(2*duration)
+                  .ease("quad")
+                  .attr("width", function (a, b) { return x_res_scale(a[d]); });
               };
             });
         log.text("Hover over map for more information about a specific incident, or use filters to see a specific neighborhood or incident type");
@@ -1014,18 +1094,38 @@
 
   <div class="section">
     <div class="container">
-      <h2 align="left">Discussion</h2>
+      <h2 align="left"><a name="discussion">Discussion</a></h2>
       <h3 align="left">Techniques</h3>
       <p align="left">For this project I used d3.js for all of my visualizations and for some of my data manipulation. However, most of my data manipulation was done in R. This was in part for my sanity and also so I could have more interactivity in my plots without it being painfully slow.</p>
+      <p align="left"><strong>General</strong></p>
+      <p align="left">For all of my visualizations I have encoded incident type by color so that they may be easily and quickly distinguished by the viewer. One of the main drawbacks of this is that there is a very large "other" category. I did my best to make this cateogry as small as possible, but it is already somewhat large in the raw data. I used ColorBrewer to pick colors which I found asthetically pleasing and so that the color intensities were reasonably similar.</p>
+     
+      <p align="left"><strong>Maps</strong></p>
+      <p align="left">In order to display geographic information, I used topoJSON and a map of the San Francisco area as this is the most logical and reasonable way to show geographic information. Given that this is a very small part of the globe, there is less lie factor in terms of distances and sizes than there is when looking at a flattened globe. There is, however, the issue of overlapping points. To deal with this I decreased the opacity of the individual points so as to create a sense of depth. While this does help it does not entirely solve the problem, especially in the high-density areas of the map such as downtown. When looking at all of the points together, lots of points are obscured. Filtering by incident type does help with this, but does not entirely solve the problem. The lowered opacity also means that some points are more difficult to see. I did my best to find a balance between being able to see points and being able to have a good sense of density, but there are still some problems I cannot erase.</p>
+      <p align="left">I also wanted more information to be available in the map, so I added a tooltip. In order to emphasize which point the viewer is actually looking at, I made the point enlarge and change opacity. Initially I tried keeping the color the same, however,  I found that in the high-density areas where the colors are already quite saturated, it was nearly impossible to see the point without some sort of color change. For this reason I also display the general category in the tooltip information since the visual color cue is no longer present when a point is selected.</p>
+      <p align="left">I used button filtering with small multiple maps as the buttons to filter by different categories of incidents. This allows the viewer to have some idea of what the information they are filtering by will be so that they do not need to choose random cateogries in order to find information. I considered using similar buttons for filtering by neighborhood, but instead I used a drop-down filter. I chose this because there are ten neighborhoods and I did not think that there would be enough space on my visualization for ten more small maps and because the maps themselves would have so little information. Thus, a drop-down bar filter seemed much more reasonable.</p>
+      <p align="left">Overall, I think my maps have pretty low lie factor, pretty high data density and a pretty good data-to-ink ratio. It shows very well the general layout of San Francisco and where clusters of incidents happen. As one might expect, there is an increase of activity for all incident types near downtown.</p>
+      
+      <p align="left"><strong>Bar Charts</strong></p>
+      <p align="left">I used bar charts to show the overall rates of incidents both by type and by neighborhood. This is a simple way to compare things relatively, especially if they are ordered by size. For constancy, incident types are still encoded by color. Neighborhoods are not, so the bars are colored in a shade of green that I do not think links it to the other colors I have used.</p>
+      <p align="left">I considered having the scales of the bar charts update as the charts update. However, I decided not to do this because I wanted to the viewer to be able to somewhat compare the rates between visualizations which becomes impossible if the scale is changing.</p>
+      
+      <p align="left"><strong>Time Series</strong></p>
+      
+
       <h3 align="left">Interactivity</h3>
       <p align="left">The interactivity in these plots is fairly straightforward. In the large map I have a tooltip so that the viewer can see specific information for a single event, including the date, time of day, specific neighborhood and more details about exactly what happened. I also have the size, color, and opacity of the point change so that the viewer can see specifically which point they are looking at. Once the mouse is moved, the point returns to its original state and opacity.</p>
       <p align="left">I have also added two sorts of filtering. The first uses a drop-down bar and filters by neighborhood while the second uses the small multiples to the right of the larger map as filtering buttons and filters by incident type. As a visual cue to the viewer that these are buttons, the color of the button changes on a mouseover.</p>
       <p align="left">The frequency bars below the map update with the map. This means that they show only the information about the incidents which are visible on the map. This means that if the neighborhood Richmond is selected, the bars charts will only show incidents which occurred in Richmond. While this makes the neighborhood bar chart rather uninteresting, it is very interesting to see the frequency of incident type in that neighborhood.</p>
       <p align="left">The last part of interactivity is separate from the map and that is the time series. The time series allows for brushing so that the viewer may look at a specific part of the year.</p>
+      
+
       <h3 align="left">Challenges</h3>
       <p align="left">One of the biggest challenges that I had with this project was the size of the dataset. It was initially large enough that I couldn't download it, so I subsetted out just a single year, which was still over 150,000 observations. This worked, but was slow, painfully slow when dealing with any sort of interactivity. In order to deal with that, made the data even smaller, subsetting it further to look only at a single month and doing the pre-processing for the time series in R. However, the more pre-processing that is done the harder it becomes to have interactivity between plots.</p>
       <p align="left">Filtering was rather difficult for me, though it became much easier once I realized that if I specifically classed and grouped the things I wanted to filter it was fairly simple to call them later. I also found it somewhat difficult to create smooth transitions. Some of this was certainly due to the way that things were being filtered initially though I think later the larger issue was the size of the data.</p>
       <p align="left">I am somewhat disappointed that I did not manage to create a spider plot. I had hoped to create two spider plots to show the fluctuation of incidents over time either aggregating by hour or aggregating by day of week. Because of the circular nature of days and weeks, I thought it would be fitting to put them as spider plots. While there is not much of a trend for day of week there is for time of day, mostly as you would expect but with a sudden spike around noon. Incidents in the "other" category also showed a distinct drop off after 5 pm, which makes sense when you consider that many of these types of incidents are people executing warrants, which is more likely to happen during business hours. It would have been simple to add time series or small multiple bar charts, but I did not think that these would make quite the same statement as a spider plot and the information would be lost in having too many plots of the same type, so I chose instead not to include them.</p>
+      
+
       <h3 align="left">Conclusion</h3>
     </div>
   </div>
