@@ -1,3 +1,8 @@
+.body {
+	width: 960;
+	font-family: 'Lucida Sans Unicode', 'Lucida Grande', sans-serif;
+}
+
 .nav a {
     color: #5a5a5a;
     font-size: 12px;
