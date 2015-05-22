@@ -80,7 +80,7 @@
   </div>
 <div class="section">
 <div class="container">
-<p id="log">Fetching data... Please wait</p>
+<p id="log" font-size="12px"></p>
 <div id="filter"><b>Neighborhoods: </b></div>
 <script type="text/javascript">
 
@@ -306,7 +306,8 @@
 
   d3.json("data_files/sf_topojson.json", function (mapError, mapData) {
         var log = d3.select("#log");
-        log.text("Drawing maps... Please wait");
+        log.style("font-size", "12px")
+          .text("Drawing maps... Please wait");
         var featureCollection = topojson.feature(mapData, mapData.objects.collection);
         var bounds = big_path.bounds(featureCollection);
         
@@ -505,37 +506,46 @@
             svg_map.selectAll(".circles")
               .transition(duration)
               .style("opacity", 0.3);
-            // svg_map.selectAll(".circles")
-            //     .attr("display", display);
+            svg_map.selectAll(".circles")
+              .attr("display", display);
             plot_crime.selectAll(".crime_bars")
                 .transition(duration)
+                .ease("elastic")
                 .attr("width", function (d, i) { return x_crime_scale(d.count); });
             plot_hood.selectAll(".neighbor_bars")
                 .transition(duration)
+                .ease("elastic")
                 .attr("width", function (d, i) { return x_neighbor_scale(d.count); });
           }
           else {
             svg_map.selectAll(".circles")
+                .filter(function(d) { return selected !== d.PdDistrict; })
                 .transition(duration)
+                .attr("display", displayOthers)
                 .style("opacity", function (d, i) {
                   if (d.PdDistrict === selected) { return 0.3; }
                   else { return 0; }
                 });
-                // .filter(function(d) { return selected !== d.PdDistrict; })
-                // .transition(duration)
-                // .attr("display", displayOthers);
                 
-            // svg_map.selectAll(".circles")
-            //     .filter(function(d) { return selected === d.PdDistrict; })
-            //     .transition(duration)
-            //     .attr("display", display);
+                // .transition(duration)
+                 
+                
+            svg_map.selectAll(".circles")
+                .filter(function(d) { return selected === d.PdDistrict; })
+                .transition(duration)
+                .attr("display", display)
+                .style("opacity", function (d, i) {
+                  if (d.PdDistrict === selected) { return 0.3; }
+                  else { return 0; }});
 
             plot_crime.selectAll(".crime_bars")
-                .transition(duration)
+                .transition(2*duration)
+                .ease("elastic")
                 .attr("width", function (d, i) { return x_crime_scale(+d[selected]); });
 
             plot_hood.selectAll(".neighbor_bars")
-                .transition(duration)
+                .transition(2*duration)
+                .ease("elastic")
                 .attr("width", function (d, i) {
                   if (d.district === selected) { return x_neighbor_scale(d.count);
                   }
@@ -590,38 +600,44 @@
               if (d === "All") {
                 svg_map.selectAll(".circles")
                   .transition(duration)
-                  .style("opacity", 0.3);
-//                  .transition(duration)
-//                  .attr("display", this.checked ? "none": "inline");
+                  .style("opacity", 0.3)
+                  .attr("display", this.checked ? "none": "inline");
                 plot_crime.selectAll(".crime_bars")
                   .transition(duration)
+                  .ease("elastic")
                   .attr("width", function (a, b) { return x_crime_scale(a.count); });
                 plot_hood.selectAll(".neighbor_bars")
                   .transition(duration)
+                  .ease("elastic")
                   .attr("width", function (a, b) { return x_neighbor_scale(a.count); });
               }
               else {
                 svg_map.selectAll(".circles")
+                  .filter(function (a, b) { return a.gen_cat === d; })
                   .transition(duration)
+                  .attr("display", this.checked ? "none": "inline")
                   .style("opacity", function (a, b) {
                     if (a.gen_cat === d) { return 0.3; }
                     else { return 0; }
                   });
-//                  .filter(function (a, b) { return a.gen_cat === d; })
-//                  .transition(duration)
-//                  .attr("display", this.checked ? "none": "inline");
-//                svg_map.selectAll(".circles")
-//                  .filter(function (a, b) { return a.gen_cat != d; })
-//                  .transition(duration)
-//                  .attr("display", this.checked ? "inline": "none");
-                plot_crime.selectAll(".crime_bars")
+                svg_map.selectAll(".circles")
+                  .filter(function (a, b) { return a.gen_cat != d; })
                   .transition(duration)
+                  .attr("display", this.checked ? "inline": "none")
+                  .style("opacity", function (a, b) {
+                    if (a.gen_cat === d) { return 0.3; }
+                    else { return 0; }
+                  });
+                plot_crime.selectAll(".crime_bars")
+                  .transition(2*duration)
+                  .ease("elastic")
                   .attr("width", function (a, b) {
                     if (a.gen_cat === d) { return x_crime_scale(a.count); }
                     else { return 0; }
                   });
                 plot_hood.selectAll(".neighbor_bars")
-                  .transition(duration)
+                  .transition(2*duration)
+                  .ease("elastic")
                   .attr("width", function (a, b) { return x_neighbor_scale(a[d]); });
               };
             });
