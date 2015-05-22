@@ -19,6 +19,11 @@
   <script src="http://d3js.org/topojson.v1.min.js"></script>
   <script src="sf_map.js"></script>
   <style type="text/css">
+
+  .body {
+    width: 960px;
+  }
+
   .brush .extent {
     stroke: #fff;
     fill-opacity: .125;
@@ -528,7 +533,7 @@
         plot_res.append("text")
           .attr("text-anchor", "end")
           .attr("transform", "translate(" + plot_res_width + ",40)")
-          .style("font-size", "14px")
+          .style("font-size", "12px")
           .style("font-family", "sans-serif")
           .text("Number of Incidents by Resolution for October, 2014");
 
