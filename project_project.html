@@ -15,7 +15,6 @@
   <script src="http://code.jquery.com/jquery-1.8.3.min.js" type="text/javascript" charset="utf-8"></script>
   <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
   <script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
-  <script src="javascripts/jquery.tipsy.js" type="text/javascript" charset="utf-8"></script>
   <script src="http://d3js.org/topojson.v1.min.js"></script>
   <script src="sf_map.js"></script>
   <style type="text/css">
@@ -140,7 +139,7 @@
   var svg_mapfilter_width = svg_ts_width - svg_map_width;
   var svg_smallmult_height = svg_map_height;
   var svg_smallmult_width = 245;
-  var svg_res_height = 350;
+  var svg_res_height = 300;
   var svg_res_width = svg_ts_width;
   // var svg_time_height = 500;
   // var svg_time_width = svg_time_height;
@@ -149,9 +148,9 @@
 
   var plot_ts_height = svg_ts_height - 2*margin;
   var plot_ts_width = svg_ts_width - margin - lab_margin;
-  var plot_crime_height = svg_crime_height - 3*margin;
+  var plot_crime_height = svg_crime_height - 2.5*margin;
   var plot_crime_width = svg_crime_width - 2*lab_margin - margin;
-  var plot_hood_height = svg_hood_height - 3*margin;
+  var plot_hood_height = svg_hood_height - 2.5*margin;
   var plot_hood_width = svg_hood_width - lab_margin - margin;
   var plot_brush_height = svg_brush_height - 2*margin;
   var plot_brush_width = plot_ts_width;
@@ -211,14 +210,14 @@
     .attr("width", svg_crime_width);
 
   var plot_crime = svg_crime.append("g")
-    .attr("transform", "translate(" + 2*lab_margin + "," + 2*margin + ")");
+    .attr("transform", "translate(" + 2*lab_margin + "," + 1.5*margin + ")");
 
   var svg_hood = d3.select("body").append("svg")
     .attr("height", svg_hood_height)
     .attr("width", svg_hood_width);
 
   var plot_hood = svg_hood.append("g")
-    .attr("transform", "translate(" + lab_margin + "," + 2*margin + ")");
+    .attr("transform", "translate(" + lab_margin + "," + 1.5*margin + ")");
 
   var svg_ts = d3.select("body").append("svg")
     .attr("height", svg_ts_height)
@@ -850,7 +849,7 @@
       .style("text-anchor", "end")
       .style("font-size", "10px")
       .style("font-weight", "bold")
-      .text("Number of Incidents");
+      .text("Number of Incidents Per Day");
 
     plot_ts.append("text")
       .attr("transform", "translate(" + plot_ts_width + ",0)")
@@ -1094,12 +1093,9 @@
   <div class="section">
     <div class="container">
       <h2 align="left">Data-Preprocessing</h2>
-      <p align="left">All data-preprocessing code can be found <a href="https://github.com/MichaelaHull/MichaelaHull.github.io/blob/master/data_files/project.R">here</a>.</p>
-    </div>
-  </div>
+      <p align="left">All data-preprocessing R code can be found <a href="https://github.com/MichaelaHull/MichaelaHull.github.io/blob/master/data_files/project.R">here</a>.</p>
 
-  <div class="section">
-    <div class="container">
+
       <h2 align="left"><a name="discussion">Discussion</a></h2>
       <h3 align="left">Techniques</h3>
       <p align="left">For this project I used d3.js for all of my visualizations and for some of my data manipulation. However, most of my data manipulation was done in R. This was in part for my sanity and also so I could have more interactivity in my plots without it being painfully slow.</p>
@@ -1115,25 +1111,35 @@
       <p align="left"><strong>Bar Charts</strong></p>
       <p align="left">I used bar charts to show the overall rates of incidents both by type and by neighborhood. This is a simple way to compare things relatively, especially if they are ordered by size. For constancy, incident types are still encoded by color. Neighborhoods and resolutions are not, so the bars are colored in colors that I do not think links it to the other colors I have used.</p>
       <p align="left">I considered having the scales of the bar charts update as the charts update. However, I decided not to do this because I wanted to the viewer to be able to somewhat compare the rates between visualizations which becomes impossible if the scale is changing.</p>
-      <p align="left">The bar charts are both my favorite part of this visualization and it's greatest weakness.</p>
+      <p align="left">The bar charts are both my favorite part of this visualization and it's greatest weakness. They show a lot of very interesting information--how incidents tend to be resolved, the most common types of incidents, which neighborhoods are safest--but they also introduce a lot of white space. This is particularly true with the resolution bar char, which is dispropotionately "none". This, in and of itself, is very interesting, but leaves a block of white space. I had intended to put a spider plot in that space, but the coding for this turned out to be completely beyond my current abilities. It is, however, something I intend to work on in the future. As it is, the data-to-ink ratio is a little low, as is the data density. The lie factor changes on filtering. If all data points are shown, it is fairly low, but with the filtering some of the categories become very small and it can be difficult to compare various categories. The alternative is to have it difficult to compare between filters as the axis changes, which I see as a greater problem.</p>
       
       <p align="left"><strong>Time Series</strong></p>
+      <p align="left">I realized fairly quickly that the easiest way for me to encode the time series data was to aggregate by day in R before reading the data in. This meant that when I decided to use only data from October for the rest of my visualizations I could still use the time series from the whole year without slowing things down too much--it's 365 entries with seven columns instead of 150,185 entries with many more columns. It does mean that I lost some information about time of day patterns, but overall I think it is a reasonable decision.</p>
+      <p align="left">With the way the lines are curved, there is some amount of lie factor as it may lead the viewer to think that the aggregates are on the hour or minute scale, which they are not. Hopefully my y-axis title will dispell any confusion on that front. There is also a small problem with grouping within categories--theft and other occur much more frequently than violent crime, kidnapping, constrolled substances, and disorderly conduct. On one hand, this is a good thing, but on the other, it does mean that it is a little difficult to see individual trends. This is helped by the brushing tool as it allows the viewer to see small sections of the graph in greater detail. The data density and data-to-ink ratio are reasonable, I think, especially for a time series.</p>
       
 
       <h3 align="left">Interactivity</h3>
       <p align="left">The interactivity in these plots is fairly straightforward. In the large map I have a tooltip so that the viewer can see specific information for a single event, including the date, time of day, specific neighborhood and more details about exactly what happened. I also have the size, color, and opacity of the point change so that the viewer can see specifically which point they are looking at. Once the mouse is moved, the point returns to its original state and opacity.</p>
       <p align="left">I have also added two sorts of filtering. The first uses a drop-down bar and filters by neighborhood while the second uses the small multiples to the right of the larger map as filtering buttons and filters by incident type. As a visual cue to the viewer that these are buttons, the color of the button changes on a mouseover.</p>
-      <p align="left">The frequency bars below the map update with the map. This means that they show only the information about the incidents which are visible on the map. This means that if the neighborhood Richmond is selected, the bars charts will only show incidents which occurred in Richmond. While this makes the neighborhood bar chart rather uninteresting, it is very interesting to see the frequency of incident type in that neighborhood.</p>
+      <p align="left">The frequency bars below the map update with the map. This means that they show only the information about the incidents which are visible on the map. This means that if the neighborhood Richmond is selected, the bars charts will only show incidents which occurred in Richmond. While this makes the neighborhood bar chart rather uninteresting, it is very interesting to see the frequency of incident type in that neighborhood and how the incident was resolved.</p>
       <p align="left">The last part of interactivity is separate from the map and that is the time series. The time series allows for brushing so that the viewer may look at a specific part of the year.</p>
+
+
+      <h3 align="left">Feedback</h3>
+      <p align="left">My group was incredibly helpful in their feedback and also very positive in response to what I was doing. One of the best ideas I got was to use small multiples for filtering. I got feedback from many other people aside from those in my group because I found it so useful. These people include my roommate (who, being a chemist who is used to logarithmic scales) really thought I should put the resolutions bar chart on a log scale. While this probably would have fixed my whitespace problem, I think it would have introduced unnecessary lie factor for the general public.</p>
       
 
       <h3 align="left">Challenges</h3>
       <p align="left">One of the biggest challenges that I had with this project was the size of the dataset. It was initially large enough that I couldn't download it, so I subsetted out just a single year, which was still over 150,000 observations. This worked, but was slow, painfully slow when dealing with any sort of interactivity. In order to deal with that, made the data even smaller, subsetting it further to look only at a single month and doing the pre-processing for the time series in R. However, the more pre-processing that is done the harder it becomes to have interactivity between plots.</p>
       <p align="left">Filtering was rather difficult for me, though it became much easier once I realized that if I specifically classed and grouped the things I wanted to filter it was fairly simple to call them later. I also found it somewhat difficult to create smooth transitions. Some of this was certainly due to the way that things were being filtered initially though I think later the larger issue was the size of the data.</p>
-      <p align="left">I am somewhat disappointed that I did not manage to create a spider plot. I had hoped to create two spider plots to show the fluctuation of incidents over time either aggregating by hour or aggregating by day of week. Because of the circular nature of days and weeks, I thought it would be fitting to put them as spider plots. While there is not much of a trend for day of week there is for time of day, mostly as you would expect but with a sudden spike around noon. Incidents in the "other" category also showed a distinct drop off after 5 pm, which makes sense when you consider that many of these types of incidents are people executing warrants, which is more likely to happen during business hours. It would have been simple to add time series or small multiple bar charts, but I did not think that these would make quite the same statement as a spider plot and the information would be lost in having too many plots of the same type, so I chose instead not to include them.</p>
+      <p align="left">I am rather disappointed that I did not manage to create a spider plot. I had hoped to create two spider plots to show the fluctuation of incidents over time either aggregating by hour or aggregating by day of week. Because of the circular nature of days and weeks, I thought it would be fitting to put them as spider plots. While there is not much of a trend for day of week there is for time of day, mostly as you would expect but with a sudden spike around noon. Incidents in the "other" category also showed a distinct drop off after 5 pm, which makes sense when you consider that many of these types of incidents are people executing warrants, which is more likely to happen during business hours. It would have been simple to add time series or small multiple bar charts, but I did not think that these would make quite the same statement as a spider plot and the information would be lost in having too many plots of the same type, so I chose instead not to include them.</p>
       
 
       <h3 align="left">Conclusion</h3>
+      <p align="left">There are two overwhelming reactions I have seen to this graph. The first is "stay out of downtown" as there is very clearly a higher frequency of crime in that area, and the other is that there is very little that the police can do in terms of resolutions, unless narcotics or other controlled substances are involved. This is most apparent when filtering by incident type--for all incidents except those involving controlled substances, "none" is the most prevelent resolution, but when the incident is categorized as one with controlled substances, the most common resolution becomes, "arrest, booked" becomes the most prevelent resolution.</p>
+      <p align="left">In the time series, there is a clear spike in theft and violent crime on Saturday June 28th. The only event I can find for San Francisco on this day is the annual San Francisco Pride parade. It is a sad state of affairs when the most well known city as a safehaven for the GLBTQ community has a spike in theft and violent crime associated with a parade which celebrates love as love.</p>
+      <p align="left">December 25th, Christmas day, shows a drop in incidents, as does Thanksgiving day. Black Friday, not surprisingly, shows an uptick in incidents.</p>
+      <p align="left">It is also worth nothing that there seems to be an increase in theft incidents in the fall and winter of last year. There is a visible increase in most categories on October 29th, which is when the San Francisco Giants won the World Series. Such events tend to give people an excuse to celebrate and by "celebrate" I really mean "loot". The later fall and winter corresponds with the beginning of the "Black Lives Matter" movement, which was accompanied by a number of riots, which in turn was accompanied with looting.</p>
     </div>
   </div>
 
